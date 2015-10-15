@@ -1,19 +1,26 @@
 package com.iquestgroup.onlineBookStore.servlets;
 
+import com.iquestgroup.onlineBookStore.DAO.BookDAO;
 import com.iquestgroup.onlineBookStore.DAO.LoginDAO;
+import com.iquestgroup.onlineBookStore.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/")
 public class MainController {
     @Autowired
     private LoginDAO loginDAO;
+    @Autowired
+    private BookDAO bookDAO;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showEntryPage() {
@@ -42,7 +49,10 @@ public class MainController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/mainPage")
-    public String showMainPage() {
+    public String showMainPage(Model mainPageModel) {
+        List<Book> bookList = bookDAO.getBooks();
+        mainPageModel.addAttribute(bookList);
+
         return "MainPage";
     }
 

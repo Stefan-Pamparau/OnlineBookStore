@@ -14,21 +14,24 @@ CREATE TABLE IF NOT EXISTS `onlineBookStore`.`User` (
   `name` VARCHAR(45) NOT NULL COMMENT '',
   `password` VARCHAR(45) NOT NULL COMMENT '',
   PRIMARY KEY (`ID`)  COMMENT '')
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`table2`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `onlineBookStore`.`Book` (
-  `book_id` INT NOT NULL COMMENT '',
+  `book_id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `book_name` VARCHAR(45) NOT NULL COMMENT '',
   `book_author` VARCHAR(45) NOT NULL COMMENT '',
   PRIMARY KEY (`book_id`)  COMMENT '')
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
-INSERT INTO `onlineBookStore`.`User`(name, password) 
+INSERT INTO `onlineBookStore`.`User`(name, password)
 VALUES ('admin', 'admin');
+
+INSERT INTO `onlineBookStore`.`Book`(book_name, book_author)
+VALUES ('Test book', 'Test book author');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
