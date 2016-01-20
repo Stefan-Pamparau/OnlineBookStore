@@ -12,8 +12,10 @@
     <title>Authors</title>
 </head>
 <body>
-    <c:forEach var="author" items="${authors}">
-        <p>${author.toString()}</p>
-    </c:forEach>
+
+<c:forEach var="author" items="${authors}">
+    <p><c:out value="${author}"/></p>
+</c:forEach>
+
 </body>
 </html>

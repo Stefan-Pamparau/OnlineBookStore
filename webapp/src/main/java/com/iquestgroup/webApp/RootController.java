@@ -14,25 +14,13 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 
-@Controller
-@RequestMapping("/")
+@Controller("RootController")
+@RequestMapping(path = "/")
 public class RootController {
-    @Autowired
-    private AuthorFacade authorFacade;
 
     @RequestMapping(method = RequestMethod.GET)
     public String showEntryPage() {
         return "index";
-    }
-
-    @RequestMapping(value = "authors", method = RequestMethod.GET)
-    public ModelAndView listAllAuthors() {
-        ModelAndView mav = new ModelAndView();
-
-        mav.setViewName("store/authors");
-        mav.addObject("authors", authorFacade.getAllAuthors());
-
-        return mav;
     }
 
     @ExceptionHandler(Throwable.class)

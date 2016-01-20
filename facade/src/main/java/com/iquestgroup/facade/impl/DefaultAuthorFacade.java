@@ -17,12 +17,17 @@ public class DefaultAuthorFacade implements AuthorFacade {
     }
 
     @Override
-    public void insertAuthor(Author author) {
-
+    public Author getAuthorByID(Integer authorID) {
+        return authorService.getAuthorByID(authorID);
     }
 
     @Override
-    public void deleteAuthor(Author author) {
+    public void insertAuthor(Author author) {
+        authorService.insertAuthor(author);
+    }
 
+    @Override
+    public void deleteAuthor(Integer authorID) {
+        authorService.deleteAuthor(authorID);
     }
 }

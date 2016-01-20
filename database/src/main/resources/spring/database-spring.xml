@@ -6,8 +6,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-    
-    <context:property-placeholder location="classpath:/hibernate/databaseProperties/databaseProperties.properties" />
+
+    <context:property-placeholder location="classpath:/hibernate/databaseProperties/databaseProperties.properties"/>
+    <context:component-scan base-package="com.iquestgroup.database"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:/hibernate/databaseProperties/databaseProperties.properties"/>
@@ -35,7 +36,10 @@
         </property>
     </bean>
 
-    <alias alias="authorDAO" name="defaultAuthorDAO" />
-    <bean id="defaultAuthorDAO" class="com.iquestgroup.database.impl.DefaultAuthorDAO" />
+    <alias name="defaultAuthorDAO" alias="authorDAO"/>
+    <bean id="defaultAuthorDAO" class="com.iquestgroup.database.impl.DefaultAuthorDAO"/>
+
+    <alias name="defaultBookDAO" alias="bookDAO"/>
+    <bean id="defaultBookDAO" class="com.iquestgroup.database.impl.DefaultBookDAO"/>
 
 </beans>

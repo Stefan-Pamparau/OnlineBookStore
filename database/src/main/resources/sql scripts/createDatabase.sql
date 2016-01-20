@@ -37,10 +37,17 @@ CREATE TABLE IF NOT EXISTS author (
 )
   ENGINE = InnoDB;
 
-INSERT INTO author(name, age)
+INSERT INTO author (name, age)
 VALUES
   ('Author 1', '20'),
   ('Author 2', '19');
+
+INSERT INTO book (name, in_stock, author_id)
+VALUES
+  ('Test book 1', '11', '1'),
+  ('Test book 2', '14', '1'),
+  ('Test book 3', '17', '2'),
+  ('Test book 4', '10', '2');
 
 # CREATE TABLE IF NOT EXISTS current_borrows (
 #   date      TIMESTAMP NOT NULL,

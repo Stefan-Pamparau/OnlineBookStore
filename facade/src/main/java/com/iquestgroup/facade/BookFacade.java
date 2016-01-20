@@ -1,11 +1,11 @@
-package com.iquestgroup.database;
+package com.iquestgroup.facade;
 
 import com.iquestgroup.model.Author;
 import com.iquestgroup.model.Book;
 
 import java.util.List;
 
-public interface BookDAO {
+public interface BookFacade {
     List<Book> getAllBooks();
 
     void insertBook(Book book);

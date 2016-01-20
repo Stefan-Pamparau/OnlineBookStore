@@ -46,7 +46,7 @@
             <generator class="native"/>
         </id>
         <property name="name" column="name" type="string"/>
-        <property name="inStock" column="in-stock" type="int"/>
+        <property name="inStock" column="in_stock" type="int"/>
         <many-to-one name="author" column="author_id" class="com.iquestgroup.model.Author" not-null="true"/>
     </class>
 

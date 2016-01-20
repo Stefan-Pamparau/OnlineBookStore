@@ -2,10 +2,7 @@ package com.iquestgroup.database.impl;
 
 import com.iquestgroup.database.AuthorDAO;
 import com.iquestgroup.model.Author;
-import org.hibernate.HibernateError;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -39,12 +36,54 @@ public class DefaultAuthorDAO implements AuthorDAO {
     }
 
     @Override
-    public void insertAuthor(Author author) {
+    public Author getAuthorByID(Integer authorID) {
+        Author author = null;
+        Transaction transaction = null;
 
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            author = session.get(Author.class, authorID);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return author;
     }
 
     @Override
-    public void deleteAuthor(Author author) {
+    public void insertAuthor(Author author) {
+        Transaction transaction = null;
 
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.save(author);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteAuthor(Integer authorID) {
+        Transaction transaction = null;
+
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            Author author = session.get(Author.class, authorID);
+            session.delete(author);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
     }
 }

@@ -17,12 +17,17 @@ public class DefaultAuthorService implements AuthorService {
     }
 
     @Override
-    public void insertAuthor(Author author) {
-
+    public Author getAuthorByID(Integer authorID) {
+        return authorDAO.getAuthorByID(authorID);
     }
 
     @Override
-    public void deleteAuthor(Author author) {
+    public void insertAuthor(Author author) {
+        authorDAO.insertAuthor(author);
+    }
 
+    @Override
+    public void deleteAuthor(Integer authorID) {
+        authorDAO.deleteAuthor(authorID);
     }
 }
