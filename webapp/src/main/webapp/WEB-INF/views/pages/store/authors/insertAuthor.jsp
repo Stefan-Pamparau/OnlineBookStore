@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: stefan.pamparau
@@ -7,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
     <title>Insert author</title>
@@ -14,15 +15,17 @@
 <body>
 <h3 align="left">Please insert the author's information</h3>
 
-<form method="POST" action="<c:url value="/authors/insert"/>">
+<form:form method="POST" modelAttribute="author" action="/authors/insert">
     <table border="0" align="left">
         <tr>
-            <td>Name</td>
-            <td><input type="text" name="name"/></td>
+            <td><form:label path="name">Name</form:label></td>
+            <td><form:input path="name" type="text"/></td>
+            <td><form:errors path="name"/> </td>
         </tr>
         <tr>
-            <td>Age</td>
+            <td><form:label path="age">Age</form:label></td>
             <td><input type="number" name="age"/></td>
+            <td><form:errors path="age"/>
         </tr>
         <tr>
             <td>
@@ -30,7 +33,7 @@
             </td>
         </tr>
     </table>
-</form>
+</form:form>
 
 </body>
 </html>

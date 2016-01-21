@@ -1,4 +1,4 @@
-package com.iquestgroup.webApp;
+package com.iquestgroup.webApp.controllers;
 
 import com.iquestgroup.facade.AuthorFacade;
 import com.iquestgroup.model.Author;
