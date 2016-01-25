@@ -42,4 +42,7 @@
     <alias name="defaultBookDAO" alias="bookDAO"/>
     <bean id="defaultBookDAO" class="com.iquestgroup.database.impl.DefaultBookDAO"/>
 
+    <alias name="defaultClientDAO" alias="clientDAO"/>
+    <bean id="defaultClientDAO" class="com.iquestgroup.database.impl.DefaultClientDAO"/>
+
 </beans>

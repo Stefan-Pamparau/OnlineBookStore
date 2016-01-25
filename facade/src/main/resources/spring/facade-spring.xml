@@ -13,4 +13,7 @@
     <alias name="defaultBookFacade" alias="bookFacade"/>
     <bean id="defaultBookFacade" class="com.iquestgroup.facade.impl.DefaultBookFacade"/>
 
+    <alias name="defaultClientFacade" alias="clientFacade"/>
+    <bean id="defaultClientFacade" class="com.iquestgroup.facade.impl.DefaultClientFacade"/>
+
 </beans>

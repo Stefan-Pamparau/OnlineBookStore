@@ -1,8 +1,14 @@
 package com.iquestgroup.model;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Book {
     private Integer id;
+    @NotNull
+    @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String name;
+    @NotNull
     private Integer inStock;
     private Author author;
 

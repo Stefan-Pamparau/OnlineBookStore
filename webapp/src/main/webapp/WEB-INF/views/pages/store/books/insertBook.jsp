@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: stefan.pamparau
@@ -7,25 +6,29 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Insert book</title>
 </head>
 <body>
 
-<form action="<c:url value="/books/insert"/>" method="post">
+<form:form action="/books/insert" modelAttribute="book" method="POST">
     <table border="0" align="left">
         <tr>
-            <td>Book name</td>
-            <td><input type="text" name="name"></td>
+            <td><form:label path="name">Book name</form:label></td>
+            <td><form:input path="name" type="text"/></td>
+            <td><form:errors path="name"/></td>
         </tr>
         <tr>
-            <td>Available in stock</td>
-            <td><input type="number" name="inStock"></td>
+            <td><form:label path="inStock">Available in stock</form:label></td>
+            <td><form:input type="number" path="inStock"/></td>
+            <td><form:errors path="inStock"/></td>
         </tr>
         <tr>
-            <td>Author ID</td>
-            <td><input type="text" name="authorID"></td>
+            <td><label>Author ID</label></td>
+            <td><input name="authorID" type="number"/></td>
         </tr>
         <tr>
             <td>
@@ -33,7 +36,7 @@
             </td>
         </tr>
     </table>
-</form>
+</form:form>
 
 </body>
 </html>

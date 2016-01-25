@@ -1,12 +1,22 @@
 package com.iquestgroup.model;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class Client {
     private Integer id;
+    @NotNull
+    @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String name;
+    @NotNull
+    @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String address;
+    @NotNull
+    @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String email;
+    @NotNull
+    @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String password;
     private Set<Book> books;
     private Set<PurchaseHistory> purchases;
@@ -65,5 +75,18 @@ public class Client {
 
     public void setPurchases(Set<PurchaseHistory> purchases) {
         this.purchases = purchases;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", books=" + books +
+                ", purchases=" + purchases +
+                '}';
     }
 }

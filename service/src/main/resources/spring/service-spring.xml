@@ -13,4 +13,7 @@
     <alias name="defaultBookService" alias="bookService"/>
     <bean id="defaultBookService" class="com.iquestgroup.service.impl.DefaultBookService"/>
 
+    <alias name="defaultClientService" alias="clientService"/>
+    <bean id="defaultClientService" class="com.iquestgroup.service.impl.DefaultClientService"/>
+
 </beans>

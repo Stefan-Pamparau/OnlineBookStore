@@ -19,7 +19,7 @@
             <key column="client_id"/>
             <many-to-many column="book_id" class="com.iquestgroup.model.Book"/>
         </set>
-        <!--<set name="purchases" cascade="all">-->
+        <!--<set name="purchases" cascade="all" table="purchase_history">-->
             <!--<key column="client_id"/>-->
             <!--<one-to-many class="com.iquestgroup.model.PurchaseHistory"/>-->
         <!--</set>-->
@@ -30,8 +30,8 @@
             <!--This class contains information regarding all the purchases made by the clients in the book store-->
         <!--</meta>-->
         <!--<composite-id>-->
-            <!--<key-property name="book"/>-->
-            <!--<key-property name="client"/>-->
+            <!--<key-property name="book" column="book_id"/>-->
+            <!--<key-property name="client" column="client_id"/>-->
         <!--</composite-id>-->
         <!--<property name="purchaseDate" column="purchase_date" type="date"/>-->
         <!--<many-to-one name="client" column="client_id" class="com.iquestgroup.model.Client" not-null="true"/>-->
@@ -59,5 +59,9 @@
         </id>
         <property name="name" column="name" type="string"/>
         <property name="age" column="age" type="int"/>
+        <set name="books" inverse="true" table="book" cascade="all">
+            <key><column name="author_id"/></key>
+            <one-to-many class="com.iquestgroup.model.Book"/>
+        </set>
     </class>
 </hibernate-mapping>

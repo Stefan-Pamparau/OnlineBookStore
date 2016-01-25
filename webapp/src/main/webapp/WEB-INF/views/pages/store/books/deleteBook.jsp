@@ -7,17 +7,18 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Delete book</title>
 </head>
 <body>
 
-<form method="POST" action="<c:url value="/books/delete"/>">
+<form:form method="POST" action="/books/delete">
     <table border="0" align="left">
         <tr>
-            <td>Book ID</td>
-            <td><label><input type="number" name="bookID"/></label></td>
+            <td><label>Book ID</label></td>
+            <td><input name="bookID" type="number"/></td>
         </tr>
         <tr>
             <td>
@@ -25,7 +26,7 @@
             </td>
         </tr>
     </table>
-</form>
+</form:form>
 
 </body>
 </html>

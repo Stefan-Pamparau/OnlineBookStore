@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html>
 <head>
     <title>Insert author</title>
@@ -20,11 +20,11 @@
         <tr>
             <td><form:label path="name">Name</form:label></td>
             <td><form:input path="name" type="text"/></td>
-            <td><form:errors path="name"/> </td>
+            <td><form:errors path="name"/></td>
         </tr>
         <tr>
             <td><form:label path="age">Age</form:label></td>
-            <td><input type="number" name="age"/></td>
+            <td><form:input path="age" type="number"/></td>
             <td><form:errors path="age"/>
         </tr>
         <tr>
