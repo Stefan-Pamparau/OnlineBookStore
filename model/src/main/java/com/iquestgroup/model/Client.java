@@ -19,6 +19,7 @@ public class Client {
     @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String password;
     private Set<Book> books;
+    private Set<PurchaseHistory> purchases;
 
     public Integer getId() {
         return id;
@@ -68,6 +69,14 @@ public class Client {
         this.books = books;
     }
 
+    public Set<PurchaseHistory> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(Set<PurchaseHistory> purchases) {
+        this.purchases = purchases;
+    }
+
     @Override
     public String toString() {
         return "Client{" +
@@ -77,6 +86,7 @@ public class Client {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", books=" + books +
+                ", purchases=" + purchases +
                 '}';
     }
 }

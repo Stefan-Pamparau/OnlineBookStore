@@ -24,6 +24,7 @@ public class DefaultClientDAO implements ClientDAO {
             List clientList = session.createQuery("FROM com.iquestgroup.model.Client").list();
             for (Object client : clientList) {
                 Client resultClient = (Client) client;
+                Hibernate.initialize(resultClient.getPurchases());
                 for(Book book : resultClient.getBooks()) {
                     Hibernate.initialize(book.getAuthor());
                 }
