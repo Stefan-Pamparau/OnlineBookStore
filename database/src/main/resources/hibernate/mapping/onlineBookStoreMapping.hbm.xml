@@ -8,6 +8,7 @@
         <meta attribute="class-description">
             This class contains information about the clients registered in the store's database
         </meta>
+        <cache usage="read-write"/>
         <id name="id" column="id">
             <generator class="native"/>
         </id>
@@ -25,6 +26,7 @@
         <meta attribute="class-description">
             This class contains information about the books available in the book store
         </meta>
+        <cache usage="read-write"/>
         <id name="id" type="int" column="id">
             <generator class="native"/>
         </id>
@@ -37,6 +39,7 @@
         <meta attribute="class-description">
             This class contains details about the authors of the books
         </meta>
+        <cache usage="read-write"/>
         <id name="id" type="int" column="id">
             <generator class="native"/>
         </id>
