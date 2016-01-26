@@ -15,6 +15,10 @@
 <h3 align="left">For listing all available books go to: <a href="<c:url value="/books/list"/>">List all books</a></h3>
 <h3 align="left">For inserting a book go to: <a href="<c:url value="/books/insert"/>">Insert book</a></h3>
 <h3 align="left">For deleting a book go to: <a href="<c:url value="/books/delete"/>">Delete book</a></h3>
+<h3 align="left">For listing all the clients go to: <a href="<c:url value="/clients/list"/>">List clients</a></h3>
+<h3 align="left">For inserting a client go to: <a href="<c:url value="/clients/insert"/>">Insert client</a></h3>
+<h3 align="left">For deleting a client go to: <a href="<c:url value="/clients/delete"/>">Delete client</a></h3>
+<h3 align="left">For making a purchase go to: <a href="<c:url value="/clients/purchase"/>">Purchase book</a></h3>
 </body>
 
 </html>
