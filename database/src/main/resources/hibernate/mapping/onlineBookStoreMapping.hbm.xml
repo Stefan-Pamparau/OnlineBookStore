@@ -21,6 +21,7 @@
             <many-to-many column="book_id" class="com.iquestgroup.model.Book"/>
         </set>
         <set name="purchases" cascade="save-update" table="purchase_history">
+            <cache usage="read-write"
             <key column="client_id"/>
             <one-to-many class="com.iquestgroup.model.PurchaseHistory"/>
         </set>
@@ -58,6 +59,7 @@
         <property name="name" column="name" type="string"/>
         <property name="age" column="age" type="int"/>
         <set name="books" inverse="true" table="book" cascade="all">
+            <cache usage="read-write"/>
             <key><column name="author_id"/></key>
             <one-to-many class="com.iquestgroup.model.Book"/>
         </set>
