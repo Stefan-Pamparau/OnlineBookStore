@@ -4,8 +4,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:property-placeholder location="classpath:/hibernate/databaseProperties/databaseProperties.properties"/>
     <context:component-scan base-package="com.iquestgroup.database"/>
@@ -43,12 +44,12 @@
     </bean>
 
     <alias name="defaultAuthorDAO" alias="authorDAO"/>
-    <bean id="defaultAuthorDAO" class="com.iquestgroup.database.impl.DefaultAuthorDAO"/>
+    <bean id="defaultAuthorDAO" class="com.iquestgroup.database.impl.hibernate.DefaultAuthorDAO"/>
 
     <alias name="defaultBookDAO" alias="bookDAO"/>
-    <bean id="defaultBookDAO" class="com.iquestgroup.database.impl.DefaultBookDAO"/>
+    <bean id="defaultBookDAO" class="com.iquestgroup.database.impl.hibernate.DefaultBookDAO"/>
 
     <alias name="defaultClientDAO" alias="clientDAO"/>
-    <bean id="defaultClientDAO" class="com.iquestgroup.database.impl.DefaultClientDAO"/>
+    <bean id="defaultClientDAO" class="com.iquestgroup.database.impl.hibernate.DefaultClientDAO"/>
 
 </beans>

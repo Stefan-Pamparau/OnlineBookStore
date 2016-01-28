@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:property-placeholder location="classpath:/hibernate/databaseProperties/databaseProperties.properties"/>
+    <context:component-scan base-package="com.iquestgroup.database"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:/hibernate/databaseProperties/databaseProperties.properties"/>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceXmlLocation" value="classpath:/jpa/persistence.xml"/>
+        <property name="persistenceUnitName" value="onlineBookStore"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+        <property name="jpaDialect" ref="jpaDialect"/>
+        <property name="mappingResources" value="classpath:/jpa/orm.xml"/>
+    </bean>
+
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="database" value="MYSQL"/>
+        <property name="databasePlatform" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </bean>
+
+    <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <alias name="defaultAuthorDAO" alias="authorDAO"/>
+    <bean id="defaultAuthorDAO" class="com.iquestgroup.database.impl.jpa.DefaultAuthorDAO"/>
+
+    <alias name="defaultBookDAO" alias="bookDAO"/>
+    <bean id="defaultBookDAO" class="com.iquestgroup.database.impl.jpa.DefaultBookDAO"/>
+
+    <alias name="defaultClientDAO" alias="clientDAO"/>
+    <bean id="defaultClientDAO" class="com.iquestgroup.database.impl.jpa.DefaultClientDAO"/>
+
+
+</beans>

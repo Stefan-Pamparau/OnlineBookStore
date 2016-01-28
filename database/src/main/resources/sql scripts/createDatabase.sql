@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS client (
   ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS purchase_history (
-  purchase_date TIMESTAMP NOT NULL,
+  purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   client_id     INT       NOT NULL,
   book_id       INT       NOT NULL,
   PRIMARY KEY (client_id, book_id)
@@ -56,12 +56,12 @@ VALUES
   ('Test client 3', 'Test address 3', 'Test email 3', '123'),
   ('Test client 4', 'Test address 4', 'Test email 4', '123');
 
-INSERT INTO purchase_history(purchase_date, client_id, book_id)
+INSERT INTO purchase_history(client_id, book_id)
 VALUES
-  ('17.02.2015', '1', '1'),
-  ('15.12.2015', '1', '2'),
-  ('12.11.2015', '2', '1'),
-  ('12.09.2015', '2', '2');
+  ('1', '1'),
+  ('1', '2'),
+  ('2', '1'),
+  ('2', '2');
 # CREATE TABLE IF NOT EXISTS current_borrows (
 #   date      TIMESTAMP NOT NULL,
 #   validity  TIMESTAMP NOT NULL,
