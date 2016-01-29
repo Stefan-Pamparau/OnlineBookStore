@@ -13,9 +13,18 @@
 </head>
 <body>
 
-<c:forEach var="author" items="${authors}">
-    <p><c:out value="${author}"/></p>
-</c:forEach>
+<table border="1">
+    <tr>
+        <td>Author name</td>
+        <td>Author age</td>
+    </tr>
+    <c:forEach var="author" items="${authors}">
+        <tr>
+            <td><c:out value="${author.name}"/></td>
+            <td><c:out value="${author.age}"/></td>
+        </tr>
+    </c:forEach>
+</table>
 
 </body>
 </html>

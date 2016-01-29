@@ -13,9 +13,35 @@
 </head>
 <body>
 
-<c:forEach var="client" items="${clients}">
-    <p><c:out value="${client}"/></p>
-</c:forEach>
+<table border="1">
+    <tr>
+        <td>Client name</td>
+        <td>Client address</td>
+        <td>Client email</td>
+        <td>Client books</td>
+        <td>Client purchases</td>
+    </tr>
+
+    <c:forEach var="client" items="${clients}">
+        <tr>
+            <td><c:out value="${client.name}"/></td>
+            <td><c:out value="${client.address}"/></td>
+            <td><c:out value="${client.email}"/></td>
+            <td>
+                <c:forEach var="book" items="${client.books}">
+                    <c:out value="${book.name}"/>
+                </c:forEach>
+            </td>
+            <td>
+                <c:forEach var="purchase" items="${client.purchases}">
+                    <c:out value="${purchase.purchaseDate}"/>
+                    <c:out value="${purchase.book.name}"/>
+                    <br>
+                </c:forEach>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
 
 </body>
 </html>
