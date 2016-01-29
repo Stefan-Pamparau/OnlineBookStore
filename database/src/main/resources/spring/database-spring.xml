@@ -44,12 +44,12 @@
     </bean>
 
     <alias name="defaultAuthorDAO" alias="authorDAO"/>
-    <bean id="defaultAuthorDAO" class="com.iquestgroup.database.impl.hibernate.DefaultAuthorDAO"/>
+    <bean id="defaultAuthorDAO" class="com.iquestgroup.database.impl.DefaultAuthorDAO"/>
 
     <alias name="defaultBookDAO" alias="bookDAO"/>
-    <bean id="defaultBookDAO" class="com.iquestgroup.database.impl.hibernate.DefaultBookDAO"/>
+    <bean id="defaultBookDAO" class="com.iquestgroup.database.impl.DefaultBookDAO"/>
 
     <alias name="defaultClientDAO" alias="clientDAO"/>
-    <bean id="defaultClientDAO" class="com.iquestgroup.database.impl.hibernate.DefaultClientDAO"/>
+    <bean id="defaultClientDAO" class="com.iquestgroup.database.impl.DefaultClientDAO"/>
 
 </beans>

@@ -13,9 +13,20 @@
 </head>
 <body>
 
-<c:forEach var="book" items="${books}">
-    <p><c:out value="${book}"/></p>
-</c:forEach>
+<table border="1">
+    <tr>
+        <td><p>Book name</p></td>
+        <td><p>Number of books in store</p></td>
+        <td><p>Author name</p></td>
+    </tr>
+    <c:forEach var="book" items="${books}">
+        <tr>
+            <td><c:out value="${book.name}"/></td>
+            <td><c:out value="${book.inStock}"/></td>
+            <td><c:out value="${book.author.name}"/></td>
+        </tr>
+    </c:forEach>
+</table>
 
 </body>
 </html>

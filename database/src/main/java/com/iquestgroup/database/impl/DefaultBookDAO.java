@@ -1,98 +1,107 @@
-package com.iquestgroup.database.impl.hibernate;
+package com.iquestgroup.database.impl;
 
-import com.iquestgroup.database.ClientDAO;
+import com.iquestgroup.database.BookDAO;
+import com.iquestgroup.model.Author;
 import com.iquestgroup.model.Book;
-import com.iquestgroup.model.Client;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultClientDAO implements ClientDAO {
+public class DefaultBookDAO implements BookDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public List<Client> listAllClients() {
-        List<Client> result = new ArrayList<>();
+    public List<Book> getAllBooks() {
+        List<Book> resultList = new ArrayList<>();
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            List clientList = session.createQuery("FROM com.iquestgroup.model.Client").list();
-            for (Object client : clientList) {
-                Client resultClient = (Client) client;
-                Hibernate.initialize(resultClient.getPurchases());
-                for (Book book : resultClient.getBooks()) {
-                    Hibernate.initialize(book.getAuthor());
-                }
-                result.add(resultClient);
+            List books = session.createQuery("FROM com.iquestgroup.model.Book book inner join fetch book.author").list();
+            for (Object book : books) {
+                resultList.add((Book) book);
             }
-            transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
+            e.printStackTrace();
         }
 
-        return result;
+        return resultList;
     }
 
     @Override
-    public void insertClient(Client client) {
+    public void insertBook(Book book) {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.save(client);
+            session.save(book);
             transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void deleteClient(Integer clientID) {
-        Transaction transaction = null;
-
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            Client client = session.get(Client.class, clientID);
-            session.delete(client);
-            transaction.commit();
-        } catch (HibernateException e) {
-            e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-    }
-
-    @Override
-    public void purchaseBook(Integer clientID, Integer bookID) {
+    public void deleteBook(Integer bookID) {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Book book = session.get(Book.class, bookID);
-            Client client = session.get(Client.class, clientID);
-
-            if (book.getInStock() > 0) {
-                book.setInStock(book.getInStock() - 1);
-                client.getBooks().add(book);
-            }
-
+            session.delete(book);
             transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    public void updateBook(Book book) {
+        Transaction transaction = null;
+
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.update(book);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Author getBookAuthor(Integer bookID) {
+        Author result = null;
+        Transaction transaction = null;
+
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            Book book = session.get(Book.class, bookID);
+            result = book.getAuthor();
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

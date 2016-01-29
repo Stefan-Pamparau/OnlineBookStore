@@ -11,7 +11,7 @@
     <mvc:annotation-driven/>
     <mvc:view-controller path="/" view-name="index"/>
 
-    <import resource="classpath:/spring/jpa/facade-spring.xml"/>
+    <import resource="classpath:/spring/facade-spring.xml"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/pages/"/>

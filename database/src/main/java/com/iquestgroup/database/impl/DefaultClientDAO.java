@@ -1,89 +1,98 @@
-package com.iquestgroup.database.impl.hibernate;
+package com.iquestgroup.database.impl;
 
-import com.iquestgroup.database.AuthorDAO;
-import com.iquestgroup.model.Author;
+import com.iquestgroup.database.ClientDAO;
+import com.iquestgroup.model.Book;
+import com.iquestgroup.model.Client;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultAuthorDAO implements AuthorDAO {
+public class DefaultClientDAO implements ClientDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public List<Author> getAllAuthors() {
-        List<Author> resultList = new ArrayList<>();
+    public List<Client> listAllClients() {
+        List<Client> result = new ArrayList<>();
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            List authorList = session.createQuery("FROM com.iquestgroup.model.Author").list();
-            for (Object author : authorList) {
-                resultList.add((Author) author);
+            List clientList = session.createQuery("FROM com.iquestgroup.model.Client").list();
+            for (Object client : clientList) {
+                Client resultClient = (Client) client;
+                Hibernate.initialize(resultClient.getPurchases());
+                for (Book book : resultClient.getBooks()) {
+                    Hibernate.initialize(book.getAuthor());
+                }
+                result.add(resultClient);
             }
-        } catch (HibernateError e) {
+            transaction.commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
         }
 
-        return resultList;
+        return result;
     }
 
     @Override
-    public Author getAuthorByID(Integer authorID) {
-        Author author = null;
+    public void insertClient(Client client) {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            author = session.get(Author.class, authorID);
+            session.save(client);
             transaction.commit();
         } catch (HibernateException e) {
+            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
-        }
-
-        return author;
-    }
-
-    @Override
-    public void insertAuthor(Author author) {
-        Transaction transaction = null;
-
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.save(author);
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
         }
     }
 
     @Override
-    public void deleteAuthor(Integer authorID) {
+    public void deleteClient(Integer clientID) {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            Author author = session.get(Author.class, authorID);
-            session.delete(author);
+            Client client = session.get(Client.class, clientID);
+            session.delete(client);
             transaction.commit();
         } catch (HibernateException e) {
+            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
+        }
+    }
+
+    @Override
+    public void purchaseBook(Integer clientID, Integer bookID) {
+        Transaction transaction = null;
+
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            Book book = session.get(Book.class, bookID);
+            Client client = session.get(Client.class, clientID);
+
+            if (book.getInStock() > 0) {
+                book.setInStock(book.getInStock() - 1);
+                client.getBooks().add(book);
+            }
+
+            transaction.commit();
+        } catch (HibernateException e) {
             e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 }
