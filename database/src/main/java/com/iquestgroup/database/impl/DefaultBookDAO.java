@@ -3,34 +3,27 @@ package com.iquestgroup.database.impl;
 import com.iquestgroup.database.BookDAO;
 import com.iquestgroup.model.Author;
 import com.iquestgroup.model.Book;
-import org.hibernate.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional(propagation = Propagation.REQUIRED)
 public class DefaultBookDAO implements BookDAO {
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public List<Book> getAllBooks() {
         List<Book> resultList = new ArrayList<>();
-        Transaction transaction = null;
 
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            List books = session.createQuery("FROM com.iquestgroup.model.Book book inner join fetch book.author").list();
-            for (Object book : books) {
-                resultList.add((Book) book);
-            }
-        } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
+        List books = entityManager.createQuery("SELECT b FROM Book b").getResultList();
+
+        for (Object book : books) {
+            resultList.add((Book) book);
         }
 
         return resultList;
@@ -38,70 +31,24 @@ public class DefaultBookDAO implements BookDAO {
 
     @Override
     public void insertBook(Book book) {
-        Transaction transaction = null;
-
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.save(book);
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+        entityManager.persist(book);
     }
 
     @Override
     public void deleteBook(Integer bookID) {
-        Transaction transaction = null;
-
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            Book book = session.get(Book.class, bookID);
-            session.delete(book);
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+        Book book = entityManager.find(Book.class, bookID);
+        entityManager.remove(book);
     }
 
     @Override
     public void updateBook(Book book) {
-        Transaction transaction = null;
 
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.update(book);
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
     }
 
     @Override
     public Author getBookAuthor(Integer bookID) {
-        Author result = null;
-        Transaction transaction = null;
+        Book book = entityManager.find(Book.class, bookID);
 
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            Book book = session.get(Book.class, bookID);
-            result = book.getAuthor();
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-
-        return result;
+        return book.getAuthor();
     }
 }

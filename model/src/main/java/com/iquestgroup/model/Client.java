@@ -1,10 +1,15 @@
 package com.iquestgroup.model;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
+@Entity
+@Table(name = "client")
 public class Client {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @NotNull
     @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
@@ -18,8 +23,9 @@ public class Client {
     @NotNull
     @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String password;
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Book.class)
+    @JoinTable(name = "purchase_history", joinColumns = {@JoinColumn(name = "book_id")})
     private Set<Book> books;
-    private Set<PurchaseHistory> purchases;
 
     public Integer getId() {
         return id;
@@ -69,13 +75,6 @@ public class Client {
         this.books = books;
     }
 
-    public Set<PurchaseHistory> getPurchases() {
-        return purchases;
-    }
-
-    public void setPurchases(Set<PurchaseHistory> purchases) {
-        this.purchases = purchases;
-    }
 
     @Override
     public String toString() {
@@ -86,7 +85,6 @@ public class Client {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", books=" + books +
-                ", purchases=" + purchases +
                 '}';
     }
 }
