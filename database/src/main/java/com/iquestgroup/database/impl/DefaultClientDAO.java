@@ -3,6 +3,7 @@ package com.iquestgroup.database.impl;
 import com.iquestgroup.database.ClientDAO;
 import com.iquestgroup.model.Book;
 import com.iquestgroup.model.Client;
+import com.iquestgroup.model.PurchaseHistory;
 import org.hibernate.Transaction;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,7 +49,12 @@ public class DefaultClientDAO implements ClientDAO {
 
         if (book.getInStock() > 0) {
             book.setInStock(book.getInStock() - 1);
-            client.getBooks().add(book);
+            PurchaseHistory purchase = new PurchaseHistory();
+            purchase.setClientId(clientID);
+            purchase.setBookId(bookID);
+            purchase.setBook(book);
+            purchase.setClient(client);
+            client.getPurchases().add(purchase);
         }
     }
 }

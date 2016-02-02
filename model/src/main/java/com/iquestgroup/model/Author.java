@@ -19,7 +19,8 @@ public class Author {
     @NotNull
     @Min(10)
     private Integer age;
-    //private Set<Book> books;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private Set<Book> books;
 
     public Integer getId() {
         return id;
@@ -45,13 +46,13 @@ public class Author {
         this.age = age;
     }
 
-//    public Set<Book> getBooks() {
-//        return books;
-//    }
-//
-//    public void setBooks(Set<Book> books) {
-//        this.books = books;
-//    }
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
 
     @Override
     public String toString() {

@@ -23,9 +23,8 @@ public class Client {
     @NotNull
     @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Book.class)
-    @JoinTable(name = "purchase_history", joinColumns = {@JoinColumn(name = "book_id")})
-    private Set<Book> books;
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<PurchaseHistory> purchases;
 
     public Integer getId() {
         return id;
@@ -67,14 +66,13 @@ public class Client {
         this.password = password;
     }
 
-    public Set<Book> getBooks() {
-        return books;
+    public Set<PurchaseHistory> getPurchases() {
+        return purchases;
     }
 
-    public void setBooks(Set<Book> books) {
-        this.books = books;
+    public void setPurchases(Set<PurchaseHistory> purchaseHistory) {
+        this.purchases = purchaseHistory;
     }
-
 
     @Override
     public String toString() {
@@ -84,7 +82,7 @@ public class Client {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", books=" + books +
+                ", purchaseHistory=" + purchases +
                 '}';
     }
 }

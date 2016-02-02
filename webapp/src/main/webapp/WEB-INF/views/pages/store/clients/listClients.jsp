@@ -18,7 +18,6 @@
         <td>Client name</td>
         <td>Client address</td>
         <td>Client email</td>
-        <td>Client books</td>
         <td>Client purchases</td>
     </tr>
 
@@ -27,11 +26,6 @@
             <td><c:out value="${client.name}"/></td>
             <td><c:out value="${client.address}"/></td>
             <td><c:out value="${client.email}"/></td>
-            <td>
-                <c:forEach var="book" items="${client.books}">
-                    <c:out value="${book.name}"/>
-                </c:forEach>
-            </td>
             <td>
                 <c:forEach var="purchase" items="${client.purchases}">
                     <c:out value="${purchase.purchaseDate}"/>
