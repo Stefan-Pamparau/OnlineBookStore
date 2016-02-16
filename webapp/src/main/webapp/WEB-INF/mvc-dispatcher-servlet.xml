@@ -24,9 +24,9 @@
     </bean>
 
     <security:http auto-config="true" use-expressions="true">
-        <security:intercept-url pattern="/*" access="hasRole('ROLE_CLIENT') || hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/*/insert" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/*/delete" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/**" access="hasRole('ROLE_CLIENT') || hasRole('ROLE_ADMIN')"/>
         <security:access-denied-handler error-page="/WEB-INF/views/pages/error/loginError.jsp"/>
     </security:http>
 
