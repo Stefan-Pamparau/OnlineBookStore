@@ -20,7 +20,7 @@
             <key column="client_id"/>
             <many-to-many column="book_id" class="com.iquestgroup.model.Book"/>
         </set>
-        <set name="purchases" cascade="save-update" table="purchase_history">
+        <set name="purchases" table="purchase_history">
             <cache usage="read-write"/>
             <key column="client_id"/>
             <one-to-many class="com.iquestgroup.model.PurchaseHistory"/>
@@ -45,7 +45,7 @@
         </id>
         <property name="name" column="name" type="string"/>
         <property name="inStock" column="in_stock" type="int"/>
-        <many-to-one name="author" column="author_id" class="com.iquestgroup.model.Author" not-null="true"/>
+        <many-to-one name="author" column="author_id" class="com.iquestgroup.model.Author" not-null="true"  />
     </class>
 
     <class name="com.iquestgroup.model.Author" table="author">
