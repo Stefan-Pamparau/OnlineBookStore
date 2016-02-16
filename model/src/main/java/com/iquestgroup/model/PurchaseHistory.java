@@ -9,16 +9,11 @@ import java.sql.Timestamp;
 @IdClass(PurchaseHistoryId.class)
 public class PurchaseHistory implements Serializable {
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "client_id")
     private Integer clientId;
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "book_id")
     private Integer bookId;
     @Column(name = "purchase_date")
     private Timestamp purchaseDate;
-
     @ManyToOne
     @JoinColumn(name = "client_id", updatable = false, insertable = false)
     private Client client;
