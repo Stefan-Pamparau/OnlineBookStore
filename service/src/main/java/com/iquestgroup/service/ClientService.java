@@ -1,15 +1,16 @@
 package com.iquestgroup.service;
 
 import com.iquestgroup.model.Client;
+import com.iquestgroup.service.exceptionHandling.ServiceException;
 
 import java.util.List;
 
 public interface ClientService {
-    List<Client> listAllClients();
+    List<Client> listAllClients() throws ServiceException;
 
-    void insertClient(Client client);
+    String insertClient(Client client) throws ServiceException;
 
-    void deleteClient(Integer clientID);
+    String deleteClient(Integer clientID) throws ServiceException;
 
-    void purchaseBook(Integer clientID, Integer bookID);
+    String purchaseBook(Integer clientID, Integer bookID) throws ServiceException;
 }

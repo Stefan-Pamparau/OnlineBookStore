@@ -2,17 +2,18 @@ package com.iquestgroup.service;
 
 import com.iquestgroup.model.Author;
 import com.iquestgroup.model.Book;
+import com.iquestgroup.service.exceptionHandling.ServiceException;
 
 import java.util.List;
 
 public interface BookService {
-    List<Book> getAllBooks();
+    List<Book> getAllBooks() throws ServiceException;
 
-    void insertBook(Book book);
+    String insertBook(Book book) throws ServiceException;
 
-    void deleteBook(Integer bookID);
+    String deleteBook(Integer bookID) throws ServiceException;
 
-    void updateBook(Book book);
+    String updateBook(Book book) throws ServiceException;
 
-    Author getBookAuthor(Integer bookID);
+    Author getBookAuthor(Integer bookID) throws ServiceException;
 }

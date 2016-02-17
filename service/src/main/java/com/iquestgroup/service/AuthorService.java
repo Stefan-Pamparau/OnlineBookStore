@@ -1,15 +1,16 @@
 package com.iquestgroup.service;
 
 import com.iquestgroup.model.Author;
+import com.iquestgroup.service.exceptionHandling.ServiceException;
 
 import java.util.List;
 
 public interface AuthorService {
-    List<Author> getAllAuthors();
+    List<Author> getAllAuthors() throws ServiceException;
 
-    Author getAuthorByID(Integer authorID);
+    Author getAuthorByID(Integer authorID) throws ServiceException;
 
-    void insertAuthor(Author author);
+    String insertAuthor(Author author) throws ServiceException;
 
-    void deleteAuthor(Integer authorID);
+    String deleteAuthor(Integer authorID) throws ServiceException;
 }

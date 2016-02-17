@@ -1,15 +1,16 @@
 package com.iquestgroup.database;
 
+import com.iquestgroup.database.exceptionHandling.DAOException;
 import com.iquestgroup.model.Client;
 
 import java.util.List;
 
 public interface ClientDAO {
-    List<Client> listAllClients();
+    List<Client> listAllClients() throws DAOException;
 
-    void insertClient(Client client);
+    String insertClient(Client client) throws DAOException;
 
-    void deleteClient(Integer clientID);
+    String deleteClient(Integer clientID) throws DAOException;
 
-    void purchaseBook(Integer clientID, Integer bookID);
+    String purchaseBook(Integer clientID, Integer bookID) throws DAOException;
 }

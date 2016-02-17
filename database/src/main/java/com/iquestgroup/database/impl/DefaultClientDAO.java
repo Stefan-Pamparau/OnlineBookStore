@@ -1,6 +1,7 @@
 package com.iquestgroup.database.impl;
 
 import com.iquestgroup.database.ClientDAO;
+import com.iquestgroup.database.exceptionHandling.DAOException;
 import com.iquestgroup.model.Book;
 import com.iquestgroup.model.Client;
 import org.hibernate.*;
@@ -14,7 +15,7 @@ public class DefaultClientDAO implements ClientDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public List<Client> listAllClients() {
+    public List<Client> listAllClients() throws DAOException {
         List<Client> result = new ArrayList<>();
         Transaction transaction = null;
 
@@ -31,17 +32,18 @@ public class DefaultClientDAO implements ClientDAO {
             }
             transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
+
+            throw new DAOException("An error occurred while retrieving all the clients from the database!", e);
         }
 
         return result;
     }
 
     @Override
-    public void insertClient(Client client) {
+    public String insertClient(Client client) throws DAOException {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
@@ -49,50 +51,69 @@ public class DefaultClientDAO implements ClientDAO {
             session.save(client);
             transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
+
+            throw new DAOException("An error occured while trying to insert client: " + client, e);
         }
+
+        return "Successfully inserted client: " + client;
     }
 
     @Override
-    public void deleteClient(Integer clientID) {
+    public String deleteClient(Integer clientID) throws DAOException {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Client client = session.get(Client.class, clientID);
-            session.delete(client);
-            transaction.commit();
+
+            if (client == null) {
+                return "Client with id: " + clientID + " does not exists in the database!";
+            } else {
+                session.delete(client);
+                transaction.commit();
+            }
         } catch (HibernateException e) {
-            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
+
+            throw new DAOException("An error occurred while trying to delete client with id: " + clientID, e);
         }
+
+        return "Successfully deleted client with id: " + clientID;
     }
 
     @Override
-    public void purchaseBook(Integer clientID, Integer bookID) {
+    public String purchaseBook(Integer clientID, Integer bookID) throws DAOException {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Book book = session.get(Book.class, bookID);
             Client client = session.get(Client.class, clientID);
-
-            if (book.getInStock() > 0) {
-                book.setInStock(book.getInStock() - 1);
-                client.getBooks().add(book);
+            if ((book == null) || (client == null)) {
+                return "Book or client with specified id does not exist in the database!";
+            } else {
+                if (book.getInStock() > 0) {
+                    book.setInStock(book.getInStock() - 1);
+                    client.getBooks().add(book);
+                } else {
+                    return "Not enough books with id: " + bookID + " in stock";
+                }
             }
-
             transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
+
+            throw new DAOException("An error occurred while trying to purchase the book with id: " + bookID
+                + " for the client with the id: " + clientID, e);
         }
+
+        return "Successfully purchased the book with id: " + bookID + " for the client with the id: " + clientID;
     }
 }

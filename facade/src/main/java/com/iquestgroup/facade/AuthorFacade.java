@@ -1,15 +1,16 @@
 package com.iquestgroup.facade;
 
+import com.iquestgroup.facade.exceptionHandling.FacadeException;
 import com.iquestgroup.model.Author;
 
 import java.util.List;
 
 public interface AuthorFacade {
-    List<Author> getAllAuthors();
+    List<Author> getAllAuthors() throws FacadeException;
 
-    Author getAuthorByID(Integer authorID);
+    Author getAuthorByID(Integer authorID) throws FacadeException;
 
-    void insertAuthor(Author author);
+    String insertAuthor(Author author) throws FacadeException;
 
-    void deleteAuthor(Integer authorID);
+    String deleteAuthor(Integer authorID) throws FacadeException;
 }

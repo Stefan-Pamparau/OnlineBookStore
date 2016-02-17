@@ -1,18 +1,19 @@
 package com.iquestgroup.database;
 
+import com.iquestgroup.database.exceptionHandling.DAOException;
 import com.iquestgroup.model.Author;
 import com.iquestgroup.model.Book;
 
 import java.util.List;
 
 public interface BookDAO {
-    List<Book> getAllBooks();
+    List<Book> getAllBooks() throws DAOException;
 
-    void insertBook(Book book);
+    String insertBook(Book book) throws DAOException;
 
-    void deleteBook(Integer bookID);
+    String deleteBook(Integer bookID) throws DAOException;
 
-    void updateBook(Book book);
+    String updateBook(Book book) throws DAOException;
 
-    Author getBookAuthor(Integer bookID);
+    Author getBookAuthor(Integer bookID) throws DAOException;
 }

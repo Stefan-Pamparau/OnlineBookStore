@@ -1,15 +1,16 @@
 package com.iquestgroup.facade;
 
+import com.iquestgroup.facade.exceptionHandling.FacadeException;
 import com.iquestgroup.model.Client;
 
 import java.util.List;
 
 public interface ClientFacade {
-    List<Client> listAllClients();
+    List<Client> listAllClients() throws FacadeException;
 
-    void insertClient(Client client);
+    String insertClient(Client client) throws FacadeException;
 
-    void deleteClient(Integer clientID);
+    String deleteClient(Integer clientID) throws FacadeException;
 
-    void purchaseBook(Integer clientID, Integer bookID);
+    String purchaseBook(Integer clientID, Integer bookID) throws FacadeException;
 }

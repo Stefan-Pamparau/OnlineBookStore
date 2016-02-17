@@ -1,9 +1,11 @@
 package com.iquestgroup.service.impl;
 
 import com.iquestgroup.database.BookDAO;
+import com.iquestgroup.database.exceptionHandling.DAOException;
 import com.iquestgroup.model.Author;
 import com.iquestgroup.model.Book;
 import com.iquestgroup.service.BookService;
+import com.iquestgroup.service.exceptionHandling.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -13,27 +15,47 @@ public class DefaultBookService implements BookService {
     private BookDAO bookDAO;
 
     @Override
-    public List<Book> getAllBooks() {
-        return bookDAO.getAllBooks();
+    public List<Book> getAllBooks() throws ServiceException {
+        try {
+            return bookDAO.getAllBooks();
+        } catch (DAOException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
-    public void insertBook(Book book) {
-        bookDAO.insertBook(book);
+    public String insertBook(Book book) throws ServiceException {
+        try {
+            return bookDAO.insertBook(book);
+        } catch (DAOException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
-    public void deleteBook(Integer bookID) {
-        bookDAO.deleteBook(bookID);
+    public String deleteBook(Integer bookID) throws ServiceException {
+        try {
+            return bookDAO.deleteBook(bookID);
+        } catch (DAOException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
-    public void updateBook(Book book) {
-        bookDAO.updateBook(book);
+    public String updateBook(Book book) throws ServiceException {
+        try {
+            return bookDAO.updateBook(book);
+        } catch (DAOException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
-    public Author getBookAuthor(Integer bookID) {
-        return bookDAO.getBookAuthor(bookID);
+    public Author getBookAuthor(Integer bookID) throws ServiceException {
+        try {
+            return bookDAO.getBookAuthor(bookID);
+        } catch (DAOException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
     }
 }
