@@ -12,8 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-@Controller("ClientController") @RequestMapping(path = "/clients") public class ClientController {
-    @Autowired private ClientFacade clientFacade;
+@Controller("ClientController")
+@RequestMapping(path = "/clients")
+public class ClientController {
+    @Autowired
+    private ClientFacade clientFacade;
 
     @RequestMapping(path = "/list", method = RequestMethod.GET) public ModelAndView listAllClients() {
         ModelAndView mav = new ModelAndView();

@@ -14,7 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-@Controller("BookController") @RequestMapping(path = "/books") public class BookController {
+@Controller("BookController")
+@RequestMapping(path = "/books")
+public class BookController {
     @Autowired
     private BookFacade bookFacade;
     @Autowired

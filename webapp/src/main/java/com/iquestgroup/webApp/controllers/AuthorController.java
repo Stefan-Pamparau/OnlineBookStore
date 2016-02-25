@@ -12,8 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-@Controller("AuthorController") @RequestMapping(path = "authors") public class AuthorController {
-    @Autowired private AuthorFacade authorFacade;
+@Controller("AuthorController")
+@RequestMapping(path = "authors")
+public class AuthorController {
+    @Autowired
+    private AuthorFacade authorFacade;
 
     @RequestMapping(path = "/list", method = RequestMethod.GET) public ModelAndView listAllAuthors() {
         ModelAndView mav = new ModelAndView();

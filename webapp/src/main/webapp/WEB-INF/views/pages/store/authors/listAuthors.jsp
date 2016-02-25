@@ -13,6 +13,8 @@
 </head>
 <body>
 
+<c:url value="/authors/delete" var="deleteAuthorUrl"/>
+
 <table border="1">
     <tr>
         <td>Author name</td>
@@ -22,6 +24,7 @@
         <tr>
             <td><c:out value="${author.name}"/></td>
             <td><c:out value="${author.age}"/></td>
+            <td><a href="${deleteAuthorUrl}/${author.id}">Delete author</a></td>
         </tr>
     </c:forEach>
 </table>

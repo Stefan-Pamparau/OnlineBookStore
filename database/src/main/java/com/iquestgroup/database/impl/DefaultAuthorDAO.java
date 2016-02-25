@@ -67,7 +67,7 @@ public class DefaultAuthorDAO implements AuthorDAO {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DAOException("An error occured while trying to insert " + author, e);
+            throw new DAOException("An error occurred while trying to insert " + author, e);
         }
 
         return "Author with name " + author.getName() + " successfully inserted!";
@@ -92,7 +92,7 @@ public class DefaultAuthorDAO implements AuthorDAO {
                 transaction.rollback();
             }
             throw new DAOException(
-                "An error occured while trying to delete author with id: " + authorID + " from the database", e);
+                "An error occurred while trying to delete author with id: " + authorID + " from the database", e);
         }
 
         return "Author with id: " + authorID + " successfully deleted from the database!";
