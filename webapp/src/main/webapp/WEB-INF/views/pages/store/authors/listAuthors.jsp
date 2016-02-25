@@ -24,7 +24,7 @@
         <tr>
             <td><c:out value="${author.name}"/></td>
             <td><c:out value="${author.age}"/></td>
-            <td><a href="${deleteAuthorUrl}/${author.id}">Delete author</a></td>
+            <td><a href="${deleteAuthorUrl += '\\' += author.id}">Delete author</a></td>
         </tr>
     </c:forEach>
 </table>
