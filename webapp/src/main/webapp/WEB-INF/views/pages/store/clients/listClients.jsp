@@ -13,6 +13,9 @@
 </head>
 <body>
 
+<c:url value="/clients/delete" var="clientsDeleteUrl"/>
+<c:url value="/clients/purchase" var="clientsPurchaseUrl"/>
+
 <table border="1">
     <tr>
         <td>Client name</td>
@@ -39,9 +42,18 @@
                     <br>
                 </c:forEach>
             </td>
-        </tr>
+            <td>
+                <a href="${clientsPurchaseUrl += "\\" += client.id}">Purchase book</a>
+            </td>
+            <td>
+                <a href="${clientsDeleteUrl += "\\" += client.id}">Delete client</a>
+            </td>
     </c:forEach>
 </table>
+
+<c:if test="${message != null}">
+    <h5><c:out value="${message}"/></h5>
+</c:if>
 
 </body>
 </html>

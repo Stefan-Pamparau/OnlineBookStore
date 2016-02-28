@@ -55,8 +55,9 @@ public class BookController {
         try {
             Author author = authorFacade.getAuthorByID(authorID);
             book.setAuthor(author);
-            bookFacade.insertBook(book);
+            String result = bookFacade.insertBook(book);
 
+            mav.addObject("message", result);
             mav.addObject("books", bookFacade.getAllBooks());
         } catch (FacadeException e) {
             e.printStackTrace();
@@ -76,7 +77,9 @@ public class BookController {
         mav.setViewName("store/books/listBooks");
 
         try {
-            bookFacade.deleteBook(bookID);
+            String result = bookFacade.deleteBook(bookID);
+
+            mav.addObject("message", result);
             mav.addObject("books", bookFacade.getAllBooks());
         } catch (FacadeException e) {
             e.printStackTrace();
@@ -91,7 +94,9 @@ public class BookController {
         mav.setViewName("store/books/listBooks");
 
         try {
-            bookFacade.deleteBook(bookID);
+            String result = bookFacade.deleteBook(bookID);
+
+            mav.addObject("message", result);
             mav.addObject("books", bookFacade.getAllBooks());
         } catch (FacadeException e) {
             e.printStackTrace();

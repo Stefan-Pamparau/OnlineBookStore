@@ -13,6 +13,8 @@
 </head>
 <body>
 
+<c:url value="/books/delete" var="booksDeleteUrl"/>
+
 <table border="1">
     <tr>
         <td><p>Book name</p></td>
@@ -24,9 +26,14 @@
             <td><c:out value="${book.name}"/></td>
             <td><c:out value="${book.inStock}"/></td>
             <td><c:out value="${book.author.name}"/></td>
+            <td><a href="${booksDeleteUrl += '\\' += book.id}">Delete book</a></td>
         </tr>
     </c:forEach>
 </table>
+
+<c:if test="${message != null}">
+    <h5><c:out value="${message}"/></h5>
+</c:if>
 
 </body>
 </html>

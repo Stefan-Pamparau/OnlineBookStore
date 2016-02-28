@@ -45,7 +45,9 @@ public class ClientController {
         mav.setViewName("store/clients/listClients");
 
         try {
-            clientFacade.insertClient(client);
+            String result = clientFacade.insertClient(client);
+
+            mav.addObject("message", result);
             mav.addObject("clients", clientFacade.listAllClients());
         } catch (FacadeException e) {
             e.printStackTrace();
@@ -64,7 +66,9 @@ public class ClientController {
         mav.setViewName("store/clients/listClients");
 
         try {
-            clientFacade.deleteClient(clientID);
+            String result = clientFacade.deleteClient(clientID);
+
+            mav.addObject("message", result);
             mav.addObject("clients", clientFacade.listAllClients());
         } catch (FacadeException e) {
             e.printStackTrace();
@@ -79,7 +83,9 @@ public class ClientController {
         mav.setViewName("store/clients/listClients");
 
         try {
-            clientFacade.deleteClient(clientID);
+            String result = clientFacade.deleteClient(clientID);
+
+            mav.addObject("message", result);
             mav.addObject("clients", clientFacade.listAllClients());
         } catch (FacadeException e) {
             e.printStackTrace();
@@ -88,7 +94,15 @@ public class ClientController {
         return mav;
     }
 
-    @RequestMapping(path = "/purchase", method = RequestMethod.GET) public String displayPurchaseBookForm() {
+    @RequestMapping(path = "/purchase", method = RequestMethod.GET)
+    public String displayPurchaseBookForm() {
+        return "store/clients/purchaseBook";
+    }
+
+    @RequestMapping(path = "/purchase/{clientId}", method = RequestMethod.GET)
+    public String displayPurchaseBookFormWithRetrievedClientId(@PathVariable Integer clientId, Model model) {
+        model.addAttribute("clientId", clientId);
+
         return "store/clients/purchaseBook";
     }
 
@@ -99,7 +113,9 @@ public class ClientController {
         mav.setViewName("store/clients/listClients");
 
         try {
-            clientFacade.purchaseBook(clientID, bookID);
+            String result = clientFacade.purchaseBook(clientID, bookID);
+
+            mav.addObject("message", result);
             mav.addObject("clients", clientFacade.listAllClients());
         } catch (FacadeException e) {
             e.printStackTrace();
@@ -107,5 +123,4 @@ public class ClientController {
 
         return mav;
     }
-
 }

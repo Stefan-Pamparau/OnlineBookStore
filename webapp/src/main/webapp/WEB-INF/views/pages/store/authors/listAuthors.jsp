@@ -29,5 +29,9 @@
     </c:forEach>
 </table>
 
+<c:if test="${message != null}">
+    <h5><c:out value="${message}"/></h5>
+</c:if>
+
 </body>
 </html>

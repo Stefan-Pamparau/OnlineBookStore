@@ -47,7 +47,8 @@ public class AuthorController {
         mav.setViewName("store/authors/listAuthors");
 
         try {
-            authorFacade.insertAuthor(author);
+            String result = authorFacade.insertAuthor(author);
+            mav.addObject("message", result);
             mav.addObject("authors", authorFacade.getAllAuthors());
         } catch (FacadeException e) {
             e.printStackTrace();
@@ -66,7 +67,8 @@ public class AuthorController {
         mav.setViewName("store/authors/listAuthors");
 
         try {
-            authorFacade.deleteAuthor(authorID);
+            String result = authorFacade.deleteAuthor(authorID);
+            mav.addObject("message", result);
             mav.addObject("authors", authorFacade.getAllAuthors());
         } catch (FacadeException e) {
             e.printStackTrace();
@@ -81,7 +83,8 @@ public class AuthorController {
         mav.setViewName("store/authors/listAuthors");
 
         try {
-            authorFacade.deleteAuthor(authorID);
+            String result = authorFacade.deleteAuthor(authorID);
+            mav.addObject("message", result);
             mav.addObject("authors", authorFacade.getAllAuthors());
         } catch (FacadeException e) {
             e.printStackTrace();
