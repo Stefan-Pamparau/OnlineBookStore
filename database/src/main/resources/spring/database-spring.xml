@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:/hibernate/databaseProperties/databaseProperties.properties"/>
+    <context:component-scan base-package="com.iquestgroup.database"/>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:/hibernate/databaseProperties/databaseProperties.properties"/>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+                <prop key="net.sf.ehcache.configurationResourceName">/hibernate/cacheConfig/ehcache.xml</prop>
+            </props>
+        </property>
+        <property name="mappingResources">
+            <list>
+                <value>/hibernate/mapping/onlineBookStoreMapping.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultAuthorDAO" alias="authorDAO"/>
+    <bean id="defaultAuthorDAO" class="com.iquestgroup.database.impl.DefaultAuthorDAO"/>
+
+    <alias name="defaultBookDAO" alias="bookDAO"/>
+    <bean id="defaultBookDAO" class="com.iquestgroup.database.impl.DefaultBookDAO"/>
+
+    <alias name="defaultClientDAO" alias="clientDAO"/>
+    <bean id="defaultClientDAO" class="com.iquestgroup.database.impl.DefaultClientDAO"/>
+
+</beans>
