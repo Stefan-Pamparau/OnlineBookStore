@@ -3,26 +3,36 @@ CREATE DATABASE IF NOT EXISTS onlineBookStore;
 USE onlineBookStore;
 
 CREATE TABLE IF NOT EXISTS client (
-  id       INT         NOT NULL AUTO_INCREMENT,
-  name     VARCHAR(45) NOT NULL,
-  address  VARCHAR(45) NOT NULL,
-  email    VARCHAR(45) NOT NULL,
-  password VARCHAR(45) NOT NULL,
+  id        INT                  NOT NULL AUTO_INCREMENT,
+  name      VARCHAR(45)          NOT NULL,
+  address   VARCHAR(45)          NOT NULL,
+  serial_id VARCHAR(45) UNIQUE   NOT NULL,
+  PRIMARY KEY (id)
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS client_account (
+  id            INT         NOT NULL AUTO_INCREMENT,
+  email         VARCHAR(45) NOT NULL,
+  password      VARCHAR(45) NOT NULL,
+  creation_date TIMESTAMP            DEFAULT CURRENT_TIMESTAMP,
+  client_id     INT         NOT NULL,
   PRIMARY KEY (id)
 )
   ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS purchase_history (
-  purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  client_id     INT       NOT NULL,
-  book_id       INT       NOT NULL,
-  PRIMARY KEY (client_id, book_id)
+  purchase_date     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  client_account_id INT NOT NULL,
+  book_id           INT NOT NULL,
+  PRIMARY KEY (client_account_id, book_id)
 )
   ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS book (
   id        INT         NOT NULL AUTO_INCREMENT,
-  name      VARCHAR(45) NOT NULL,
+  title     VARCHAR(150) NOT NULL,
+  genre     VARCHAR(45) NOT NULL,
   in_stock  INT         NOT NULL,
   author_id INT         NOT NULL,
   PRIMARY KEY (id)
@@ -39,34 +49,43 @@ CREATE TABLE IF NOT EXISTS author (
 
 INSERT INTO author (name, age)
 VALUES
-  ('Author 1', '20'),
-  ('Author 2', '19');
+  ('Martin fowler', '45'),
+  ('Robert C. Martin', '50'),
+  ('Ian Sommerville', '44'),
+  ('Gang of four', '500');
 
-INSERT INTO book (name, in_stock, author_id)
+INSERT INTO book (title, genre, in_stock, author_id)
 VALUES
-  ('Test book 1', '11', '1'),
-  ('Test book 2', '14', '1'),
-  ('Test book 3', '17', '2'),
-  ('Test book 4', '10', '2');
+  ('Patterns of Enterprise Application Architecture', 'Learning', '5', '1'),
+  ('Domain specific languages', 'Learning', '5', '1'),
+  ('Planning extreme programming', 'Learning', '5', '1'),
+  ('Clean CODE ', 'Learning', '5', '2'),
+  ('Clean coder', 'Learning', '5', '2'),
+  ('UML FOR Java Programmers', 'Learning', '5', '2'),
+  ('Software Engineering 9th Edition', 'Learning', '5', '3'),
+  ('Software Engineering 10th Edition', 'Learning', '5', '3'),
+  ('Design Patterns:Elements of Reusable Object-Oriented Software', 'Learning', '5', '4');
 
-INSERT INTO client(name, address, email, password)
+INSERT INTO client (name, address, serial_id)
 VALUES
-  ('Test client 1', 'Test address 1', 'Test email 1', '123'),
-  ('Test client 2', 'Test address 2', 'Test email 2', '123'),
-  ('Test client 3', 'Test address 3', 'Test email 3', '123'),
-  ('Test client 4', 'Test address 4', 'Test email 4', '123');
+  (' CLIENT 1', 'Cluj, Marasti', 'CJ - 123'),
+  (' CLIENT 2', 'Cluj, Manastur', 'CJ - 124'),
+  (' CLIENT 3', 'Bucuresti, Sector 1', 'B-421'),
+  (' CLIENT 4', 'Alba Iulia', 'AB-123');
 
-INSERT INTO purchase_history(client_id, book_id)
+INSERT INTO client_account (email, password, client_id)
+VALUES
+  ('client1@gmail.com', '123', '1'),
+  ('client1.2@gmail.com', '123', '1'),
+  ('client2@gmail.com', '123', '2'),
+  ('client3@gmail.com', '123', '3'),
+  ('client3.2@gmail.com', '123', '3'),
+  ('client3.3@gmail.com', '123', '3'),
+  ('client1@gmail.com', '123', '4');
+
+INSERT INTO purchase_history (client_account_id, book_id)
 VALUES
   ('1', '1'),
   ('1', '2'),
   ('2', '1'),
   ('2', '2');
-# CREATE TABLE IF NOT EXISTS current_borrows (
-#   date      TIMESTAMP NOT NULL,
-#   validity  TIMESTAMP NOT NULL,
-#   client_id INT       NOT NULL,
-#   book_id   INT       NOT NULL,
-#   PRIMARY KEY (client_id, book_id)
-# )
-#   ENGINE = InnoDB;
