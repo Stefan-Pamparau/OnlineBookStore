@@ -1,25 +1,30 @@
 package com.iquestgroup.model;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
+/**
+ * Model class which models clients of the book store.
+ *
+ * @author Stefan Pamparau
+ */
 public class Client {
     private Integer id;
+
     @NotNull
     @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String name;
+
     @NotNull
     @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String address;
+
     @NotNull
-    @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
-    private String email;
-    @NotNull
-    @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
-    private String password;
-    private Set<Book> books;
-    private Set<PurchaseHistory> purchases;
+    private String serial_id;
+
+    private List<ClientAccount> clientAccounts;
 
     public Integer getId() {
         return id;
@@ -45,48 +50,19 @@ public class Client {
         this.address = address;
     }
 
-    public String getEmail() {
-        return email;
+    public String getSerial_id() {
+        return serial_id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setSerial_id(String serial_id) {
+        this.serial_id = serial_id;
     }
 
-    public String getPassword() {
-        return password;
+    public List<ClientAccount> getClientAccounts() {
+        return clientAccounts;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
-
-    public Set<PurchaseHistory> getPurchases() {
-        return purchases;
-    }
-
-    public void setPurchases(Set<PurchaseHistory> purchases) {
-        this.purchases = purchases;
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", books=" + books +
-                ", purchases=" + purchases +
-                '}';
+    public void setClientAccounts(List<ClientAccount> clientAccount) {
+        this.clientAccounts = clientAccount;
     }
 }
