@@ -26,6 +26,7 @@ public class ClientAccount {
     private Timestamp creationDate;
 
     private Set<Purchase> purchases;
+    private Set<Book> books;
 
     public Integer getId() {
         return id;
@@ -65,5 +66,13 @@ public class ClientAccount {
 
     public void setPurchases(Set<Purchase> purchases) {
         this.purchases = purchases;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 }

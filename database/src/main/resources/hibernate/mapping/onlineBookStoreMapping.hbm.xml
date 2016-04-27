@@ -34,10 +34,15 @@
         <property name="password" type="java.lang.String"/>
         <property name="creationDate" type="java.util.Date"/>
 
-        <set name="purchases" table="purchase_history" inverse="true">
+        <set name="purchases" table="purchase_history" inverse="true" cascade="save-update">
             <cache usage="read-write"/>
             <key column="client_account_id"/>
             <one-to-many class="com.iquestgroup.model.Purchase"/>
+        </set>
+        <set name="books" table="purchase_history">
+            <cache usage="read-write"/>
+            <key column="client_account_id"/>
+            <many-to-many column="book_id" class="com.iquestgroup.model.Book"/>
         </set>
     </class>
 
