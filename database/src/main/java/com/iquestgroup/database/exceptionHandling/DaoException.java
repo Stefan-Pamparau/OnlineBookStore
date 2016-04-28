@@ -5,12 +5,12 @@ package com.iquestgroup.database.exceptionHandling;
  *
  * @author Stefan Pamparau
  */
-public class DAOException extends Exception {
-    public DAOException(String message) {
+public class DaoException extends Exception {
+    public DaoException(String message) {
         super(message);
     }
 
-    public DAOException(String message, Throwable cause) {
+    public DaoException(String message, Throwable cause) {
         super(message, cause);
     }
 }

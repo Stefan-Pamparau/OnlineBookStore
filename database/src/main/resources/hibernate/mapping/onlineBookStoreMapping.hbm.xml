@@ -54,9 +54,9 @@
         <property name="purchaseDate" column="purchase_date" type="java.util.Date"/>
 
         <many-to-one name="clientAccount" column="client_account_id" unique="true"
-                     class="com.iquestgroup.model.ClientAccount" not-null="true"/>
+                     class="com.iquestgroup.model.ClientAccount" not-null="true" update="false" insert="false"/>
         <many-to-one name="book" column="book_id" unique="true"
-                     class="com.iquestgroup.model.Book" not-null="true"/>
+                     class="com.iquestgroup.model.Book" not-null="true" update="false" insert="false"/>
     </class>
 
     <class name="com.iquestgroup.model.Book" table="book">

@@ -30,11 +30,11 @@ CREATE TABLE IF NOT EXISTS purchase_history (
   ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS book (
-  id        INT         NOT NULL AUTO_INCREMENT,
+  id        INT          NOT NULL AUTO_INCREMENT,
   title     VARCHAR(150) NOT NULL,
-  genre     VARCHAR(45) NOT NULL,
-  in_stock  INT         NOT NULL,
-  author_id INT         NOT NULL,
+  genre     VARCHAR(45)  NOT NULL,
+  in_stock  INT          NOT NULL,
+  author_id INT          NOT NULL,
   PRIMARY KEY (id)
 )
   ENGINE = InnoDB;

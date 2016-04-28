@@ -1,7 +1,7 @@
 package com.iquestgroup.service.impl;
 
-import com.iquestgroup.database.BookDAO;
-import com.iquestgroup.database.exceptionHandling.DAOException;
+import com.iquestgroup.database.BookDao;
+import com.iquestgroup.database.exceptionHandling.DaoException;
 import com.iquestgroup.model.Author;
 import com.iquestgroup.model.Book;
 import com.iquestgroup.service.BookService;
@@ -12,13 +12,13 @@ import java.util.List;
 
 public class DefaultBookService implements BookService {
     @Autowired
-    private BookDAO bookDAO;
+    private BookDao bookDAO;
 
     @Override
     public List<Book> getAllBooks() throws ServiceException {
         try {
             return bookDAO.getAllBooks();
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -27,7 +27,7 @@ public class DefaultBookService implements BookService {
     public String insertBook(Book book) throws ServiceException {
         try {
             return bookDAO.insertBook(book);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -36,7 +36,7 @@ public class DefaultBookService implements BookService {
     public String deleteBook(Integer bookID) throws ServiceException {
         try {
             return bookDAO.deleteBook(bookID);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -45,7 +45,7 @@ public class DefaultBookService implements BookService {
     public String updateBook(Book book) throws ServiceException {
         try {
             return bookDAO.updateBook(book);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -54,7 +54,7 @@ public class DefaultBookService implements BookService {
     public Author getBookAuthor(Integer bookID) throws ServiceException {
         try {
             return bookDAO.getBookAuthor(bookID);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }

@@ -1,7 +1,7 @@
 package com.iquestgroup.service.impl;
 
-import com.iquestgroup.database.AuthorDAO;
-import com.iquestgroup.database.exceptionHandling.DAOException;
+import com.iquestgroup.database.AuthorDao;
+import com.iquestgroup.database.exceptionHandling.DaoException;
 import com.iquestgroup.model.Author;
 import com.iquestgroup.service.AuthorService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
@@ -11,13 +11,13 @@ import java.util.List;
 
 public class DefaultAuthorService implements AuthorService {
     @Autowired
-    private AuthorDAO authorDAO;
+    private AuthorDao authorDAO;
 
     @Override
     public List<Author> getAllAuthors() throws ServiceException {
         try {
             return authorDAO.getAllAuthors();
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -26,7 +26,7 @@ public class DefaultAuthorService implements AuthorService {
     public Author getAuthorByID(Integer authorID) throws ServiceException {
         try {
             return authorDAO.getAuthorByID(authorID);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -35,7 +35,7 @@ public class DefaultAuthorService implements AuthorService {
     public String insertAuthor(Author author) throws ServiceException {
         try {
             return authorDAO.insertAuthor(author);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -44,7 +44,7 @@ public class DefaultAuthorService implements AuthorService {
     public String deleteAuthor(Integer authorID) throws ServiceException {
         try {
             return authorDAO.deleteAuthor(authorID);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }

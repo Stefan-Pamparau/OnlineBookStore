@@ -1,62 +1,84 @@
 package com.iquestgroup.database.impl;
 
-import com.iquestgroup.database.AuthorDAO;
-import com.iquestgroup.database.exceptionHandling.DAOException;
+import com.iquestgroup.database.AuthorDao;
+import com.iquestgroup.database.exceptionHandling.DaoException;
 import com.iquestgroup.model.Author;
-import org.hibernate.*;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultAuthorDAO implements AuthorDAO {
+/**
+ * Default implementation of the AuthorDao interface.
+ *
+ * @author Stefan Pamparau
+ */
+public class DefaultAuthorDao implements AuthorDao {
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public List<Author> getAllAuthors() throws DAOException {
-        List<Author> resultList = new ArrayList<>();
-        Transaction transaction = null;
+    public List<Author> getAllAuthors() throws DaoException {
+        List<Author> resultList = null;
 
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
             List authorList = session.createQuery("FROM com.iquestgroup.model.Author").list();
-            for (Object author : authorList) {
-                resultList.add((Author) author);
+
+            if (authorList != null && authorList.size() > 0) {
+                resultList = new ArrayList<>();
+                for (Object author : authorList) {
+                    resultList.add((Author) author);
+                }
             }
         } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new DAOException("An error occurred while trying to retrieve all authors from the database", e);
+            throw new DaoException("An error occurred while trying to retrieve all authors from the database", e);
         }
 
         return resultList;
     }
 
     @Override
-    public Author getAuthorByID(Integer authorID) throws DAOException {
+    public Author getAuthorByID(Integer authorID) throws DaoException {
         Author author = null;
-        Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
             author = session.get(Author.class, authorID);
-            transaction.commit();
         } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new DAOException(
-                "An error occurred while trying to retrieve the author with the id " + authorID + "from the database",
-                e);
+            throw new DaoException("An error occurred while trying to retrieve the author with the id "
+                    + authorID + "from the database", e);
         }
 
         return author;
     }
 
     @Override
-    public String insertAuthor(Author author) throws DAOException {
+    public List<Author> getAuthorByNamePattern(String pattern) throws DaoException {
+        List<Author> result = null;
+
+        try (Session session = sessionFactory.openSession()) {
+            List authorList = session.createQuery("FROM com.iquestgroup.model.Author author where author.name like '%" + pattern + "%'")
+                    .list();
+
+            if (authorList != null && authorList.size() > 0) {
+                result = new ArrayList<>();
+                for (Object object : authorList) {
+                    result.add((Author) object);
+                }
+            }
+        } catch (HibernateException e) {
+            throw new DaoException("An error occurred while trying to retrieve author by pattern.", e);
+        }
+
+        return result;
+    }
+
+    @Override
+    public String insertAuthor(Author author) throws DaoException {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
@@ -67,14 +89,42 @@ public class DefaultAuthorDAO implements AuthorDAO {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DAOException("An error occurred while trying to insert " + author, e);
+            throw new DaoException("An error occurred while trying to insert " + author, e);
         }
 
         return "Author with name " + author.getName() + " successfully inserted!";
     }
 
     @Override
-    public String deleteAuthor(Integer authorID) throws DAOException {
+    public String updateAuthor(Author author) throws DaoException {
+        Transaction transaction = null;
+
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            Author persistentAuthor = session.get(Author.class, author.getId());
+
+            if (persistentAuthor != null) {
+                persistentAuthor.setName(author.getName());
+                persistentAuthor.setAge(author.getAge());
+
+                session.save(persistentAuthor);
+                transaction.commit();
+            } else {
+                return "Cannot updated author. Author does not exist in the database.";
+            }
+
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DaoException("An error occurred while trying to update author.", e);
+        }
+
+        return "Author with name " + author.getName() + " successfully updated!";
+    }
+
+    @Override
+    public String deleteAuthor(Integer authorID) throws DaoException {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
@@ -91,8 +141,8 @@ public class DefaultAuthorDAO implements AuthorDAO {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DAOException(
-                "An error occurred while trying to delete author with id: " + authorID + " from the database", e);
+            throw new DaoException(
+                    "An error occurred while trying to delete author with id: " + authorID + " from the database", e);
         }
 
         return "Author with id: " + authorID + " successfully deleted from the database!";
