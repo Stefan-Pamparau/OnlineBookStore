@@ -44,16 +44,12 @@ public class DefaultAuthorDao implements AuthorDao {
 
     @Override
     public Author getAuthorByID(Integer authorID) throws DaoException {
-        Author author = null;
-
         try (Session session = sessionFactory.openSession()) {
-            author = session.get(Author.class, authorID);
+            return session.get(Author.class, authorID);
         } catch (HibernateException e) {
             throw new DaoException("An error occurred while trying to retrieve the author with the id "
                     + authorID + "from the database", e);
         }
-
-        return author;
     }
 
     @Override

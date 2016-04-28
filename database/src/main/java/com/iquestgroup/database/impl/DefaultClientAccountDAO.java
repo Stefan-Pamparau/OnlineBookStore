@@ -63,6 +63,15 @@ public class DefaultClientAccountDao implements ClientAccountDao {
     }
 
     @Override
+    public ClientAccount getClientAccountById(Integer clientAccountId) throws DaoException {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(ClientAccount.class, clientAccountId);
+        } catch (HibernateException e) {
+            throw new DaoException("Cannot retrieve client account by id", e);
+        }
+    }
+
+    @Override
     public String insertClientAccount(ClientAccount account) throws DaoException {
         Transaction transaction = null;
 
