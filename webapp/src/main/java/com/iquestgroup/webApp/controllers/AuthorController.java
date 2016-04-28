@@ -17,6 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
+/**
+ * Controller mapped to respond to author specific requests.
+ *
+ * @author Stefan Pamparau
+ */
 @Controller("AuthorController")
 @RequestMapping(path = "authors")
 public class AuthorController {
