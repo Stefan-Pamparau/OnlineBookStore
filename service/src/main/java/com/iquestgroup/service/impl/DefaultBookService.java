@@ -6,6 +6,7 @@ import com.iquestgroup.model.Author;
 import com.iquestgroup.model.Book;
 import com.iquestgroup.service.BookService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -18,6 +19,33 @@ public class DefaultBookService implements BookService {
     public List<Book> getAllBooks() throws ServiceException {
         try {
             return bookDAO.getAllBooks();
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<Book> getAllBooksByTitlePattern(String pattern) throws ServiceException {
+        try {
+            return bookDAO.getAllBooksByTitlePattern(pattern);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public Book getBookById(Integer bookId) throws ServiceException {
+        try {
+            return bookDAO.getBookById(bookId);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<Book> getBooksOfAuthor(Author author) throws ServiceException {
+        try {
+            return bookDAO.getBooksOfAuthor(author);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
