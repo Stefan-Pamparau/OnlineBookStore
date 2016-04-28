@@ -25,6 +25,9 @@ public class ClientAccount {
     @NotNull
     private Timestamp creationDate;
 
+    @NotNull
+    private Integer balance;
+
     private Set<Purchase> purchases;
     private Set<Book> books;
 
@@ -58,6 +61,14 @@ public class ClientAccount {
 
     public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
     }
 
     public Set<Purchase> getPurchases() {

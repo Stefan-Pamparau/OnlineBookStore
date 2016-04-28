@@ -65,14 +65,4 @@ public interface ClientAccountDao {
      * @throws DaoException - thrown when a Hibernate exception occurs
      */
     String deleteClientAccount(Integer clientAccountId) throws DaoException;
-
-    /**
-     * Purchases a book by id.
-     *
-     * @param clientAccountID - id of the client account which will be used for purchasing
-     * @param bookID          - id of the book to be purchased
-     * @return - a message about the result of the operation
-     * @throws DaoException - thrown when a Hibernate exception occurs
-     */
-    String purchaseBook(Integer clientAccountID, Integer bookID) throws DaoException;
 }

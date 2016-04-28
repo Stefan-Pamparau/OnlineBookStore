@@ -17,6 +17,9 @@ public class Book {
     @NotNull
     private Integer inStock;
 
+    @NotNull
+    private Integer price;
+
     private Author author;
 
     public Integer getId() {
@@ -49,6 +52,14 @@ public class Book {
 
     public void setInStock(Integer inStock) {
         this.inStock = inStock;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public Author getAuthor() {

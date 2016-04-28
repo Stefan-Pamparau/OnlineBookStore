@@ -30,9 +30,10 @@
         <id name="id">
             <generator class="native"/>
         </id>
-        <property name="email" type="java.lang.String"/>
-        <property name="password" type="java.lang.String"/>
-        <property name="creationDate" type="java.util.Date"/>
+        <property name="email" column="email" type="java.lang.String"/>
+        <property name="password" column="password" type="java.lang.String"/>
+        <property name="creationDate" column="creation_date" type="java.util.Date"/>
+        <property name="balance" column="balance" type="java.lang.Integer"/>
 
         <set name="purchases" table="purchase_history" inverse="true" cascade="save-update">
             <cache usage="read-write"/>
@@ -54,9 +55,11 @@
         <property name="purchaseDate" column="purchase_date" type="java.util.Date"/>
 
         <many-to-one name="clientAccount" column="client_account_id" unique="true"
-                     class="com.iquestgroup.model.ClientAccount" not-null="true" update="false" insert="false"/>
+                     class="com.iquestgroup.model.ClientAccount" not-null="true" update="false"
+                     insert="false"/>
         <many-to-one name="book" column="book_id" unique="true"
-                     class="com.iquestgroup.model.Book" not-null="true" update="false" insert="false"/>
+                     class="com.iquestgroup.model.Book" not-null="true" update="false"
+                     insert="false"/>
     </class>
 
     <class name="com.iquestgroup.model.Book" table="book">
@@ -70,6 +73,7 @@
         <property name="title" column="title" type="string"/>
         <property name="genre" column="genre" type="string"/>
         <property name="inStock" column="in_stock" type="int"/>
+        <property name="price" column="price" type="int"/>
 
         <many-to-one name="author" column="author_id" class="com.iquestgroup.model.Author"
                      not-null="true"/>

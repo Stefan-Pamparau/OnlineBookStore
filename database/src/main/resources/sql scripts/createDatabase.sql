@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS client_account (
   email         VARCHAR(45) NOT NULL,
   password      VARCHAR(45) NOT NULL,
   creation_date TIMESTAMP            DEFAULT CURRENT_TIMESTAMP,
+  balance       INT         NOT NULL,
   client_id     INT         NOT NULL,
   PRIMARY KEY (id)
 )
@@ -34,6 +35,7 @@ CREATE TABLE IF NOT EXISTS book (
   title     VARCHAR(150) NOT NULL,
   genre     VARCHAR(45)  NOT NULL,
   in_stock  INT          NOT NULL,
+  price     INT          NOT NULL,
   author_id INT          NOT NULL,
   PRIMARY KEY (id)
 )
@@ -54,17 +56,17 @@ VALUES
   ('Ian Sommerville', '44'),
   ('Gang of four', '500');
 
-INSERT INTO book (title, genre, in_stock, author_id)
+INSERT INTO book (title, genre, in_stock, price, author_id)
 VALUES
-  ('Patterns of Enterprise Application Architecture', 'Learning', '5', '1'),
-  ('Domain specific languages', 'Learning', '5', '1'),
-  ('Planning extreme programming', 'Learning', '5', '1'),
-  ('Clean CODE ', 'Learning', '5', '2'),
-  ('Clean coder', 'Learning', '5', '2'),
-  ('UML FOR Java Programmers', 'Learning', '5', '2'),
-  ('Software Engineering 9th Edition', 'Learning', '5', '3'),
-  ('Software Engineering 10th Edition', 'Learning', '5', '3'),
-  ('Design Patterns:Elements of Reusable Object-Oriented Software', 'Learning', '5', '4');
+  ('Patterns of Enterprise Application Architecture', 'Learning', '5', '100', '1'),
+  ('Domain specific languages', 'Learning', '5', '100', '1'),
+  ('Planning extreme programming', 'Learning', '5', '100', '1'),
+  ('Clean CODE ', 'Learning', '5', '100', '2'),
+  ('Clean coder', 'Learning', '5', '100', '2'),
+  ('UML FOR Java Programmers', 'Learning', '5', '100', '2'),
+  ('Software Engineering 9th Edition', 'Learning', '5', '100', '3'),
+  ('Software Engineering 10th Edition', 'Learning', '5', '100', '3'),
+  ('Design Patterns:Elements of Reusable Object-Oriented Software', 'Learning', '5', '100', '4');
 
 INSERT INTO client (name, address, serial_id)
 VALUES
@@ -73,15 +75,15 @@ VALUES
   (' CLIENT 3', 'Bucuresti, Sector 1', 'B-421'),
   (' CLIENT 4', 'Alba Iulia', 'AB-123');
 
-INSERT INTO client_account (email, password, client_id)
+INSERT INTO client_account (email, password, balance, client_id)
 VALUES
-  ('client1@gmail.com', '123', '1'),
-  ('client1.2@gmail.com', '123', '1'),
-  ('client2@gmail.com', '123', '2'),
-  ('client3@gmail.com', '123', '3'),
-  ('client3.2@gmail.com', '123', '3'),
-  ('client3.3@gmail.com', '123', '3'),
-  ('client1@gmail.com', '123', '4');
+  ('client1@gmail.com', '123', '1000', '1'),
+  ('client1.2@gmail.com', '123', '1000', '1'),
+  ('client2@gmail.com', '123', '1000', '2'),
+  ('client3@gmail.com', '123', '1000', '3'),
+  ('client3.2@gmail.com', '123', '1000', '3'),
+  ('client3.3@gmail.com', '123', '1000', '3'),
+  ('client1@gmail.com', '123', '1000', '4');
 
 INSERT INTO purchase_history (client_account_id, book_id)
 VALUES
