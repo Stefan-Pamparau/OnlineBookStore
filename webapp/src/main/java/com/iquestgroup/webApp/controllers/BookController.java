@@ -1,15 +1,20 @@
 package com.iquestgroup.webApp.controllers;
 
-import com.iquestgroup.facade.AuthorFacade;
-import com.iquestgroup.facade.BookFacade;
-import com.iquestgroup.facade.exceptionHandling.FacadeException;
 import com.iquestgroup.model.Author;
 import com.iquestgroup.model.Book;
+import com.iquestgroup.service.AuthorService;
+import com.iquestgroup.service.BookService;
+import com.iquestgroup.service.exceptionHandling.ServiceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -18,9 +23,9 @@ import javax.validation.Valid;
 @RequestMapping(path = "/books")
 public class BookController {
     @Autowired
-    private BookFacade bookFacade;
+    private BookService bookService;
     @Autowired
-    private AuthorFacade authorFacade;
+    private AuthorService authorService;
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
     public ModelAndView listAllBooks() {
@@ -28,8 +33,8 @@ public class BookController {
         mav.setViewName("store/books/listBooks");
 
         try {
-            mav.addObject("books", bookFacade.getAllBooks());
-        } catch (FacadeException e) {
+            mav.addObject("books", bookService.getAllBooks());
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 
@@ -44,7 +49,7 @@ public class BookController {
 
     @RequestMapping(path = "/insert", method = RequestMethod.POST)
     public ModelAndView insertBook(@Valid @ModelAttribute Book book, BindingResult bindingResult,
-        @RequestParam("authorID") Integer authorID) {
+                                   @RequestParam("authorID") Integer authorID) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/store/books/insertBook");
         }
@@ -53,13 +58,13 @@ public class BookController {
         mav.setViewName("store/books/listBooks");
 
         try {
-            Author author = authorFacade.getAuthorByID(authorID);
+            Author author = authorService.getAuthorByID(authorID);
             book.setAuthor(author);
-            String result = bookFacade.insertBook(book);
+            String result = bookService.insertBook(book);
 
             mav.addObject("message", result);
-            mav.addObject("books", bookFacade.getAllBooks());
-        } catch (FacadeException e) {
+            mav.addObject("books", bookService.getAllBooks());
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 
@@ -77,11 +82,11 @@ public class BookController {
         mav.setViewName("store/books/listBooks");
 
         try {
-            String result = bookFacade.deleteBook(bookID);
+            String result = bookService.deleteBook(bookID);
 
             mav.addObject("message", result);
-            mav.addObject("books", bookFacade.getAllBooks());
-        } catch (FacadeException e) {
+            mav.addObject("books", bookService.getAllBooks());
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 
@@ -94,11 +99,11 @@ public class BookController {
         mav.setViewName("store/books/listBooks");
 
         try {
-            String result = bookFacade.deleteBook(bookID);
+            String result = bookService.deleteBook(bookID);
 
             mav.addObject("message", result);
-            mav.addObject("books", bookFacade.getAllBooks());
-        } catch (FacadeException e) {
+            mav.addObject("books", bookService.getAllBooks());
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 

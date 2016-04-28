@@ -30,6 +30,15 @@ public interface BookDao {
     List<Book> getAllBooksByTitlePattern(String pattern) throws DaoException;
 
     /**
+     * Returns an instance of book from the database, based on the books id.
+     *
+     * @param bookId - id of book to be found
+     * @return - an instance of book based on it's id. null if no instances are found
+     * @throws DaoException - thrown when a Hibernate specific exception occurs
+     */
+    Book getBookById(Integer bookId) throws DaoException;
+
+    /**
      * Returns all books of an author.
      *
      * @param author - author whose books will be retrieved

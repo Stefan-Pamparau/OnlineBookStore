@@ -63,6 +63,15 @@ public class DefaultBookDao implements BookDao {
     }
 
     @Override
+    public Book getBookById(Integer bookId) throws DaoException {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Book.class, bookId);
+        } catch (HibernateException e) {
+            throw new DaoException("Cannot retrieve book by id.", e);
+        }
+    }
+
+    @Override
     public List<Book> getBooksOfAuthor(Author author) throws DaoException {
         List<Book> result = null;
 
@@ -134,6 +143,7 @@ public class DefaultBookDao implements BookDao {
                 persistentBook.setGenre(book.getGenre());
                 persistentBook.setTitle(book.getTitle());
                 persistentBook.setInStock(book.getInStock());
+                persistentBook.setPrice(book.getPrice());
                 session.update(book);
                 transaction.commit();
             } else {

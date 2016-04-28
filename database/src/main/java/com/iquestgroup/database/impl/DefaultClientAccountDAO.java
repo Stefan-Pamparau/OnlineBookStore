@@ -109,6 +109,7 @@ public class DefaultClientAccountDao implements ClientAccountDao {
             if (persistenClientAccount != null) {
                 persistenClientAccount.setEmail(account.getEmail());
                 persistenClientAccount.setPassword(account.getPassword());
+                persistenClientAccount.setBalance(account.getBalance());
                 session.update(persistenClientAccount);
                 transaction.commit();
             } else {
@@ -147,36 +148,5 @@ public class DefaultClientAccountDao implements ClientAccountDao {
         }
 
         return "Client account successfully deleted.";
-    }
-
-    @Override
-    public String purchaseBook(Integer clientAccountID, Integer bookID) throws DaoException {
-        Transaction transaction = null;
-
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            Book book = session.get(Book.class, bookID);
-            ClientAccount clientAccount = session.get(ClientAccount.class, clientAccountID);
-            if ((book == null) || (clientAccount == null)) {
-                return "Book or client with specified id does not exist in the database!";
-            } else {
-                if (book.getInStock() > 0) {
-                    book.setInStock(book.getInStock() - 1);
-                    clientAccount.getBooks().add(book);
-                } else {
-                    return "Not enough books with id: " + bookID + " in stock";
-                }
-            }
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-
-            throw new DaoException("An error occurred while trying to purchase the book with id: " + bookID
-                    + " for the client with the id: " + clientAccountID, e);
-        }
-
-        return "Successfully purchased the book with id: " + bookID + " for the client with the id: " + clientAccountID;
     }
 }

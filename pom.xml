@@ -9,7 +9,6 @@
 
     <modules>
         <module>webApp</module>
-        <module>facade</module>
         <module>service</module>
         <module>database</module>
         <module>model</module>

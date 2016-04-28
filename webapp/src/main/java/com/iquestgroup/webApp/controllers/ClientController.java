@@ -1,13 +1,18 @@
 package com.iquestgroup.webApp.controllers;
 
-import com.iquestgroup.facade.ClientFacade;
-import com.iquestgroup.facade.exceptionHandling.FacadeException;
 import com.iquestgroup.model.Client;
+import com.iquestgroup.service.ClientService;
+import com.iquestgroup.service.exceptionHandling.ServiceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -16,22 +21,24 @@ import javax.validation.Valid;
 @RequestMapping(path = "/clients")
 public class ClientController {
     @Autowired
-    private ClientFacade clientFacade;
+    private ClientService clientService;
 
-    @RequestMapping(path = "/list", method = RequestMethod.GET) public ModelAndView listAllClients() {
+    @RequestMapping(path = "/list", method = RequestMethod.GET)
+    public ModelAndView listAllClients() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/clients/listClients");
 
         try {
-            mav.addObject("clients", clientFacade.listAllClients());
-        } catch (FacadeException e) {
+            mav.addObject("clients", clientService.getAllClients());
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 
         return mav;
     }
 
-    @RequestMapping(path = "/insert", method = RequestMethod.GET) public String displayInsertClientForm(Model model) {
+    @RequestMapping(path = "/insert", method = RequestMethod.GET)
+    public String displayInsertClientForm(Model model) {
         model.addAttribute("client", new Client());
         return "store/clients/insertClient";
     }
@@ -45,18 +52,19 @@ public class ClientController {
         mav.setViewName("store/clients/listClients");
 
         try {
-            String result = clientFacade.insertClient(client);
+            String result = clientService.insertClient(client);
 
             mav.addObject("message", result);
-            mav.addObject("clients", clientFacade.listAllClients());
-        } catch (FacadeException e) {
+            mav.addObject("clients", clientService.getAllClients());
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 
         return mav;
     }
 
-    @RequestMapping(path = "/delete", method = RequestMethod.GET) public String displayDeleteClientForm() {
+    @RequestMapping(path = "/delete", method = RequestMethod.GET)
+    public String displayDeleteClientForm() {
         return "store/clients/deleteClient";
     }
 
@@ -66,11 +74,11 @@ public class ClientController {
         mav.setViewName("store/clients/listClients");
 
         try {
-            String result = clientFacade.deleteClient(clientID);
+            String result = clientService.deleteClient(clientID);
 
             mav.addObject("message", result);
-            mav.addObject("clients", clientFacade.listAllClients());
-        } catch (FacadeException e) {
+            mav.addObject("clients", clientService.getAllClients());
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 
@@ -83,11 +91,11 @@ public class ClientController {
         mav.setViewName("store/clients/listClients");
 
         try {
-            String result = clientFacade.deleteClient(clientID);
+            String result = clientService.deleteClient(clientID);
 
             mav.addObject("message", result);
-            mav.addObject("clients", clientFacade.listAllClients());
-        } catch (FacadeException e) {
+            mav.addObject("clients", clientService.getAllClients());
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 
@@ -108,18 +116,18 @@ public class ClientController {
 
     @RequestMapping(path = "/purchase", method = RequestMethod.POST)
     public ModelAndView purchaseBook(@RequestParam("clientID") Integer clientID,
-        @RequestParam("bookID") Integer bookID) {
+                                     @RequestParam("bookID") Integer bookID) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/clients/listClients");
 
-        try {
-            String result = clientFacade.purchaseBook(clientID, bookID);
-
-            mav.addObject("message", result);
-            mav.addObject("clients", clientFacade.listAllClients());
-        } catch (FacadeException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            String result = clientService.purchaseBook(clientID, bookID);
+//
+//            mav.addObject("message", result);
+//            mav.addObject("clients", clientService.listAllClients());
+//        } catch (FacadeException e) {
+//            e.printStackTrace();
+//        }
 
         return mav;
     }
