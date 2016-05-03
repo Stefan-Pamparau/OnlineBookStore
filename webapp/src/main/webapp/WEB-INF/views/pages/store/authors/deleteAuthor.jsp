@@ -18,8 +18,10 @@
 </head>
 <body>
 
+<jsp:include page="../../../../fragments/navigationBar.jsp"/>
+
 <div class="container">
-    <form:form method="POST" action="authors/delete" cssClass="form-horizontal">
+    <form:form method="POST" action="/authors/delete" cssClass="form-horizontal">
         <div class="form-group">
             <label class="control-label col-sm-2" for="authorIdField">Author id</label>
             <div class="col-sm-10">
