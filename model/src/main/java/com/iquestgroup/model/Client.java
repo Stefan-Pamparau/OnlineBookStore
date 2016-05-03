@@ -22,7 +22,7 @@ public class Client {
     private String address;
 
     @NotNull
-    private String serial_id;
+    private String serialId;
 
     private Set<ClientAccount> clientAccounts;
 
@@ -50,12 +50,12 @@ public class Client {
         this.address = address;
     }
 
-    public String getSerial_id() {
-        return serial_id;
+    public String getSerialId() {
+        return serialId;
     }
 
-    public void setSerial_id(String serial_id) {
-        this.serial_id = serial_id;
+    public void setSerialId(String serialId) {
+        this.serialId = serialId;
     }
 
     public Set<ClientAccount> getClientAccounts() {
