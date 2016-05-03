@@ -14,7 +14,7 @@
         </id>
         <property name="name" column="name" type="string"/>
         <property name="address" column="address" type="string"/>
-        <property name="serial_id" column="serial_id" type="string"/>
+        <property name="serialId" column="serial_id" type="string"/>
 
         <set name="clientAccounts" table="client_account" inverse="true">
             <cache usage="read-write"/>
