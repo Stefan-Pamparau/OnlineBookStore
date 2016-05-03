@@ -1,6 +1,6 @@
 package com.iquestgroup.model;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,7 +24,7 @@ public class Client {
     @NotNull
     private String serial_id;
 
-    private List<ClientAccount> clientAccounts;
+    private Set<ClientAccount> clientAccounts;
 
     public Integer getId() {
         return id;
@@ -58,11 +58,11 @@ public class Client {
         this.serial_id = serial_id;
     }
 
-    public List<ClientAccount> getClientAccounts() {
+    public Set<ClientAccount> getClientAccounts() {
         return clientAccounts;
     }
 
-    public void setClientAccounts(List<ClientAccount> clientAccount) {
+    public void setClientAccounts(Set<ClientAccount> clientAccount) {
         this.clientAccounts = clientAccount;
     }
 }
