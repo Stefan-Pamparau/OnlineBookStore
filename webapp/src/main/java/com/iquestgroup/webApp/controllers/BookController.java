@@ -7,8 +7,10 @@ import com.iquestgroup.service.BookService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller("BookController")
@@ -47,9 +50,16 @@ public class BookController {
         return "store/books/insertBook";
     }
 
+    @RequestMapping(path = "/insert/{authorId}", method = RequestMethod.GET)
+    public String insertBookForSpecifiedAuthorId(@PathVariable Integer authorId, ModelMap model) {
+        model.addAttribute("authorId", authorId);
+        model.addAttribute("book", new Book());
+        return "store/books/insertBook";
+    }
+
     @RequestMapping(path = "/insert", method = RequestMethod.POST)
     public ModelAndView insertBook(@Valid @ModelAttribute Book book, BindingResult bindingResult,
-                                   @RequestParam("authorID") Integer authorID) {
+                                   @RequestParam("authorId") Integer authorID) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/store/books/insertBook");
         }
@@ -71,19 +81,13 @@ public class BookController {
         return mav;
     }
 
-    @RequestMapping(path = "/insert/{authorId}", method = RequestMethod.GET)
-    public ModelAndView insertBookForSpecifiedAuthorId(@PathVariable Integer authorId) {
-        // TODO : implement method
-        return null;
-    }
-
     @RequestMapping(path = "/delete", method = RequestMethod.GET)
     public String displayDeleteAuthorForm() {
         return "store/books/deleteBook";
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public ModelAndView deleteBook(@RequestParam("bookID") Integer bookID) {
+    public ModelAndView deleteBook(@RequestParam("bookId") Integer bookID) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/books/listBooks");
 
