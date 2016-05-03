@@ -30,8 +30,8 @@
                 <td><c:out value="${loopStatus.index}"/></td>
                 <td><c:out value="${author.name}"/></td>
                 <td><c:out value="${author.age}"/></td>
-                <td><a href="${bookInsertUrl += '\\' += author.id}">Insert book for author</a></td>
-                <td><a href="${deleteAuthorUrl += '\\' += author.id}">Delete author</a></td>
+                <td><a href="${bookInsertUrl += '/' += author.id}">Insert book for author</a></td>
+                <td><a href="${deleteAuthorUrl += '/' += author.id}">Delete author</a></td>
             </tr>
         </c:forEach>
         </tbody>

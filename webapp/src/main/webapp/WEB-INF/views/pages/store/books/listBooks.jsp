@@ -42,7 +42,7 @@
                 <td><c:out value="${book.inStock}"/></td>
                 <td><c:out value="${book.price}"/></td>
                 <td><c:out value="${book.author.name}"/></td>
-                <td><a href="${booksDeleteUrl += '\\' += book.id}">Delete book</a></td>
+                <td><a href="${booksDeleteUrl += '/' += book.id}">Delete book</a></td>
             </tr>
         </c:forEach>
         </tbody>

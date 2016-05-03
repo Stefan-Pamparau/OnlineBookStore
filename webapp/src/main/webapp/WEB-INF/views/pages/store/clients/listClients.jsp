@@ -41,8 +41,8 @@
             <td><c:out value="${client.address}"/></td>
             <td><c:out value="${client.serialId}"/></td>
             <td><a href="${clientListClientAccountsUrl}">Show client accounts</a></td>
-            <td><a href="${clientAddAccountUrl += "\\" += client.id}">Add client account</a></td>
-            <td><a href="${clientsDeleteUrl += "\\" += client.id}">Delete client</a></td>
+            <td><a href="${clientAddAccountUrl += '/' += client.id}">Add client account</a></td>
+            <td><a href="${clientsDeleteUrl += '/' += client.id}">Delete client</a></td>
             </c:forEach>
         </tbody>
     </table>
