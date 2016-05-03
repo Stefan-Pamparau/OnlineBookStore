@@ -11,22 +11,26 @@
 <html>
 <head>
     <title>Delete author</title>
+    <link rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<form:form method="POST" action="/authors/delete">
-    <table border="0" align="left">
-        <tr>
-            <td>Author ID</td>
-            <td><label><input type="number" name="authorID"/></label></td>
-        </tr>
-        <tr>
-            <td>
-                <input type="submit" value="Delete author">
-            </td>
-        </tr>
-    </table>
-</form:form>
-
+<div class="container">
+    <form:form method="POST" action="authors/delete" cssClass="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="authorIdField">Author id</label>
+            <div class="col-sm-10">
+                <input id=authorIdField" type="number" name="authorID" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Delete author</button>
+        </div>
+    </form:form>
+</div>
 </body>
+
 </html>
