@@ -26,6 +26,7 @@
 
     <security:http auto-config="true" use-expressions="true">
         <security:intercept-url pattern="/" access="permitAll"/>
+        <security:intercept-url pattern="/static/**" access="permitAll"/>
         <security:intercept-url pattern="/login" access="permitAll"/>
         <security:intercept-url pattern="/*/insert" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/*/delete" access="hasRole('ROLE_ADMIN')"/>
