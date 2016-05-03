@@ -50,7 +50,7 @@
     </bean>
 
     <alias name="defaultAuthorDao" alias="authorDao"/>
-    <bean id="defaultAuthorDAO" class="com.iquestgroup.database.impl.DefaultAuthorDao"/>
+    <bean id="defaultAuthorDao" class="com.iquestgroup.database.impl.DefaultAuthorDao"/>
 
     <alias name="defaultBookDao" alias="bookDao"/>
     <bean id="defaultBookDao" class="com.iquestgroup.database.impl.DefaultBookDao"/>
