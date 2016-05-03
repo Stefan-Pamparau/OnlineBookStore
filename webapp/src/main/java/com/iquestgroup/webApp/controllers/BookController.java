@@ -71,6 +71,12 @@ public class BookController {
         return mav;
     }
 
+    @RequestMapping(path = "/insert/{authorId}", method = RequestMethod.GET)
+    public ModelAndView insertBookForSpecifiedAuthorId(@PathVariable Integer authorId) {
+        // TODO : implement method
+        return null;
+    }
+
     @RequestMapping(path = "/delete", method = RequestMethod.GET)
     public String displayDeleteAuthorForm() {
         return "store/books/deleteBook";

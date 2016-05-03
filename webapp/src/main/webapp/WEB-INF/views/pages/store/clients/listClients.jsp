@@ -10,49 +10,48 @@
 <html>
 <head>
     <title>All clients of the store</title>
+    <link rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
 
+<jsp:include page="../../../../fragments/navigationBar.jsp"/>
+
+<c:url value="/clientAccounts/list" var="clientListClientAccountsUrl"/>
+<c:url value="/clientAccounts/insert" var="clientAddAccountUrl"/>
 <c:url value="/clients/delete" var="clientsDeleteUrl"/>
-<c:url value="/clients/purchase" var="clientsPurchaseUrl"/>
 
-<table border="1">
-    <tr>
-        <td>Client name</td>
-        <td>Client address</td>
-        <td>Client email</td>
-        <td>Client books</td>
-        <td>Client purchases</td>
-    </tr>
-
-    <c:forEach var="client" items="${clients}">
+<div class="table-responsive">
+    <table class="table">
+        <thead>
         <tr>
+            <th>#</th>
+            <th>Client name</th>
+            <th>Client address</th>
+            <th>Client serial id</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="client" items="${clients}" varStatus="loopStatus">
+        <tr>
+            <td><c:out value="${loopStatus.index}"/></td>
             <td><c:out value="${client.name}"/></td>
             <td><c:out value="${client.address}"/></td>
-            <td><c:out value="${client.email}"/></td>
-            <td>
-                <c:forEach var="book" items="${client.books}">
-                    <c:out value="${book.name}"/>
-                </c:forEach>
-            </td>
-            <td>
-                <c:forEach var="purchase" items="${client.purchases}">
-                    <c:out value="${purchase.purchaseDate}"/>
-                    <c:out value="${purchase.book.name}"/>
-                    <br>
-                </c:forEach>
-            </td>
-            <td>
-                <a href="${clientsPurchaseUrl += "\\" += client.id}">Purchase book</a>
-            </td>
-            <td>
-                <a href="${clientsDeleteUrl += "\\" += client.id}">Delete client</a>
-            </td>
-    </c:forEach>
-</table>
+            <td><c:out value="${client.serialId}"/></td>
+            <td><a href="${clientListClientAccountsUrl}">Show client accounts</a></td>
+            <td><a href="${clientAddAccountUrl += "\\" += client.id}">Add client account</a></td>
+            <td><a href="${clientsDeleteUrl += "\\" += client.id}">Delete client</a></td>
+            </c:forEach>
+        </tbody>
+    </table>
+</div>
 
 <c:if test="${message != null}">
-    <h5><c:out value="${message}"/></h5>
+    <div class="alert alert-info">
+        <h5><c:out value="${message}"/></h5>
+    </div>
 </c:if>
 
 </body>

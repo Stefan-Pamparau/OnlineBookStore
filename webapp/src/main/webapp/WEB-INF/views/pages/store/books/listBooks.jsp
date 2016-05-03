@@ -10,29 +10,49 @@
 <html>
 <head>
     <title>Books in the store</title>
+    <link rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
 
+<jsp:include page="../../../../fragments/navigationBar.jsp"/>
+
 <c:url value="/books/delete" var="booksDeleteUrl"/>
 
-<table border="1">
-    <tr>
-        <td><p>Book name</p></td>
-        <td><p>Number of books in store</p></td>
-        <td><p>Author name</p></td>
-    </tr>
-    <c:forEach var="book" items="${books}">
+<div class="table-responsive">
+    <table class="table">
+        <thead>
         <tr>
-            <td><c:out value="${book.name}"/></td>
-            <td><c:out value="${book.inStock}"/></td>
-            <td><c:out value="${book.author.name}"/></td>
-            <td><a href="${booksDeleteUrl += '\\' += book.id}">Delete book</a></td>
+            <th>#</th>
+            <th>Book title</th>
+            <th>Book genre</th>
+            <th>Number of books in store</th>
+            <th>Price</th>
+            <th>Author name</th>
         </tr>
-    </c:forEach>
-</table>
+        </thead>
+        <tbody>
+        <c:forEach var="book" items="${books}" varStatus="loopStatus">
+            <tr>
+                <td><c:out value="${loopStatus.index}"/></td>
+                <td><c:out value="${book.title}"/></td>
+                <td><c:out value="${book.genre}"/></td>
+                <td><c:out value="${book.inStock}"/></td>
+                <td><c:out value="${book.price}"/></td>
+                <td><c:out value="${book.author.name}"/></td>
+                <td><a href="${booksDeleteUrl += '\\' += book.id}">Delete book</a></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
 
 <c:if test="${message != null}">
-    <h5><c:out value="${message}"/></h5>
+    <div class="alert alert-info">
+        <h5><c:out value="${message}"/></h5>
+    </div>
 </c:if>
 
 </body>
