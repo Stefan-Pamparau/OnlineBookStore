@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Default implementation of the ClientAccountDao interface.
@@ -46,8 +47,8 @@ public class DefaultClientAccountDao implements ClientAccountDao {
     }
 
     @Override
-    public List<ClientAccount> getClientAccounts(Integer clientId) throws DaoException {
-        List<ClientAccount> result = null;
+    public Set<ClientAccount> getClientAccounts(Integer clientId) throws DaoException {
+        Set<ClientAccount> result = null;
 
         try (Session session = sessionFactory.openSession()) {
             Client client = session.get(Client.class, clientId);

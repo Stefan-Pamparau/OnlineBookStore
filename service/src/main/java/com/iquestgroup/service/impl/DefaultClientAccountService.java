@@ -11,6 +11,7 @@ import com.iquestgroup.service.exceptionHandling.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Default implementation of the ClientAccountService interface.
@@ -33,7 +34,7 @@ public class DefaultClientAccountService implements ClientAccountService {
     }
 
     @Override
-    public List<ClientAccount> getClientAccounts(Integer clientId) throws ServiceException {
+    public Set<ClientAccount> getClientAccounts(Integer clientId) throws ServiceException {
         try {
             return clientAccountDao.getClientAccounts(clientId);
         } catch (DaoException e) {

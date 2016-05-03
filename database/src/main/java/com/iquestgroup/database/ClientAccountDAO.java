@@ -4,6 +4,7 @@ import com.iquestgroup.database.exceptionHandling.DaoException;
 import com.iquestgroup.model.ClientAccount;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface which declares all methods which manipulate ClientAccount model classes.
@@ -28,7 +29,7 @@ public interface ClientAccountDao {
      * found
      * @throws DaoException - thrown when a Hibernate exception occurs
      */
-    List<ClientAccount> getClientAccounts(Integer clientId) throws DaoException;
+    Set<ClientAccount> getClientAccounts(Integer clientId) throws DaoException;
 
     /**
      * Retrieves an instance of a ClientAccount object with the specified id from the database.

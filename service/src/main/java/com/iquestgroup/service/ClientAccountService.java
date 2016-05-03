@@ -4,6 +4,7 @@ import com.iquestgroup.model.ClientAccount;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface which declares all methods available to manipulate Client account objects.
@@ -27,7 +28,7 @@ public interface ClientAccountService {
      * found
      * @throws ServiceException - thrown when a DaoException exception occurs
      */
-    List<ClientAccount> getClientAccounts(Integer clientId) throws ServiceException;
+    Set<ClientAccount> getClientAccounts(Integer clientId) throws ServiceException;
 
     /**
      * Retrieves an instance of a ClientAccount object with the specified id from the database.
