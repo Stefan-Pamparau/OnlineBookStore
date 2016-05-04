@@ -83,7 +83,7 @@ VALUES
   ('client3@gmail.com', '123', '1000', '3'),
   ('client3.2@gmail.com', '123', '1000', '3'),
   ('client3.3@gmail.com', '123', '1000', '3'),
-  ('client1@gmail.com', '123', '1000', '4');
+  ('client4@gmail.com', '123', '1000', '4');
 
 INSERT INTO purchase_history (client_account_id, book_id)
 VALUES
