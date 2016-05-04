@@ -93,9 +93,9 @@ public class AuthorController {
         return mav;
     }
 
-    private void deleteAuthor(@RequestParam("authorId") Integer authorID, ModelAndView mav) {
+    private void deleteAuthor(Integer authorId, ModelAndView mav) {
         try {
-            String result = authorService.deleteAuthor(authorID);
+            String result = authorService.deleteAuthor(authorId);
             mav.addObject("message", result);
             mav.addObject("authors", authorService.getAllAuthors());
         } catch (ServiceException e) {

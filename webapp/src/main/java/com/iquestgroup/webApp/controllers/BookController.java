@@ -104,9 +104,9 @@ public class BookController {
         return mav;
     }
 
-    private void deleteBook(@RequestParam("bookId") Integer bookID, ModelAndView mav) {
+    private void deleteBook(Integer bookId, ModelAndView mav) {
         try {
-            String result = bookService.deleteBook(bookID);
+            String result = bookService.deleteBook(bookId);
 
             mav.addObject("message", result);
             mav.addObject("books", bookService.getAllBooks());
