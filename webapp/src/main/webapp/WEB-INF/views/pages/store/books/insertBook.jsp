@@ -65,7 +65,7 @@
         <div class="form-group">
             <label class="control-label col-sm-2" for="authorIdField">Author ID</label>
             <div class="col-sm-10">
-                <input id="authorIdField" name="authorId" type="number" value="${authorId != null ? authorId : -1}" class="form-control"/>
+                <input id="authorIdField" name="authorId" type="number" value="${authorId != null ? authorId : null}" class="form-control"/>
             </div>
         </div>
         <div class="form-group">

@@ -69,66 +69,33 @@ public class ClientController {
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public ModelAndView deleteClient(@RequestParam("clientID") Integer clientID) {
+    public ModelAndView deleteClientByIdFromRequestParam(@RequestParam("clientId") Integer clientId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/clients/listClients");
 
+        deleteClient(clientId, mav);
+
+        return mav;
+    }
+
+    @RequestMapping(path = "/delete/{clientId}", method = RequestMethod.GET)
+    public ModelAndView deleteClientByUrlID(@PathVariable Integer clientId) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("store/clients/listClients");
+
+        deleteClient(clientId, mav);
+
+        return mav;
+    }
+
+    private void deleteClient(@RequestParam("clientId") Integer clientId, ModelAndView mav) {
         try {
-            String result = clientService.deleteClient(clientID);
+            String result = clientService.deleteClient(clientId);
 
             mav.addObject("message", result);
             mav.addObject("clients", clientService.getAllClients());
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-
-        return mav;
-    }
-
-    @RequestMapping(path = "/delete/{clientID}", method = RequestMethod.GET)
-    public ModelAndView deleteClientByUrlID(@PathVariable Integer clientID) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("store/clients/listClients");
-
-        try {
-            String result = clientService.deleteClient(clientID);
-
-            mav.addObject("message", result);
-            mav.addObject("clients", clientService.getAllClients());
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
-
-        return mav;
-    }
-
-    @RequestMapping(path = "/purchase", method = RequestMethod.GET)
-    public String displayPurchaseBookForm() {
-        return "store/clients/purchaseBook";
-    }
-
-    @RequestMapping(path = "/purchase/{clientId}", method = RequestMethod.GET)
-    public String displayPurchaseBookFormWithRetrievedClientId(@PathVariable Integer clientId, Model model) {
-        model.addAttribute("clientId", clientId);
-
-        return "store/clients/purchaseBook";
-    }
-
-    @RequestMapping(path = "/purchase", method = RequestMethod.POST)
-    public ModelAndView purchaseBook(@RequestParam("clientID") Integer clientID,
-                                     @RequestParam("bookID") Integer bookID) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("store/clients/listClients");
-
-//        try {
-//            String result = clientService.purchaseBook(clientID, bookID);
-//
-//            mav.addObject("message", result);
-//            mav.addObject("clients", clientService.listAllClients());
-//        } catch (FacadeException e) {
-//            e.printStackTrace();
-//        }
-
-        return mav;
     }
 }

@@ -8,38 +8,57 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
+
 <head>
     <title>Insert client</title>
+    <link rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 
-<form:form action="/clients/insert" modelAttribute="client" method="post">
-    <table border="0" align="left">
-        <tr>
-            <td><form:label path="name">Name</form:label></td>
-            <td><form:input path="name" type="text"/></td>
-            <td><form:errors path="name"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="address">Address</form:label></td>
-            <td><form:input path="address" type="text"/></td>
-            <td><form:errors path="address"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="email">Email</form:label></td>
-            <td><form:input path="email" type="text"/></td>
-            <td><form:errors path="email"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="password">Password</form:label></td>
-            <td><form:input path="password" type="password"/></td>
-            <td><form:errors path="password"/></td>
-        </tr>
-        <tr>
-            <td><input type="submit" name="Insert client"></td>
-        </tr>
-    </table>
-</form:form>
+<jsp:include page="../../../../fragments/navigationBar.jsp"/>
+
+<div class="container">
+    <form:form action="/clients/insert" method="POST" modelAttribute="client"
+               cssClass="form-horizontal">
+        <div class="form-group">
+            <form:label path="name" cssClass="control-label col-sm-2"
+                        form="nameField">Name:</form:label>
+            <div class="col-sm-10">
+                <form:input id="nameField" path="name" type="text" cssClass="form-control"/>
+            </div>
+            <div class="alert alert-info">
+                <form:errors path="name"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <form:label path="address" cssClass="control-label col-sm-2"
+                        form="addressField">Address:</form:label>
+            <div class="col-sm-10">
+                <form:input id="addressField" path="address" type="text" cssClass="form-control"/>
+            </div>
+            <div class="alert alert-info">
+                <form:errors path="address"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <form:label path="serialId" cssClass="control-label col-sm-2"
+                        form="serialIdField">Serial id:</form:label>
+            <div class="col-sm-10">
+                <form:input id="serialIdField" path="serialId" type="text" cssClass="form-control"/>
+            </div>
+            <div class="alert alert-info">
+                <form:errors path="serialId"/>
+            </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Insert client</button>
+        </div>
+    </form:form>
+</div>
 
 </body>
 </html>
