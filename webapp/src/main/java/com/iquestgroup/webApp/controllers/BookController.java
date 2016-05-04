@@ -85,21 +85,21 @@ public class BookController {
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public ModelAndView deleteBookByIdFromRequestParam(@RequestParam("bookId") Integer bookID) {
+    public ModelAndView deleteBookByIdFromRequestParam(@RequestParam("bookId") Integer bookId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/books/listBooks");
 
-        deleteBook(bookID, mav);
+        deleteBook(bookId, mav);
 
         return mav;
     }
 
-    @RequestMapping(path = "/delete/{bookID}", method = RequestMethod.GET)
-    public ModelAndView deleteBookByURLID(@PathVariable Integer bookID) {
+    @RequestMapping(path = "/delete/{bookId}", method = RequestMethod.GET)
+    public ModelAndView deleteBookByURLID(@PathVariable Integer bookId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/books/listBooks");
 
-        deleteBook(bookID, mav);
+        deleteBook(bookId, mav);
 
         return mav;
     }
