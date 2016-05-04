@@ -7,7 +7,6 @@ import com.iquestgroup.service.BookService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller("BookController")
@@ -87,18 +85,11 @@ public class BookController {
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public ModelAndView deleteBook(@RequestParam("bookId") Integer bookID) {
+    public ModelAndView deleteBookByIdFromRequestParam(@RequestParam("bookId") Integer bookID) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/books/listBooks");
 
-        try {
-            String result = bookService.deleteBook(bookID);
-
-            mav.addObject("message", result);
-            mav.addObject("books", bookService.getAllBooks());
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
+        deleteBook(bookID, mav);
 
         return mav;
     }
@@ -108,6 +99,12 @@ public class BookController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/books/listBooks");
 
+        deleteBook(bookID, mav);
+
+        return mav;
+    }
+
+    private void deleteBook(@RequestParam("bookId") Integer bookID, ModelAndView mav) {
         try {
             String result = bookService.deleteBook(bookID);
 
@@ -116,7 +113,5 @@ public class BookController {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-
-        return mav;
     }
 }
