@@ -78,10 +78,8 @@ public class DefaultPurchaseService implements PurchaseService {
                     return "Not enough balance in account";
                 }
 
-                for (Purchase purchase : getAllPurchases()) {
-                    if (purchase.getBook().getId().equals(bookId) && purchase.getClientAccount().getId().equals(clientAccountID)) {
-                        return "Book already purchased by client";
-                    }
+                if (checkIfBookAlreadyPurchased(clientAccountID, bookId)) {
+                    return "Book already purchased by client";
                 }
 
                 book.setInStock(book.getInStock() - 1);
@@ -102,5 +100,17 @@ public class DefaultPurchaseService implements PurchaseService {
         }
 
         return "Book successfully purchased.";
+    }
+
+    private boolean checkIfBookAlreadyPurchased(Integer clientAccountID, Integer bookId) throws ServiceException {
+        List<Purchase> purchases = getAllPurchases();
+        if (purchases != null) {
+            for (Purchase purchase : getAllPurchases()) {
+                if (purchase.getBook().getId().equals(bookId) && purchase.getClientAccount().getId().equals(clientAccountID)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
