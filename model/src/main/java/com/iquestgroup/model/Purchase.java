@@ -3,9 +3,9 @@ package com.iquestgroup.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class PurchaseHistory implements Serializable {
+public class Purchase implements Serializable {
     private Timestamp purchaseDate;
-    private Client client;
+    private ClientAccount clientAccount;
     private Book book;
 
     public Timestamp getPurchaseDate() {
@@ -16,12 +16,12 @@ public class PurchaseHistory implements Serializable {
         this.purchaseDate = purchaseDate;
     }
 
-    public Client getClient() {
-        return client;
+    public ClientAccount getClientAccount() {
+        return clientAccount;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClientAccount(ClientAccount clientAccount) {
+        this.clientAccount = clientAccount;
     }
 
     public Book getBook() {
@@ -33,31 +33,21 @@ public class PurchaseHistory implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "PurchaseHistory{" +
-                "purchaseDate=" + purchaseDate +
-                ", book=" + book +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PurchaseHistory that = (PurchaseHistory) o;
+        Purchase purchase = (Purchase) o;
 
-        if (purchaseDate != null ? !purchaseDate.equals(that.purchaseDate) : that.purchaseDate != null) return false;
-        if (client != null ? !client.equals(that.client) : that.client != null) return false;
-        return book != null ? book.equals(that.book) : that.book == null;
+        if (purchaseDate != null ? !purchaseDate.equals(purchase.purchaseDate) : purchase.purchaseDate != null)
+            return false;
+        return book != null ? book.equals(purchase.book) : purchase.book == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = purchaseDate != null ? purchaseDate.hashCode() : 0;
-        result = 31 * result + (client != null ? client.hashCode() : 0);
         result = 31 * result + (book != null ? book.hashCode() : 0);
         return result;
     }

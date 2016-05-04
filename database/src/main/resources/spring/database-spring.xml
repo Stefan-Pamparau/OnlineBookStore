@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath:/hibernate/databaseProperties/databaseProperties.properties"/>
+    <context:property-placeholder
+            location="classpath:/hibernate/databaseProperties/databaseProperties.properties"/>
     <context:component-scan base-package="com.iquestgroup.database"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:/hibernate/databaseProperties/databaseProperties.properties"/>
+        <property name="location"
+                  value="classpath:/hibernate/databaseProperties/databaseProperties.properties"/>
     </bean>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -32,8 +34,12 @@
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
                 <prop key="hibernate.cache.use_query_cache">true</prop>
                 <prop key="hibernate.generate_statistics">true</prop>
-                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
-                <prop key="net.sf.ehcache.configurationResourceName">/hibernate/cacheConfig/ehcache.xml</prop>
+                <prop key="hibernate.cache.region.factory_class">
+                    org.hibernate.cache.ehcache.EhCacheRegionFactory
+                </prop>
+                <prop key="net.sf.ehcache.configurationResourceName">
+                    /hibernate/cacheConfig/ehcache.xml
+                </prop>
             </props>
         </property>
         <property name="mappingResources">
@@ -43,13 +49,19 @@
         </property>
     </bean>
 
-    <alias name="defaultAuthorDAO" alias="authorDAO"/>
-    <bean id="defaultAuthorDAO" class="com.iquestgroup.database.impl.DefaultAuthorDAO"/>
+    <alias name="defaultAuthorDao" alias="authorDao"/>
+    <bean id="defaultAuthorDao" class="com.iquestgroup.database.impl.DefaultAuthorDao"/>
 
-    <alias name="defaultBookDAO" alias="bookDAO"/>
-    <bean id="defaultBookDAO" class="com.iquestgroup.database.impl.DefaultBookDAO"/>
+    <alias name="defaultBookDao" alias="bookDao"/>
+    <bean id="defaultBookDao" class="com.iquestgroup.database.impl.DefaultBookDao"/>
 
-    <alias name="defaultClientDAO" alias="clientDAO"/>
-    <bean id="defaultClientDAO" class="com.iquestgroup.database.impl.DefaultClientDAO"/>
+    <alias name="defaultClientDao" alias="clientDao"/>
+    <bean id="defaultClientDao" class="com.iquestgroup.database.impl.DefaultClientDao"/>
 
+    <alias name="defaultClientAccountDao" alias="clientAccountDao"/>
+    <bean id="defaultClientAccountDao"
+          class="com.iquestgroup.database.impl.DefaultClientAccountDao"/>
+
+    <alias name="defaultPurchaseDao" alias="purchaseDao"/>
+    <bean id="defaultPurchaseDao" class="com.iquestgroup.database.impl.DefaultPurchaseDao"/>
 </beans>

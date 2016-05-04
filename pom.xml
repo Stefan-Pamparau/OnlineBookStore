@@ -8,8 +8,7 @@
     <name>OnlineBookStore</name>
 
     <modules>
-        <module>webApp</module>
-        <module>facade</module>
+        <module>webapp</module>
         <module>service</module>
         <module>database</module>
         <module>model</module>

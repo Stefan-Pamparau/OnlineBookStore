@@ -8,12 +8,15 @@ import java.util.Set;
 
 public class Author {
     private Integer id;
+
     @NotNull
     @Size(min=3, max=20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String name;
+
     @NotNull
     @Min(10)
     private Integer age;
+
     private Set<Book> books;
 
     public Integer getId() {

@@ -10,22 +10,30 @@
 <html>
 <head>
     <title>Delete client</title>
+    <link rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<form:form action="/clients/delete" method="POST">
-    <table border="0" align="left">
-        <tr>
-            <td><label>Client ID</label></td>
-            <td><input name="clientID" type="number"/></td>
-        </tr>
-        <tr>
-            <td>
-                <input type="submit" value="Delete client"/>
-            </td>
-        </tr>
-    </table>
-</form:form>
+<jsp:include page="../../../../fragments/navigationBar.jsp"/>
+
+<div class="container">
+    <form:form action="/clients/delete" method="POST" cssClass="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="clientIdField">Client Id</label>
+            <div class="col-sm-10">
+                <input id="clientIdField" name="clientId" type="number" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Delete client</button>
+            </div>
+        </div>
+    </form:form>
+</div>
 
 </body>
 </html>
