@@ -20,28 +20,27 @@
 
 <jsp:include page="../../../../fragments/navigationBar.jsp"/>
 
-<form:form action="/clients/purchase" method="post">
-    <table border="0" align="left">
-        <tr>
-            <td><label>Client ID</label></td>
-            <c:choose>
-                <c:when test="${clientId != null}">
-                    <td><input name="clientID" type="number" value="${clientId}"></td>
-                </c:when>
-                <c:otherwise>
-                    <td><input name="clientID" type="number"></td>
-                </c:otherwise>
-            </c:choose>
-        </tr>
-        <tr>
-            <td><label>Book ID</label></td>
-            <td><input name="bookID" type="number"></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Purchase book"></td>
-        </tr>
-    </table>
-</form:form>
+<div class="container">
+    <form:form action="/purchases/purchase" method="post" cssClass="form-horizontal">
+        <div class=form-group>
+            <label class="control-label col-sm-2" for="clientIdField">Client Id</label>
+            <div class="col-sm-10">
+                <input id="clientIdField" name="clientAccountId" type="number"
+                       value="${clientAccountId != null ? clientAccountId : null}"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="bookIdField">Book Id</label>
+            <div class="col-sm-10">
+                <input id="bookIdField" name="bookId" type="number" class="form-control">
+            </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Purchase book</button>
+        </div>
+    </form:form>
+</div>
 
 </body>
 </html>

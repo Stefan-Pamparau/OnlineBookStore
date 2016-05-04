@@ -139,12 +139,11 @@ public class DefaultBookDao implements BookDao {
             Book persistentBook = session.get(Book.class, book.getId());
 
             if (persistentBook != null) {
-                persistentBook.setAuthor(book.getAuthor());
                 persistentBook.setGenre(book.getGenre());
                 persistentBook.setTitle(book.getTitle());
                 persistentBook.setInStock(book.getInStock());
                 persistentBook.setPrice(book.getPrice());
-                session.update(book);
+                session.update(persistentBook);
                 transaction.commit();
             } else {
                 return "Book does not exist in the database.";

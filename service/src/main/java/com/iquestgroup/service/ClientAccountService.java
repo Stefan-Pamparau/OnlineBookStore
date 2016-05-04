@@ -40,6 +40,15 @@ public interface ClientAccountService {
     ClientAccount getClientAccountById(Integer clientAccountId) throws ServiceException;
 
     /**
+     * Retrieves an initilialized instance of a ClientAccount object with the specified id from the database.
+     *
+     * @param clientAccountId - the id of the client account to be retrieved
+     * @return - an instance of client account which matches the given id, null if no match found
+     * @throws ServiceException - thrown when a DaoException exception occurs
+     */
+    ClientAccount getInitializedClientAccountById(Integer clientAccountId) throws ServiceException;
+
+    /**
      * Inserts a client account into the database.
      *
      * @param account - account to be inserted

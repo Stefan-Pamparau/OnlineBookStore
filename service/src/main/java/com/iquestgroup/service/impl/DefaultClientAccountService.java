@@ -48,6 +48,15 @@ public class DefaultClientAccountService implements ClientAccountService {
     }
 
     @Override
+    public ClientAccount getInitializedClientAccountById(Integer clientAccountId) throws ServiceException {
+        try {
+            return clientAccountDao.getInitializedClientAccountById(clientAccountId);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
     public String insertClientAccount(ClientAccount account) throws ServiceException {
         try {
             return clientAccountDao.insertClientAccount(account);

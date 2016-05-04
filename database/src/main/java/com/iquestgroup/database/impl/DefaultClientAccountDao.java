@@ -74,6 +74,20 @@ public class DefaultClientAccountDao implements ClientAccountDao {
     }
 
     @Override
+    public ClientAccount getInitializedClientAccountById(Integer clientAccountId) throws DaoException {
+        try (Session session = sessionFactory.openSession()) {
+            ClientAccount clientAccount = session.get(ClientAccount.class, clientAccountId);
+            Hibernate.initialize(clientAccount.getClient());
+            Hibernate.initialize(clientAccount.getBooks());
+            Hibernate.initialize(clientAccount.getPurchases());
+
+            return clientAccount;
+        } catch (HibernateException e) {
+            throw new DaoException("Cannot retrieve client account by id", e);
+        }
+    }
+
+    @Override
     public String insertClientAccount(ClientAccount account) throws DaoException {
         Transaction transaction = null;
 
@@ -107,13 +121,13 @@ public class DefaultClientAccountDao implements ClientAccountDao {
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            ClientAccount persistenClientAccount = session.get(ClientAccount.class, account.getId());
+            ClientAccount persistentClientAccount = session.get(ClientAccount.class, account.getId());
 
-            if (persistenClientAccount != null) {
-                persistenClientAccount.setEmail(account.getEmail());
-                persistenClientAccount.setPassword(account.getPassword());
-                persistenClientAccount.setBalance(account.getBalance());
-                session.update(persistenClientAccount);
+            if (persistentClientAccount != null) {
+                persistentClientAccount.setEmail(account.getEmail());
+                persistentClientAccount.setPassword(account.getPassword());
+                persistentClientAccount.setBalance(account.getBalance());
+                session.update(persistentClientAccount);
                 transaction.commit();
             } else {
                 return "Client account not existent in database.";
