@@ -74,26 +74,26 @@ public class AuthorController {
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public ModelAndView deleteAuthor(@RequestParam("authorID") Integer authorID) {
+    public ModelAndView deleteAuthorByIdFromRequestParam(@RequestParam("authorId") Integer authorId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/authors/listAuthors");
 
-        try {
-            String result = authorService.deleteAuthor(authorID);
-            mav.addObject("message", result);
-            mav.addObject("authors", authorService.getAllAuthors());
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
+        deleteAuthor(authorId, mav);
 
         return mav;
     }
 
-    @RequestMapping(path = "/delete/{authorID}", method = RequestMethod.GET)
-    public ModelAndView deleteAuthorByByUrlID(@PathVariable Integer authorID) {
+    @RequestMapping(path = "/delete/{authorId}", method = RequestMethod.GET)
+    public ModelAndView deleteAuthorByByUrlId(@PathVariable Integer authorId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/authors/listAuthors");
 
+        deleteAuthor(authorId, mav);
+
+        return mav;
+    }
+
+    private void deleteAuthor(@RequestParam("authorId") Integer authorID, ModelAndView mav) {
         try {
             String result = authorService.deleteAuthor(authorID);
             mav.addObject("message", result);
@@ -101,7 +101,5 @@ public class AuthorController {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-
-        return mav;
     }
 }
