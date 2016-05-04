@@ -49,7 +49,7 @@ public class BookController {
     }
 
     @RequestMapping(path = "/insert/{authorId}", method = RequestMethod.GET)
-    public String insertBookForSpecifiedAuthorId(@PathVariable Integer authorId, ModelMap model) {
+    public String displayInsertBookForm(@PathVariable Integer authorId, ModelMap model) {
         model.addAttribute("authorId", authorId);
         model.addAttribute("book", new Book());
         return "store/books/insertBook";
