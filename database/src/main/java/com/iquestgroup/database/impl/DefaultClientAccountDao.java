@@ -48,23 +48,16 @@ public class DefaultClientAccountDao implements ClientAccountDao {
 
     @Override
     public Set<ClientAccount> getClientAccounts(Integer clientId) throws DaoException {
-        Transaction transaction = null;
         Set<ClientAccount> result = null;
 
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
             Client client = session.get(Client.class, clientId);
 
             if (client != null) {
                 Hibernate.initialize(client.getClientAccounts());
                 result = client.getClientAccounts();
             }
-
-            transaction.commit();
         } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException("Cannot retrieve all client accounts", e);
         }
 
