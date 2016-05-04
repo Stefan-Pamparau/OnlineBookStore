@@ -2,10 +2,10 @@ package com.iquestgroup.database.impl;
 
 import com.iquestgroup.database.ClientAccountDao;
 import com.iquestgroup.database.exceptionHandling.DaoException;
-import com.iquestgroup.model.Book;
 import com.iquestgroup.model.Client;
 import com.iquestgroup.model.ClientAccount;
 
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -30,7 +30,7 @@ public class DefaultClientAccountDao implements ClientAccountDao {
         List<ClientAccount> result = null;
 
         try (Session session = sessionFactory.openSession()) {
-            List clientAccounts = session.createQuery("FROM com.iquestgroup.model.ClientAccount").list();
+            List clientAccounts = session.createQuery("FROM com.iquestgroup.model.ClientAccount account").list();
 
             if (clientAccounts != null && clientAccounts.size() > 0) {
                 result = new ArrayList<>();
@@ -48,15 +48,23 @@ public class DefaultClientAccountDao implements ClientAccountDao {
 
     @Override
     public Set<ClientAccount> getClientAccounts(Integer clientId) throws DaoException {
+        Transaction transaction = null;
         Set<ClientAccount> result = null;
 
         try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
             Client client = session.get(Client.class, clientId);
 
             if (client != null) {
+                Hibernate.initialize(client.getClientAccounts());
                 result = client.getClientAccounts();
             }
+
+            transaction.commit();
         } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new DaoException("Cannot retrieve all client accounts", e);
         }
 
@@ -79,7 +87,8 @@ public class DefaultClientAccountDao implements ClientAccountDao {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             List clientAccounts = session.createQuery("FROM com.iquestgroup.model.ClientAccount clientAccount " +
-                    "WHERE clientAccount.email = " + account.getEmail())
+                    "WHERE clientAccount.email = :email")
+                    .setParameter("email", account.getEmail())
                     .list();
 
             if (clientAccounts == null || clientAccounts.size() == 0) {

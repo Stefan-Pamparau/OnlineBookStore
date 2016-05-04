@@ -67,12 +67,12 @@ public interface ClientAccountService {
     String deleteClientAccount(Integer clientAccountId) throws ServiceException;
 
     /**
-     * Purchases a book by id.
+     * Adds balance to a specified client account id;
      *
-     * @param clientAccountID - id of the client account which will be used for purchasing
-     * @param bookID          - id of the book to be purchased
-     * @return - a message about the result of the operation
-     * @throws ServiceException - thrown when a DaoException exception occurs
+     * @param clientAccountId - id of the client account
+     * @param balance         - balance to be added
+     * @return - a message about the operation's result
+     * @throws ServiceException - thrown when a DaoException occurs
      */
-    String purchaseBook(Integer clientAccountID, Integer bookID) throws ServiceException;
+    String addBalance(Integer clientAccountId, Integer balance) throws ServiceException;
 }

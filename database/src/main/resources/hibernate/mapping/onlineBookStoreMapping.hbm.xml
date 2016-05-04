@@ -25,7 +25,7 @@
 
     <class name="com.iquestgroup.model.ClientAccount" table="client_account">
         <meta attribute="class-description">
-            This class contains finromation about the client accounts registered in the database
+            This class contains infomation about the client accounts registered in the database
         </meta>
         <id name="id">
             <generator class="native"/>
@@ -45,6 +45,9 @@
             <key column="client_account_id"/>
             <many-to-many column="book_id" class="com.iquestgroup.model.Book"/>
         </set>
+
+        <many-to-one name="client" column="client_id" class="com.iquestgroup.model.Client"
+                     not-null="true"/>
     </class>
 
     <class name="com.iquestgroup.model.Purchase" table="purchase_history">

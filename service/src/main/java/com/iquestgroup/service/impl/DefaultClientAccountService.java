@@ -2,9 +2,7 @@ package com.iquestgroup.service.impl;
 
 import com.iquestgroup.database.ClientAccountDao;
 import com.iquestgroup.database.exceptionHandling.DaoException;
-import com.iquestgroup.model.Book;
 import com.iquestgroup.model.ClientAccount;
-import com.iquestgroup.service.BookService;
 import com.iquestgroup.service.ClientAccountService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
 
@@ -21,8 +19,6 @@ import java.util.Set;
 public class DefaultClientAccountService implements ClientAccountService {
     @Autowired
     private ClientAccountDao clientAccountDao;
-    @Autowired
-    private BookService bookService;
 
     @Override
     public List<ClientAccount> getAllClientAccounts() throws ServiceException {
@@ -79,33 +75,19 @@ public class DefaultClientAccountService implements ClientAccountService {
     }
 
     @Override
-    public String purchaseBook(Integer clientAccountID, Integer bookID) throws ServiceException {
+    public String addBalance(Integer clientAccountId, Integer balance) throws ServiceException {
         try {
-            Book book = bookService.getBookById(bookID);
-            ClientAccount account = clientAccountDao.getClientAccountById(clientAccountID);
+            ClientAccount clientAccount = clientAccountDao.getClientAccountById(clientAccountId);
 
-            if (book != null && account != null) {
-                if (book.getInStock() <= 0) {
-                    return "Not enough books in store";
-                }
-
-                if (account.getBalance().compareTo(book.getPrice()) < 0) {
-                    return "Not enough balance in account";
-                }
-
-                book.setInStock(book.getInStock() - 1);
-                account.getBooks().add(book);
-
-                clientAccountDao.updateClientAccount(account);
-                bookService.updateBook(book);
+            if (balance > 0) {
+                clientAccount.setBalance(clientAccount.getBalance() + balance);
+                clientAccountDao.updateClientAccount(clientAccount);
             } else {
-                return "Book or account does not exist in the database.";
+                return "Balance cannot be negative or equal to zero";
             }
-
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
-
-        return "Book successfully purchased.";
+        return "Balance successfully added";
     }
 }

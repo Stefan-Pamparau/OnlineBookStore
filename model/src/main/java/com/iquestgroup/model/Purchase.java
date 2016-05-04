@@ -41,8 +41,6 @@ public class Purchase implements Serializable {
 
         if (purchaseDate != null ? !purchaseDate.equals(purchase.purchaseDate) : purchase.purchaseDate != null)
             return false;
-        if (clientAccount != null ? !clientAccount.equals(purchase.clientAccount) : purchase.clientAccount != null)
-            return false;
         return book != null ? book.equals(purchase.book) : purchase.book == null;
 
     }
@@ -50,7 +48,6 @@ public class Purchase implements Serializable {
     @Override
     public int hashCode() {
         int result = purchaseDate != null ? purchaseDate.hashCode() : 0;
-        result = 31 * result + (clientAccount != null ? clientAccount.hashCode() : 0);
         result = 31 * result + (book != null ? book.hashCode() : 0);
         return result;
     }

@@ -2,7 +2,6 @@ package com.iquestgroup.database.impl;
 
 import com.iquestgroup.database.ClientDao;
 import com.iquestgroup.database.exceptionHandling.DaoException;
-import com.iquestgroup.model.Book;
 import com.iquestgroup.model.Client;
 
 import org.hibernate.HibernateException;
@@ -40,6 +39,15 @@ public class DefaultClientDao implements ClientDao {
         }
 
         return result;
+    }
+
+    @Override
+    public Client getClientById(Integer id) throws DaoException {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Client.class, id);
+        } catch (HibernateException e) {
+            throw new DaoException("An error occurred while trying to retrieve client by id", e);
+        }
     }
 
     @Override

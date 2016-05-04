@@ -20,6 +20,15 @@ public interface ClientDao {
     List<Client> getAllClients() throws DaoException;
 
     /**
+     * Returns the client with the specified id from the database.
+     *
+     * @param id - id of the client to be returned
+     * @return - a list containing all the clients from the database, null if client is found
+     * @throws DaoException - thrown when a Hibernate specific exception occurs
+     */
+    Client getClientById(Integer id) throws DaoException;
+
+    /**
      * Inserts a client into the database.
      *
      * @param client - client to be inserted into the database

@@ -22,7 +22,6 @@ public class ClientAccount {
     @Size(min = 3, max = 20, message = "Should contain a minimum of 3 character and a maximum of 20 characters")
     private String password;
 
-    @NotNull
     private Timestamp creationDate;
 
     @NotNull
@@ -30,6 +29,8 @@ public class ClientAccount {
 
     private Set<Purchase> purchases;
     private Set<Book> books;
+
+    private Client client;
 
     public Integer getId() {
         return id;
@@ -87,6 +88,14 @@ public class ClientAccount {
         this.books = books;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,9 +110,8 @@ public class ClientAccount {
         if (creationDate != null ? !creationDate.equals(that.creationDate) : that.creationDate != null)
             return false;
         if (balance != null ? !balance.equals(that.balance) : that.balance != null) return false;
-        if (purchases != null ? !purchases.equals(that.purchases) : that.purchases != null)
-            return false;
-        return books != null ? books.equals(that.books) : that.books == null;
+        if (books != null ? !books.equals(that.books) : that.books != null) return false;
+        return client != null ? client.equals(that.client) : that.client == null;
 
     }
 
@@ -114,8 +122,8 @@ public class ClientAccount {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
         result = 31 * result + (balance != null ? balance.hashCode() : 0);
-        result = 31 * result + (purchases != null ? purchases.hashCode() : 0);
         result = 31 * result + (books != null ? books.hashCode() : 0);
+        result = 31 * result + (client != null ? client.hashCode() : 0);
         return result;
     }
 }

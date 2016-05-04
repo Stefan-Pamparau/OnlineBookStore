@@ -24,6 +24,15 @@ public class DefaultClientService implements ClientService {
     }
 
     @Override
+    public Client getClientById(Integer id) throws ServiceException {
+        try {
+            return clientDAO.getClientById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
     public String insertClient(Client client) throws ServiceException {
         try {
             return clientDAO.insertClient(client);
