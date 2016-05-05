@@ -5,7 +5,7 @@ import com.iquestgroup.service.ClientService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,16 +15,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-@Controller("ClientController")
+@Component("ClientController")
 @RequestMapping(path = "/clients")
-public class ClientController {
+public class ClientController extends AbstractController {
     @Autowired
     private ClientService clientService;
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
-    public ModelAndView listAllClients() {
+    public ModelAndView listAllClients(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/clients/listClients");
 
@@ -38,13 +40,13 @@ public class ClientController {
     }
 
     @RequestMapping(path = "/insert", method = RequestMethod.GET)
-    public String displayInsertClientForm(Model model) {
+    public String displayInsertClientForm(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("client", new Client());
         return "store/clients/insertClient";
     }
 
     @RequestMapping(path = "/insert", method = RequestMethod.POST)
-    public ModelAndView insertClient(@Valid @ModelAttribute Client client, BindingResult bindingResult) {
+    public ModelAndView insertClient(HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute Client client, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("store/clients/insertClient");
         }
@@ -64,12 +66,12 @@ public class ClientController {
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.GET)
-    public String displayDeleteClientForm() {
+    public String displayDeleteClientForm(HttpServletRequest request, HttpServletResponse response) {
         return "store/clients/deleteClient";
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public ModelAndView deleteClientByIdFromRequestParam(@RequestParam("clientId") Integer clientId) {
+    public ModelAndView deleteClientByIdFromRequestParam(HttpServletRequest request, HttpServletResponse response, @RequestParam("clientId") Integer clientId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/clients/listClients");
 
@@ -79,7 +81,7 @@ public class ClientController {
     }
 
     @RequestMapping(path = "/delete/{clientId}", method = RequestMethod.GET)
-    public ModelAndView deleteClientByUrlID(@PathVariable Integer clientId) {
+    public ModelAndView deleteClientByUrlID(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer clientId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/clients/listClients");
 

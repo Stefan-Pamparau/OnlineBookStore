@@ -5,7 +5,7 @@ import com.iquestgroup.service.AuthorService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -22,14 +24,14 @@ import javax.validation.Valid;
  *
  * @author Stefan Pamparau
  */
-@Controller("AuthorController")
+@Component("AuthorController")
 @RequestMapping(path = "authors")
-public class AuthorController {
+public class AuthorController extends AbstractController {
     @Autowired
     private AuthorService authorService;
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
-    public ModelAndView listAllAuthors() {
+    public ModelAndView listAllAuthors(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/authors/listAuthors");
 
@@ -43,13 +45,13 @@ public class AuthorController {
     }
 
     @RequestMapping(path = "/insert", method = RequestMethod.GET)
-    public ModelAndView displayAuthorInsertForm(Model model) {
+    public ModelAndView displayAuthorInsertForm(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("author", new Author());
         return new ModelAndView("/store/authors/insertAuthor", "author", new Author());
     }
 
     @RequestMapping(path = "/insert", method = RequestMethod.POST)
-    public ModelAndView insertAuthor(@Valid @ModelAttribute Author author, BindingResult bindingResult) {
+    public ModelAndView insertAuthor(HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute Author author, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/store/authors/insertAuthor");
         }
@@ -69,12 +71,12 @@ public class AuthorController {
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.GET)
-    public String displayAuthorDeleteForm() {
+    public String displayAuthorDeleteForm(HttpServletRequest request, HttpServletResponse response) {
         return "store/authors/deleteAuthor";
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
-    public ModelAndView deleteAuthorByIdFromRequestParam(@RequestParam("authorId") Integer authorId) {
+    public ModelAndView deleteAuthorByIdFromRequestParam(HttpServletRequest request, HttpServletResponse response, @RequestParam("authorId") Integer authorId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/authors/listAuthors");
 
@@ -84,7 +86,7 @@ public class AuthorController {
     }
 
     @RequestMapping(path = "/delete/{authorId}", method = RequestMethod.GET)
-    public ModelAndView deleteAuthorByByUrlId(@PathVariable Integer authorId) {
+    public ModelAndView deleteAuthorByByUrlId(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer authorId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/authors/listAuthors");
 

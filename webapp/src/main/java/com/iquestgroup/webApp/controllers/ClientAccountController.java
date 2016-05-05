@@ -7,7 +7,7 @@ import com.iquestgroup.service.ClientService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -24,16 +26,16 @@ import javax.validation.Valid;
  *
  * @author Controller
  */
-@Controller("ClientAccountController")
+@Component("ClientAccountController")
 @RequestMapping(path = "/clientAccounts")
-public class ClientAccountController {
+public class ClientAccountController extends AbstractController {
     @Autowired
     ClientService clientService;
     @Autowired
     private ClientAccountService clientAccountService;
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
-    public ModelAndView listAllClientAccounts() {
+    public ModelAndView listAllClientAccounts(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/clientAccounts/listClientAccounts");
 
@@ -47,7 +49,7 @@ public class ClientAccountController {
     }
 
     @RequestMapping(path = "/list/{clientId}", method = RequestMethod.GET)
-    public ModelAndView listClientAccountsByClientId(@PathVariable Integer clientId) {
+    public ModelAndView listClientAccountsByClientId(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer clientId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/clientAccounts/listClientAccounts");
 
@@ -61,20 +63,20 @@ public class ClientAccountController {
     }
 
     @RequestMapping(path = "/insert", method = RequestMethod.GET)
-    public String displayInsertClientAccountForm(Model model) {
+    public String displayInsertClientAccountForm(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("clientAccount", new ClientAccount());
         return "store/clientAccounts/insertClientAccount";
     }
 
     @RequestMapping(path = "/insert/{clientId}", method = RequestMethod.GET)
-    public String displayInsertClientAccountForm(@PathVariable Integer clientId, Model model) {
+    public String displayInsertClientAccountForm(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer clientId, Model model) {
         model.addAttribute("clientAccount", new ClientAccount());
         model.addAttribute("clientId", clientId);
         return "store/clientAccounts/insertClientAccount";
     }
 
     @RequestMapping(path = "/insert", method = RequestMethod.POST)
-    public ModelAndView insertClientAccount(@Valid @ModelAttribute ClientAccount clientAccount, BindingResult bindingResult, @RequestParam("clientId") Integer clientId) {
+    public ModelAndView insertClientAccount(HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute ClientAccount clientAccount, BindingResult bindingResult, @RequestParam("clientId") Integer clientId) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("store/clientAccounts/insertClientAccount");
         }
@@ -96,12 +98,12 @@ public class ClientAccountController {
     }
 
     @RequestMapping(path = "delete", method = RequestMethod.GET)
-    public String displayDeleteForm() {
+    public String displayDeleteForm(HttpServletRequest request, HttpServletResponse response) {
         return "store/clientAccounts/deleteClientAccount";
     }
 
     @RequestMapping(path = "delete", method = RequestMethod.POST)
-    public ModelAndView deleteClientAccount(@RequestParam("clientAccountId") Integer clientAccountId) {
+    public ModelAndView deleteClientAccount(HttpServletRequest request, HttpServletResponse response, @RequestParam("clientAccountId") Integer clientAccountId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/clientAccounts/listClientAccounts");
 
@@ -111,7 +113,7 @@ public class ClientAccountController {
     }
 
     @RequestMapping(path = "delete/{clientAccountId}", method = RequestMethod.GET)
-    public ModelAndView deleteClientAccountByIdFromRequestUrl(@PathVariable("clientAccountId") Integer clientAccountId) {
+    public ModelAndView deleteClientAccountByIdFromRequestUrl(HttpServletRequest request, HttpServletResponse response, @PathVariable("clientAccountId") Integer clientAccountId) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/clientAccounts/listClientAccounts");
 
@@ -132,13 +134,13 @@ public class ClientAccountController {
     }
 
     @RequestMapping(path = "addBalance/{clientAccountId}", method = RequestMethod.GET)
-    public String displayAddBalanceForm(@PathVariable Integer clientAccountId, Model model) {
+    public String displayAddBalanceForm(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer clientAccountId, Model model) {
         model.addAttribute("clientAccountId", clientAccountId);
         return "store/clientAccounts/addBalance";
     }
 
     @RequestMapping(path = "addBalance", method = RequestMethod.POST)
-    public ModelAndView addBalance(@RequestParam("clientAccountId") Integer clientAccountId, @RequestParam("balance") Integer balance) {
+    public ModelAndView addBalance(HttpServletRequest request, HttpServletResponse response, @RequestParam("clientAccountId") Integer clientAccountId, @RequestParam("balance") Integer balance) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store/clientAccounts/listClientAccounts");
 
