@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html>
 <head>
     <title>Insert author</title>
@@ -22,26 +21,20 @@
 <jsp:include page="../../../../fragments/navigationBar.jsp"/>
 
 <div class="container">
-    <form:form method="POST" modelAttribute="author" action="/authors/insert"
-               cssClass="form-horizontal">
+    <form method="POST" modelAttribute="author" action="/authors/insert"
+               class="form-horizontal">
         <div class=form-group>
-            <form:label path="name" for="nameField"
-                        cssClass="control-label col-sm-2">Name:</form:label>
+            <label path="name" for="nameField"
+                        class="control-label col-sm-2">Name:</label>
             <div class="col-sm-10">
-                <form:input id="nameField" type="text" path="name" cssClass="form-control"/>
-            </div>
-            <div class="alert alert-info">
-                <form:errors path="name"/>
+                <input id="nameField" type="text" name="name" class="form-control"/>
             </div>
         </div>
         <div class=form-group>
-            <form:label path="name" for="ageField"
-                        cssClass="control-label col-sm-2">Age:</form:label>
+            <label path="name" for="ageField"
+                        class="control-label col-sm-2">Age:</label>
             <div class="col-sm-10">
-                <form:input id="ageField" type="text" path="age" cssClass="form-control"/>
-            </div>
-            <div class="alert alert-info">
-                <form:errors path="age"/>
+                <input id="ageField" type="text" name="age" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
@@ -49,7 +42,7 @@
                 <button type="submit" class="btn btn-default">Insert author</button>
             </div>
         </div>
-    </form:form>
+    </form>
 </div>
 
 </body>

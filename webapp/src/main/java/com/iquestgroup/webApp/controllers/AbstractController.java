@@ -6,4 +6,5 @@ package com.iquestgroup.webApp.controllers;
  * @author Stefan Pamparau
  */
 public abstract class AbstractController {
+
 }
