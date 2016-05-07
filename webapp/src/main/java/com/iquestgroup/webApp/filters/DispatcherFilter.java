@@ -25,8 +25,10 @@ public class DispatcherFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         String path = req.getRequestURI().substring(req.getContextPath().length());
 
-        if(path.startsWith("/static") || path.startsWith("/WEB-INF")) {
+        if (path.startsWith("/static") || path.startsWith("/WEB-INF")) {
             chain.doFilter(request, response);
+        } else if (path.equals("/")) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/index.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("/store" + path).forward(request, response);
         }

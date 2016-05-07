@@ -1,5 +1,6 @@
 package com.iquestgroup.webApp.dispatcher;
 
+import com.iquestgroup.webApp.annotations.HttpMethodType;
 import com.iquestgroup.webApp.annotations.Mapping;
 import com.iquestgroup.webApp.controllers.*;
 
@@ -58,7 +59,7 @@ public class ControllerDispatcher implements ApplicationListener<ContextRefreshe
                 for (Annotation currentAnnotation : methodAnnotations) {
                     if (currentAnnotation.annotationType().equals(Mapping.class)) {
                         Mapping mapping = (Mapping) currentAnnotation;
-                        if (request.getRequestURI().matches(mapping.path())) {
+                        if (request.getRequestURI().matches(mapping.path()) && checkHttpMethodMapping(request, mapping)) {
                             try {
                                 method.invoke(getControllerInstance(controllerClass), request, response);
                             } catch (IllegalAccessException | InvocationTargetException e) {
@@ -69,6 +70,17 @@ public class ControllerDispatcher implements ApplicationListener<ContextRefreshe
                 }
             }
         }
+    }
+
+    /**
+     * Checks if the controller method type is mapped to the request http method type.
+     *
+     * @param request - incoming request
+     * @param mapping - annotation which contains the controller method maping information
+     * @return - true if the controller method type is equal to the incoming request http method type
+     */
+    private boolean checkHttpMethodMapping(HttpServletRequest request, Mapping mapping) {
+        return HttpMethodType.valueOf(request.getMethod().toUpperCase()) == mapping.method();
     }
 
     /**
