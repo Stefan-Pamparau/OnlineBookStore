@@ -6,7 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 
 <head>
@@ -22,42 +21,29 @@
 <jsp:include page="../../../../fragments/navigationBar.jsp"/>
 
 <div class="container">
-    <form:form action="/clients/insert" method="POST" modelAttribute="client"
-               cssClass="form-horizontal">
+    <form action="/clients/insert" method="POST" modelAttribute="client" class="form-horizontal">
         <div class="form-group">
-            <form:label path="name" cssClass="control-label col-sm-2"
-                        form="nameField">Name:</form:label>
+            <label class="control-label col-sm-2" for="nameField">Name:</label>
             <div class="col-sm-10">
-                <form:input id="nameField" path="name" type="text" cssClass="form-control"/>
-            </div>
-            <div class="alert alert-info">
-                <form:errors path="name"/>
+                <input id="nameField" name="name" type="text" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <form:label path="address" cssClass="control-label col-sm-2"
-                        form="addressField">Address:</form:label>
+            <label class="control-label col-sm-2" for="addressField">Address:</label>
             <div class="col-sm-10">
-                <form:input id="addressField" path="address" type="text" cssClass="form-control"/>
-            </div>
-            <div class="alert alert-info">
-                <form:errors path="address"/>
+                <input id="addressField" name="address" type="text" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <form:label path="serialId" cssClass="control-label col-sm-2"
-                        form="serialIdField">Serial id:</form:label>
+            <label class="control-label col-sm-2" for="serialIdField">Serial id:</label>
             <div class="col-sm-10">
-                <form:input id="serialIdField" path="serialId" type="text" cssClass="form-control"/>
-            </div>
-            <div class="alert alert-info">
-                <form:errors path="serialId"/>
+                <input id="serialIdField" name="serialId" type="text" class="form-control"/>
             </div>
         </div>
         <div class="col-sm-offset-2 col-sm-10">
             <button type="submit" class="btn btn-default">Insert client</button>
         </div>
-    </form:form>
+    </form>
 </div>
 
 </body>

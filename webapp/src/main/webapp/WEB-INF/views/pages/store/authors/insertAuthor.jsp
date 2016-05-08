@@ -21,18 +21,15 @@
 <jsp:include page="../../../../fragments/navigationBar.jsp"/>
 
 <div class="container">
-    <form method="POST" action="/authors/insert"
-               class="form-horizontal">
+    <form method="POST" action="/authors/insert" class="form-horizontal">
         <div class=form-group>
-            <label path="name" for="nameField"
-                        class="control-label col-sm-2">Name:</label>
+            <label for="nameField" class="control-label col-sm-2">Name:</label>
             <div class="col-sm-10">
                 <input id="nameField" type="text" name="name" class="form-control"/>
             </div>
         </div>
         <div class=form-group>
-            <label path="name" for="ageField"
-                        class="control-label col-sm-2">Age:</label>
+            <label for="ageField" class="control-label col-sm-2">Age:</label>
             <div class="col-sm-10">
                 <input id="ageField" type="text" name="age" class="form-control"/>
             </div>

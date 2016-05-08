@@ -21,7 +21,7 @@
 <jsp:include page="../../../../fragments/navigationBar.jsp"/>
 
 <div class="container">
-    <form:form action="/purchases/purchase" method="post" cssClass="form-horizontal">
+    <form action="/purchases/purchase" method="post" cssClass="form-horizontal">
         <div class=form-group>
             <label class="control-label col-sm-2" for="clientIdField">Client Id</label>
             <div class="col-sm-10">
@@ -39,7 +39,7 @@
         <div class="col-sm-offset-2 col-sm-10">
             <button type="submit" class="btn btn-default">Purchase book</button>
         </div>
-    </form:form>
+    </form>
 </div>
 
 </body>

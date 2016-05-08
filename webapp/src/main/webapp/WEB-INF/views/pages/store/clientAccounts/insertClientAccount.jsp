@@ -21,26 +21,23 @@
 <div class="container">
     <form action="/clientAccounts/insert" method="POST" class="form-horizontal">
         <div class="form-group">
-            <label path="email" class="control-label col-sm-2"
-                        for="emailField">Email:</label>
+            <label class="control-label col-sm-2" for="emailField">Email:</label>
             <div class="col-sm-10">
                 <input id="emailField" name="email" type="email" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <label path="password" class="control-label col-sm-2"
-                        for="passwordField">Password:</label>
+            <label class="control-label col-sm-2" for="passwordField">Password:</label>
             <div class="col-sm-10">
                 <input id="passwordField" name="password" type="password" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <label path="balance" class="control-label col-sm-2"
-                        for="balanceField">Balance:</label>
+            <label class="control-label col-sm-2" for="balanceField">Balance:</label>
             <div class="col-sm-10">
                 <input id="balanceField" name="balance" type="number" class="form-control"/>
             </div>
-           </div>
+        </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="clientIdField">Client id</label>
             <div class="col-sm-10">

@@ -22,27 +22,25 @@
 <div class="container">
     <form action="/books/insert" method="POST" class="form-horizontal">
         <div class="form-group">
-            <label path="title" class="control-label col-sm-2"
-                   for="titleField">Book title</label>
+            <label class="control-label col-sm-2" for="titleField">Book title</label>
             <div class="col-sm-10">
                 <input id="titleField" name="title" type="text" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <label path="genre" class="control-label col-sm-2" for="genreField">Book genre</label>
+            <label class="control-label col-sm-2" for="genreField">Book genre</label>
             <div class="col-sm-10">
                 <input id="genreField" name="genre" type="text" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <label path="inStock" class="control-label col-sm-2"
-                   for="inStockField">Available in stock</label>
+            <label class="control-label col-sm-2" for="inStockField">Available in stock</label>
             <div class="col-sm-10">
                 <input id="inStockField" type="number" name="inStock" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <label path="price" class="control-label col-sm-2"
+            <label class="control-label col-sm-2"
                    for="priceField">Price</label>
             <div class="col-sm-10">
                 <input id="priceField" type="number" name="price" class="form-control"/>
