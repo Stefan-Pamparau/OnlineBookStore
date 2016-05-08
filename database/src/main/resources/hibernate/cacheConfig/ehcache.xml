@@ -11,7 +11,7 @@
     <cache name="com.iquestgroup.model.Book"
            maxElementsInMemory="50" eternal="false" timeToIdleSeconds="5" timeToLiveSeconds="10" overflowToDisk="false"/>
 
-    <cache name="com.iquestgroup.model.Client"
+    <cache name="com.iquestgroup.model.User"
            maxElementsInMemory="50" eternal="false" timeToIdleSeconds="5" timeToLiveSeconds="10" overflowToDisk="false"/>
 
     <!--<cache name="org.hibernate.cache.internal.StandardQueryCache"-->

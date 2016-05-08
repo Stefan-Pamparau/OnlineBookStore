@@ -1,13 +1,14 @@
 package com.iquestgroup.service;
 
 import com.iquestgroup.model.ClientAccount;
+import com.iquestgroup.model.UserAccount;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
 
 import java.util.List;
 import java.util.Set;
 
 /**
- * Interface which declares all methods available to manipulate Client account objects.
+ * Interface which declares all methods available to manipulate User account objects.
  *
  * @author Stefan Pamparau
  */
@@ -28,10 +29,10 @@ public interface ClientAccountService {
      * found
      * @throws ServiceException - thrown when a DaoException exception occurs
      */
-    Set<ClientAccount> getClientAccounts(Integer clientId) throws ServiceException;
+    Set<UserAccount> getClientAccounts(Integer clientId) throws ServiceException;
 
     /**
-     * Retrieves an instance of a ClientAccount object with the specified id from the database.
+     * Retrieves an instance of a UserAccount object with the specified id from the database.
      *
      * @param clientAccountId - the id of the client account to be retrieved
      * @return - an instance of client account which matches the given id, null if no match found
@@ -40,7 +41,7 @@ public interface ClientAccountService {
     ClientAccount getClientAccountById(Integer clientAccountId) throws ServiceException;
 
     /**
-     * Retrieves an initilialized instance of a ClientAccount object with the specified id from the database.
+     * Retrieves an initilialized instance of a UserAccount object with the specified id from the database.
      *
      * @param clientAccountId - the id of the client account to be retrieved
      * @return - an instance of client account which matches the given id, null if no match found
@@ -58,7 +59,7 @@ public interface ClientAccountService {
     String insertClientAccount(ClientAccount account) throws ServiceException;
 
     /**
-     * Updates a client account based on a ClientAccount object.
+     * Updates a client account based on a UserAccount object.
      *
      * @param account - account to be updated
      * @return - a message about the result of the operation

@@ -26,7 +26,7 @@ public class AuthorController extends AbstractController {
     @Autowired
     private AuthorService authorService;
 
-    @Mapping(path = "/store/authors/list", method = HttpMethodType.GET)
+    @Mapping(path = "/authors/list", method = HttpMethodType.GET)
     public void listAllAuthors(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp");
 
@@ -39,12 +39,12 @@ public class AuthorController extends AbstractController {
         requestDispatcher.include(request, response);
     }
 
-    @Mapping(path = "/store/authors/insert", method = HttpMethodType.GET)
+    @Mapping(path = "/authors/insert", method = HttpMethodType.GET)
     public void displayAuthorInsertForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/insertAuthor.jsp").include(request, response);
     }
 
-    @Mapping(path = "/store/authors/insert", method = HttpMethodType.POST)
+    @Mapping(path = "/authors/insert", method = HttpMethodType.POST)
     public void insertAuthor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Author author = new Author();
@@ -60,19 +60,19 @@ public class AuthorController extends AbstractController {
         request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").forward(request, response);
     }
 
-    @Mapping(path = "/store/authors/delete", method = HttpMethodType.GET)
+    @Mapping(path = "/authors/delete", method = HttpMethodType.GET)
     public void displayAuthorDeleteForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/deleteAuthor.jsp").include(request, response);
     }
 
-    @Mapping(path = "/store/authors/delete", method = HttpMethodType.POST)
+    @Mapping(path = "/authors/delete", method = HttpMethodType.POST)
     public void deleteAuthorByIdFromRequestParam(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         deleteAuthor(Integer.parseInt(request.getParameter("authorId")), request);
 
         request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").include(request, response);
     }
 
-    @Mapping(path = "/store/authors/delete/\\d+", method = HttpMethodType.GET)
+    @Mapping(path = "/authors/delete/\\d+", method = HttpMethodType.GET)
     public void deleteAuthorByByUrlId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
         deleteAuthor(Integer.parseInt(parts[parts.length - 1]), request);

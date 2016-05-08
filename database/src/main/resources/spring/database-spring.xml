@@ -56,7 +56,7 @@
     <bean id="defaultBookDao" class="com.iquestgroup.database.impl.DefaultBookDao"/>
 
     <alias name="defaultClientDao" alias="clientDao"/>
-    <bean id="defaultClientDao" class="com.iquestgroup.database.impl.DefaultClientDao"/>
+    <bean id="defaultClientDao" class="com.iquestgroup.database.impl.DefaultUserDao"/>
 
     <alias name="defaultClientAccountDao" alias="clientAccountDao"/>
     <bean id="defaultClientAccountDao"

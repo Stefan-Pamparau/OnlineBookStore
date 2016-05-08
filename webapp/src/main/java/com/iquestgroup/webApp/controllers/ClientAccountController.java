@@ -1,10 +1,13 @@
 package com.iquestgroup.webApp.controllers;
 
-import com.iquestgroup.model.Client;
 import com.iquestgroup.model.ClientAccount;
+import com.iquestgroup.model.User;
+import com.iquestgroup.model.UserAccount;
 import com.iquestgroup.service.ClientAccountService;
-import com.iquestgroup.service.ClientService;
+import com.iquestgroup.service.UserService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
+import com.iquestgroup.webApp.annotations.HttpMethodType;
+import com.iquestgroup.webApp.annotations.Mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -27,25 +33,21 @@ import javax.validation.Valid;
  * @author Controller
  */
 @Component("ClientAccountController")
-@RequestMapping(path = "/clientAccounts")
 public class ClientAccountController extends AbstractController {
     @Autowired
-    ClientService clientService;
+    UserService userService;
     @Autowired
     private ClientAccountService clientAccountService;
 
-    @RequestMapping(path = "/list", method = RequestMethod.GET)
-    public ModelAndView listAllClientAccounts(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("store/clientAccounts/listClientAccounts");
-
+    @Mapping(path = "/clientAccounts/list", method = HttpMethodType.GET)
+    public void listAllClientAccounts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            mav.addObject("clientAccounts", clientAccountService.getAllClientAccounts());
+            request.setAttribute("clientAccounts", clientAccountService.getAllClientAccounts());
         } catch (ServiceException e) {
             e.printStackTrace();
         }
 
-        return mav;
+        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
     }
 
     @RequestMapping(path = "/list/{clientId}", method = RequestMethod.GET)
@@ -64,19 +66,19 @@ public class ClientAccountController extends AbstractController {
 
     @RequestMapping(path = "/insert", method = RequestMethod.GET)
     public String displayInsertClientAccountForm(HttpServletRequest request, HttpServletResponse response, Model model) {
-        model.addAttribute("clientAccount", new ClientAccount());
+        model.addAttribute("clientAccount", new UserAccount());
         return "store/clientAccounts/insertClientAccount";
     }
 
     @RequestMapping(path = "/insert/{clientId}", method = RequestMethod.GET)
     public String displayInsertClientAccountForm(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer clientId, Model model) {
-        model.addAttribute("clientAccount", new ClientAccount());
+        model.addAttribute("clientAccount", new UserAccount());
         model.addAttribute("clientId", clientId);
         return "store/clientAccounts/insertClientAccount";
     }
 
     @RequestMapping(path = "/insert", method = RequestMethod.POST)
-    public ModelAndView insertClientAccount(HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute ClientAccount clientAccount, BindingResult bindingResult, @RequestParam("clientId") Integer clientId) {
+    public ModelAndView insertClientAccount(HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute UserAccount userAccount, BindingResult bindingResult, @RequestParam("clientId") Integer clientId) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("store/clientAccounts/insertClientAccount");
         }
@@ -84,9 +86,9 @@ public class ClientAccountController extends AbstractController {
         mav.setViewName("store/clientAccounts/listClientAccounts");
 
         try {
-            Client client = clientService.getClientById(clientId);
-            clientAccount.setClient(client);
-            String result = clientAccountService.insertClientAccount(clientAccount);
+            User user = userService.getUserById(clientId);
+            userAccount.setUser(user);
+            String result = clientAccountService.insertClientAccount((ClientAccount) userAccount);
 
             mav.addObject("message", result);
             mav.addObject("clientAccounts", clientAccountService.getAllClientAccounts());

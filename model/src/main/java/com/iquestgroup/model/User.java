@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
  *
  * @author Stefan Pamparau
  */
-public class Client {
+public class User {
     private Integer id;
 
     @NotNull
@@ -24,7 +24,7 @@ public class Client {
     @NotNull
     private String serialId;
 
-    private Set<ClientAccount> clientAccounts;
+    private Set<UserAccount> userAccounts;
 
     public Integer getId() {
         return id;
@@ -58,11 +58,11 @@ public class Client {
         this.serialId = serialId;
     }
 
-    public Set<ClientAccount> getClientAccounts() {
-        return clientAccounts;
+    public Set<UserAccount> getUserAccounts() {
+        return userAccounts;
     }
 
-    public void setClientAccounts(Set<ClientAccount> clientAccount) {
-        this.clientAccounts = clientAccount;
+    public void setUserAccounts(Set<UserAccount> userAccount) {
+        this.userAccounts = userAccount;
     }
 }

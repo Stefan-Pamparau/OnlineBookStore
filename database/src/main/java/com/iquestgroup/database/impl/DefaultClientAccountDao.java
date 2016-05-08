@@ -2,8 +2,9 @@ package com.iquestgroup.database.impl;
 
 import com.iquestgroup.database.ClientAccountDao;
 import com.iquestgroup.database.exceptionHandling.DaoException;
-import com.iquestgroup.model.Client;
 import com.iquestgroup.model.ClientAccount;
+import com.iquestgroup.model.User;
+import com.iquestgroup.model.UserAccount;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -47,15 +48,15 @@ public class DefaultClientAccountDao implements ClientAccountDao {
     }
 
     @Override
-    public Set<ClientAccount> getClientAccounts(Integer clientId) throws DaoException {
-        Set<ClientAccount> result = null;
+    public Set<UserAccount> getClientAccounts(Integer clientId) throws DaoException {
+        Set<UserAccount> result = null;
 
         try (Session session = sessionFactory.openSession()) {
-            Client client = session.get(Client.class, clientId);
+            User user = session.get(User.class, clientId);
 
-            if (client != null) {
-                Hibernate.initialize(client.getClientAccounts());
-                result = client.getClientAccounts();
+            if (user != null) {
+                Hibernate.initialize(user.getUserAccounts());
+                result = user.getUserAccounts();
             }
         } catch (HibernateException e) {
             throw new DaoException("Cannot retrieve all client accounts", e);
@@ -76,12 +77,12 @@ public class DefaultClientAccountDao implements ClientAccountDao {
     @Override
     public ClientAccount getInitializedClientAccountById(Integer clientAccountId) throws DaoException {
         try (Session session = sessionFactory.openSession()) {
-            ClientAccount clientAccount = session.get(ClientAccount.class, clientAccountId);
-            Hibernate.initialize(clientAccount.getClient());
-            Hibernate.initialize(clientAccount.getBooks());
-            Hibernate.initialize(clientAccount.getPurchases());
+            ClientAccount userAccount = session.get(ClientAccount.class, clientAccountId);
+            Hibernate.initialize(userAccount.getUser());
+            Hibernate.initialize(userAccount.getBooks());
+            Hibernate.initialize(userAccount.getPurchases());
 
-            return clientAccount;
+            return userAccount;
         } catch (HibernateException e) {
             throw new DaoException("Cannot retrieve client account by id", e);
         }
@@ -93,7 +94,7 @@ public class DefaultClientAccountDao implements ClientAccountDao {
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            List clientAccounts = session.createQuery("FROM com.iquestgroup.model.ClientAccount clientAccount " +
+            List clientAccounts = session.createQuery("FROM com.iquestgroup.model.UserAccount clientAccount " +
                     "WHERE clientAccount.email = :email")
                     .setParameter("email", account.getEmail())
                     .list();
@@ -121,13 +122,13 @@ public class DefaultClientAccountDao implements ClientAccountDao {
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            ClientAccount persistentClientAccount = session.get(ClientAccount.class, account.getId());
+            ClientAccount persistentUserAccount = session.get(ClientAccount.class, account.getId());
 
-            if (persistentClientAccount != null) {
-                persistentClientAccount.setEmail(account.getEmail());
-                persistentClientAccount.setPassword(account.getPassword());
-                persistentClientAccount.setBalance(account.getBalance());
-                session.update(persistentClientAccount);
+            if (persistentUserAccount != null) {
+                persistentUserAccount.setEmail(account.getEmail());
+                persistentUserAccount.setPassword(account.getPassword());
+                persistentUserAccount.setBalance(account.getBalance());
+                session.update(persistentUserAccount);
                 transaction.commit();
             } else {
                 return "Client account not existent in database.";
@@ -149,10 +150,10 @@ public class DefaultClientAccountDao implements ClientAccountDao {
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            ClientAccount persistentClientAccount = session.get(ClientAccount.class, clientAccountId);
+            UserAccount persistentUserAccount = session.get(ClientAccount.class, clientAccountId);
 
-            if (persistentClientAccount != null) {
-                session.delete(persistentClientAccount);
+            if (persistentUserAccount != null) {
+                session.delete(persistentUserAccount);
                 transaction.commit();
             } else {
                 return "Client account does not exist in the database.";

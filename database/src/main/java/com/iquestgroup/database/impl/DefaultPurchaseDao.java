@@ -3,6 +3,7 @@ package com.iquestgroup.database.impl;
 import com.iquestgroup.database.PurchaseDao;
 import com.iquestgroup.database.exceptionHandling.DaoException;
 import com.iquestgroup.model.ClientAccount;
+import com.iquestgroup.model.UserAccount;
 import com.iquestgroup.model.Purchase;
 
 import org.hibernate.Hibernate;
@@ -58,11 +59,11 @@ public class DefaultPurchaseDao implements PurchaseDao {
         Set<Purchase> result = null;
 
         try (Session session = sessionFactory.openSession()) {
-            ClientAccount clientAccount = session.get(ClientAccount.class, clientAccountId);
+            ClientAccount userAccount = session.get(ClientAccount.class, clientAccountId);
 
-            if (clientAccount != null) {
-                Hibernate.initialize(clientAccount.getPurchases());
-                result = clientAccount.getPurchases();
+            if (userAccount != null) {
+                Hibernate.initialize(userAccount.getPurchases());
+                result = userAccount.getPurchases();
             }
 
         } catch (HibernateException e) {

@@ -3,6 +3,7 @@ package com.iquestgroup.service.impl;
 import com.iquestgroup.database.ClientAccountDao;
 import com.iquestgroup.database.exceptionHandling.DaoException;
 import com.iquestgroup.model.ClientAccount;
+import com.iquestgroup.model.UserAccount;
 import com.iquestgroup.service.ClientAccountService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
 
@@ -30,7 +31,7 @@ public class DefaultClientAccountService implements ClientAccountService {
     }
 
     @Override
-    public Set<ClientAccount> getClientAccounts(Integer clientId) throws ServiceException {
+    public Set<UserAccount> getClientAccounts(Integer clientId) throws ServiceException {
         try {
             return clientAccountDao.getClientAccounts(clientId);
         } catch (DaoException e) {
@@ -86,11 +87,11 @@ public class DefaultClientAccountService implements ClientAccountService {
     @Override
     public String addBalance(Integer clientAccountId, Integer balance) throws ServiceException {
         try {
-            ClientAccount clientAccount = clientAccountDao.getClientAccountById(clientAccountId);
+            ClientAccount userAccount = clientAccountDao.getClientAccountById(clientAccountId);
 
             if (balance > 0) {
-                clientAccount.setBalance(clientAccount.getBalance() + balance);
-                clientAccountDao.updateClientAccount(clientAccount);
+                userAccount.setBalance(userAccount.getBalance() + balance);
+                clientAccountDao.updateClientAccount(userAccount);
             } else {
                 return "Balance cannot be negative or equal to zero";
             }

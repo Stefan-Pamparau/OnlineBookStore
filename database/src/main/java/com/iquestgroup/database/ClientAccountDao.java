@@ -2,6 +2,7 @@ package com.iquestgroup.database;
 
 import com.iquestgroup.database.exceptionHandling.DaoException;
 import com.iquestgroup.model.ClientAccount;
+import com.iquestgroup.model.UserAccount;
 
 import java.util.List;
 import java.util.Set;
@@ -29,7 +30,7 @@ public interface ClientAccountDao {
      * found
      * @throws DaoException - thrown when a Hibernate exception occurs
      */
-    Set<ClientAccount> getClientAccounts(Integer clientId) throws DaoException;
+    Set<UserAccount> getClientAccounts(Integer clientId) throws DaoException;
 
     /**
      * Retrieves an instance of a ClientAccount object with the specified id from the database.

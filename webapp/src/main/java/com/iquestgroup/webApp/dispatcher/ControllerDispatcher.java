@@ -59,7 +59,8 @@ public class ControllerDispatcher implements ApplicationListener<ContextRefreshe
                 for (Annotation currentAnnotation : methodAnnotations) {
                     if (currentAnnotation.annotationType().equals(Mapping.class)) {
                         Mapping mapping = (Mapping) currentAnnotation;
-                        if (request.getRequestURI().matches(mapping.path()) && checkHttpMethodMapping(request, mapping)) {
+                        String path = removeMatrixVariables(transformRequestURI(request.getRequestURI()));
+                        if (path.matches(mapping.path()) && checkHttpMethodMapping(request, mapping)) {
                             try {
                                 method.invoke(getControllerInstance(controllerClass), request, response);
                             } catch (IllegalAccessException | InvocationTargetException e) {
@@ -70,6 +71,32 @@ public class ControllerDispatcher implements ApplicationListener<ContextRefreshe
                 }
             }
         }
+    }
+
+    /**
+     * Removes matrix variables from the path.
+     *
+     * @param path - path to be processed
+     * @return - a path without matrix variables
+     */
+    private String removeMatrixVariables(String path) {
+        if (path.contains(";")) {
+            return path.substring(0, path.indexOf(";"));
+        }
+        return path;
+    }
+
+    /**
+     * Removes the first part of the request uri.
+     *
+     * Ex. input uri : /store/authors/list
+     * output uri: /authors/list
+     *
+     * @param requestURI - the request uri
+     * @return - the transformed request uri
+     */
+    private String transformRequestURI(String requestURI) {
+        return requestURI.substring(requestURI.indexOf("/", 1));
     }
 
     /**

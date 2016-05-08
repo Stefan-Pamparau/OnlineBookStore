@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS onlineBookStore;
 CREATE DATABASE IF NOT EXISTS onlineBookStore;
 USE onlineBookStore;
 
-CREATE TABLE IF NOT EXISTS client (
+CREATE TABLE IF NOT EXISTS user (
   id        INT                  NOT NULL AUTO_INCREMENT,
   name      VARCHAR(45)          NOT NULL,
   address   VARCHAR(45)          NOT NULL,
@@ -11,13 +11,14 @@ CREATE TABLE IF NOT EXISTS client (
 )
   ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS client_account (
+CREATE TABLE IF NOT EXISTS user_account (
   id            INT         NOT NULL AUTO_INCREMENT,
   email         VARCHAR(45) NOT NULL,
   password      VARCHAR(45) NOT NULL,
   creation_date TIMESTAMP            DEFAULT CURRENT_TIMESTAMP,
   balance       INT         NOT NULL,
-  client_id     INT         NOT NULL,
+  account_type  VARCHAR(50) NOT NULL,
+  user_id       INT         NOT NULL,
   PRIMARY KEY (id)
 )
   ENGINE = InnoDB;
@@ -68,22 +69,24 @@ VALUES
   ('Software Engineering 10th Edition', 'Learning', '5', '100', '3'),
   ('Design Patterns:Elements of Reusable Object-Oriented Software', 'Learning', '5', '100', '4');
 
-INSERT INTO client (name, address, serial_id)
+INSERT INTO user (name, address, serial_id)
 VALUES
-  (' CLIENT 1', 'Cluj, Marasti', 'CJ - 123'),
-  (' CLIENT 2', 'Cluj, Manastur', 'CJ - 124'),
-  (' CLIENT 3', 'Bucuresti, Sector 1', 'B-421'),
-  (' CLIENT 4', 'Alba Iulia', 'AB-123');
+  ('CLIENT 1', 'Cluj, Marasti', 'CJ - 123'),
+  ('CLIENT 2', 'Cluj, Manastur', 'CJ - 124'),
+  ('CLIENT 3', 'Bucuresti, Sector 1', 'B-421'),
+  ('CLIENT 4', 'Alba Iulia', 'AB-123'),
+  ('ADMIN', 'Alba Iulia', 'SV-123');
 
-INSERT INTO client_account (email, password, balance, client_id)
+INSERT INTO user_account (email, password, balance, account_type, user_id)
 VALUES
-  ('client1@gmail.com', '123', '1000', '1'),
-  ('client1.2@gmail.com', '123', '1000', '1'),
-  ('client2@gmail.com', '123', '1000', '2'),
-  ('client3@gmail.com', '123', '1000', '3'),
-  ('client3.2@gmail.com', '123', '1000', '3'),
-  ('client3.3@gmail.com', '123', '1000', '3'),
-  ('client4@gmail.com', '123', '1000', '4');
+  ('client1@gmail.com', '123', '1000', 'CLIENT', '1'),
+  ('client1.2@gmail.com', '123', '1000', 'CLIENT','1'),
+  ('client2@gmail.com', '123', '1000', 'CLIENT','2'),
+  ('client3@gmail.com', '123', '1000','CLIENT', '3'),
+  ('client3.2@gmail.com', '123', '1000', 'CLIENT','3'),
+  ('client3.3@gmail.com', '123', '1000','CLIENT', '3'),
+  ('client4@gmail.com', '123', '1000', 'CLIENT','4'),
+  ('admin@gmail.com', '123', '1000', 'ADMIN','5');
 
 INSERT INTO purchase_history (client_account_id, book_id)
 VALUES

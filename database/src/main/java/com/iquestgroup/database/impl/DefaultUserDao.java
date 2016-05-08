@@ -1,8 +1,8 @@
 package com.iquestgroup.database.impl;
 
-import com.iquestgroup.database.ClientDao;
+import com.iquestgroup.database.UserDao;
 import com.iquestgroup.database.exceptionHandling.DaoException;
-import com.iquestgroup.model.Client;
+import com.iquestgroup.model.User;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -13,21 +13,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultClientDao implements ClientDao {
+public class DefaultUserDao implements UserDao {
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public List<Client> getAllClients() throws DaoException {
-        List<Client> result = new ArrayList<>();
+    public List<User> getAllUsers() throws DaoException {
+        List<User> result = new ArrayList<>();
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            List clientList = session.createQuery("FROM com.iquestgroup.model.Client").list();
+            List clientList = session.createQuery("FROM com.iquestgroup.model.User").list();
             for (Object client : clientList) {
-                Client resultClient = (Client) client;
-                result.add(resultClient);
+                User resultUser = (User) client;
+                result.add(resultUser);
             }
             transaction.commit();
         } catch (HibernateException e) {
@@ -42,45 +42,45 @@ public class DefaultClientDao implements ClientDao {
     }
 
     @Override
-    public Client getClientById(Integer id) throws DaoException {
+    public User getUserById(Integer id) throws DaoException {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Client.class, id);
+            return session.get(User.class, id);
         } catch (HibernateException e) {
-            throw new DaoException("An error occurred while trying to retrieve client by id", e);
+            throw new DaoException("An error occurred while trying to retrieve user by id", e);
         }
     }
 
     @Override
-    public String insertClient(Client client) throws DaoException {
+    public String insertUser(User user) throws DaoException {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.save(client);
+            session.save(user);
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
 
-            throw new DaoException("An error occured while trying to insert client: " + client, e);
+            throw new DaoException("An error occured while trying to insert user: " + user, e);
         }
 
-        return "Successfully inserted client: " + client;
+        return "Successfully inserted user: " + user;
     }
 
     @Override
-    public String deleteClient(Integer clientID) throws DaoException {
+    public String deleteUser(Integer clientID) throws DaoException {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            Client client = session.get(Client.class, clientID);
+            User user = session.get(User.class, clientID);
 
-            if (client == null) {
-                return "Client with id: " + clientID + " does not exists in the database!";
+            if (user == null) {
+                return "User with id: " + clientID + " does not exists in the database!";
             } else {
-                session.delete(client);
+                session.delete(user);
                 transaction.commit();
             }
         } catch (HibernateException e) {
@@ -88,9 +88,9 @@ public class DefaultClientDao implements ClientDao {
                 transaction.rollback();
             }
 
-            throw new DaoException("An error occurred while trying to delete client with id: " + clientID, e);
+            throw new DaoException("An error occurred while trying to delete user with id: " + clientID, e);
         }
 
-        return "Successfully deleted client with id: " + clientID;
+        return "Successfully deleted user with id: " + clientID;
     }
 }

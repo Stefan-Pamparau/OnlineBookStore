@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="com.iquestgroup.model.Client" table="client">
+    <class name="com.iquestgroup.model.User" table="user">
         <meta attribute="class-description">
             This class contains information about the clients registered in the store's database
         </meta>
@@ -16,38 +16,50 @@
         <property name="address" column="address" type="string"/>
         <property name="serialId" column="serial_id" type="string"/>
 
-        <set name="clientAccounts" table="client_account" inverse="true" cascade="all">
+        <set name="userAccounts" table="user_account" inverse="true" cascade="all">
             <cache usage="read-write"/>
-            <key column="client_id"/>
-            <one-to-many class="com.iquestgroup.model.ClientAccount"/>
+            <key column="user_id"/>
+            <one-to-many class="com.iquestgroup.model.UserAccount"/>
         </set>
     </class>
 
-    <class name="com.iquestgroup.model.ClientAccount" table="client_account">
+    <class name="com.iquestgroup.model.UserAccount" table="user_account">
         <meta attribute="class-description">
-            This class contains infomation about the client accounts registered in the database
+            This class contains information about the user accounts registered in the database
         </meta>
         <id name="id">
             <generator class="native"/>
         </id>
+        <discriminator column="account_type" type="java.lang.String"/>
         <property name="email" column="email" type="java.lang.String"/>
         <property name="password" column="password" type="java.lang.String"/>
         <property name="creationDate" column="creation_date" type="java.util.Date"/>
-        <property name="balance" column="balance" type="java.lang.Integer"/>
+        <property name="accountType" column="account_type" insert="false" update="false" index="true">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">com.iquestgroup.model.AccountType</param>
+                <param name="type">12</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
 
-        <set name="purchases" table="purchase_history" inverse="true" cascade="save-update">
-            <cache usage="read-write"/>
-            <key column="client_account_id"/>
-            <one-to-many class="com.iquestgroup.model.Purchase"/>
-        </set>
-        <set name="books" table="purchase_history">
-            <cache usage="read-write"/>
-            <key column="client_account_id"/>
-            <many-to-many column="book_id" class="com.iquestgroup.model.Book"/>
-        </set>
-
-        <many-to-one name="client" column="client_id" class="com.iquestgroup.model.Client"
+        <many-to-one name="user" column="user_id" class="com.iquestgroup.model.User"
                      not-null="true"/>
+
+        <subclass name="com.iquestgroup.model.AdminAccount" discriminator-value="ADMIN">
+        </subclass>
+        <subclass name="com.iquestgroup.model.ClientAccount" discriminator-value="CLIENT">
+            <property name="balance" column="balance" type="java.lang.Integer"/>
+            <set name="purchases" table="purchase_history" inverse="true" cascade="save-update">
+                <cache usage="read-write"/>
+                <key column="client_account_id"/>
+                <one-to-many class="com.iquestgroup.model.Purchase"/>
+            </set>
+            <set name="books" table="purchase_history">
+                <cache usage="read-write"/>
+                <key column="client_account_id"/>
+                <many-to-many column="book_id" class="com.iquestgroup.model.Book"/>
+            </set>
+        </subclass>
     </class>
 
     <class name="com.iquestgroup.model.Purchase" table="purchase_history">
