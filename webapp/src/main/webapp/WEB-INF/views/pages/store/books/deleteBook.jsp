@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Delete book</title>
@@ -21,7 +20,7 @@
 <jsp:include page="../../../../fragments/navigationBar.jsp"/>
 
 <div class="container">
-    <form:form method="POST" action="/books/delete" cssClass="form-horizontal">
+    <form method="POST" action="/books/delete" class="form-horizontal">
         <div class="form-group">
             <label class="control-label col-sm-2" for="bookIdField">Book Id</label>
             <input id="bookIdField" name="bookId" type="number" class="form-control"/>
@@ -31,7 +30,7 @@
                 <button type="submit" class="btn btn-default">Delete book</button>
             </div>
         </div>
-    </form:form>
+    </form>
 </div>
 </body>
 

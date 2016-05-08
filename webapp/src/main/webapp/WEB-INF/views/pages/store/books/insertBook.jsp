@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Insert book</title>
@@ -21,51 +20,39 @@
 <jsp:include page="../../../../fragments/navigationBar.jsp"/>
 
 <div class="container">
-    <form:form action="/books/insert" modelAttribute="book" method="POST"
-               cssClass="form-horizontal">
+    <form action="/books/insert" method="POST" class="form-horizontal">
         <div class="form-group">
-            <form:label path="title" cssClass="control-label col-sm-2"
-                        for="titleField">Book title</form:label>
+            <label path="title" class="control-label col-sm-2"
+                   for="titleField">Book title</label>
             <div class="col-sm-10">
-                <form:input id="titleField" path="title" type="text" cssClass="form-control"/>
-            </div>
-            <div class="alert alert-info">
-                <form:errors path="title"/>
+                <input id="titleField" name="title" type="text" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <form:label path="genre" cssClass="control-label col-sm-2" for="genreField">Book genre</form:label>
+            <label path="genre" class="control-label col-sm-2" for="genreField">Book genre</label>
             <div class="col-sm-10">
-                <form:input id="genreField" path="genre" type="text" cssClass="form-control"/>
-            </div>
-            <div class="alert alert-info">
-                <form:errors path="genre"/>
+                <input id="genreField" name="genre" type="text" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <form:label path="inStock" cssClass="control-label col-sm-2"
-                        for="inStockField">Available in stock</form:label>
+            <label path="inStock" class="control-label col-sm-2"
+                   for="inStockField">Available in stock</label>
             <div class="col-sm-10">
-                <form:input id="inStockField" type="number" path="inStock" cssClass="form-control"/>
-            </div>
-            <div class="alert alert-info">
-                <form:errors path="inStock"/>
+                <input id="inStockField" type="number" name="inStock" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <form:label path="price" cssClass="control-label col-sm-2"
-                        for="priceField">Price</form:label>
+            <label path="price" class="control-label col-sm-2"
+                   for="priceField">Price</label>
             <div class="col-sm-10">
-                <form:input id="priceField" type="number" path="price" cssClass="form-control"/>
-            </div>
-            <div class="alert alert-info">
-                <form:errors path="price"/>
+                <input id="priceField" type="number" name="price" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="authorIdField">Author ID</label>
             <div class="col-sm-10">
-                <input id="authorIdField" name="authorId" type="number" value="${authorId != null ? authorId : null}" class="form-control"/>
+                <input id="authorIdField" name="authorId" type="number" value="${authorId != null ? authorId : null}"
+                       class="form-control"/>
             </div>
         </div>
         <div class="form-group">
@@ -73,7 +60,7 @@
                 <button type="submit" class="btn btn-default">Insert book</button>
             </div>
         </div>
-    </form:form>
+    </form>
 </div>
 
 </body>

@@ -21,7 +21,7 @@
 <jsp:include page="../../../../fragments/navigationBar.jsp"/>
 
 <div class="container">
-    <form method="POST" modelAttribute="author" action="/authors/insert"
+    <form method="POST" action="/authors/insert"
                class="form-horizontal">
         <div class=form-group>
             <label path="name" for="nameField"
