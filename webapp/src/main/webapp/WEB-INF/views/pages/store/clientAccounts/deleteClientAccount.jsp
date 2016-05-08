@@ -1,4 +1,3 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,7 +12,7 @@
 <jsp:include page="../../../../fragments/navigationBar.jsp"/>
 
 <div class="container">
-    <form:form action="/clientAccounts/delete" method="POST" cssClass="form-horizontal">
+    <form action="/clientAccounts/delete" method="POST" class="form-horizontal">
         <div class="form-group">
             <label class="control-label col-sm-2" for="clientAccountIdField">Client Id</label>
             <div class="col-sm-10">
@@ -25,7 +24,7 @@
                 <button type="submit" class="btn btn-default">Delete client</button>
             </div>
         </div>
-    </form:form>
+    </form>
 </div>
 
 </body>

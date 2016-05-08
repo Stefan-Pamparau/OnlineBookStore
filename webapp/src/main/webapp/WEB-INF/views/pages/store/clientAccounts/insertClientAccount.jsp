@@ -19,39 +19,28 @@
 <jsp:include page="../../../../fragments/navigationBar.jsp"/>
 
 <div class="container">
-    <form:form action="/clientAccounts/insert" method="POST" modelAttribute="clientAccount"
-               cssClass="form-horizontal">
+    <form action="/clientAccounts/insert" method="POST" class="form-horizontal">
         <div class="form-group">
-            <form:label path="email" cssClass="control-label col-sm-2"
-                        for="emailField">Email:</form:label>
+            <label path="email" class="control-label col-sm-2"
+                        for="emailField">Email:</label>
             <div class="col-sm-10">
-                <form:input id="emailField" path="email" type="email" cssClass="form-control"/>
-            </div>
-            <div class="alert alert-info">
-                <form:errors path="email"/>
+                <input id="emailField" name="email" type="email" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <form:label path="password" cssClass="control-label col-sm-2"
-                        for="passwordField">Password:</form:label>
+            <label path="password" class="control-label col-sm-2"
+                        for="passwordField">Password:</label>
             <div class="col-sm-10">
-                <form:input id="passwordField" path="password" type="passsword"
-                            cssClass="form-control"/>
-            </div>
-            <div class="alert alert-info">
-                <form:errors path="password"/>
+                <input id="passwordField" name="password" type="password" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <form:label path="balance" cssClass="control-label col-sm-2"
-                        for="balanceField">Balance:</form:label>
+            <label path="balance" class="control-label col-sm-2"
+                        for="balanceField">Balance:</label>
             <div class="col-sm-10">
-                <form:input id="balanceField" path="balance" type="number" cssClass="form-control"/>
+                <input id="balanceField" name="balance" type="number" class="form-control"/>
             </div>
-            <div class="alert alert-info">
-                <form:errors path="balance"/>
-            </div>
-        </div>
+           </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="clientIdField">Client id</label>
             <div class="col-sm-10">
@@ -64,7 +53,7 @@
                 <button type="submit" class="btn btn-default">Insert client account</button>
             </div>
         </div>
-    </form:form>
+    </form>
 </div>
 
 </body>

@@ -1,5 +1,6 @@
 package com.iquestgroup.webApp.controllers;
 
+import com.iquestgroup.model.AccountType;
 import com.iquestgroup.model.ClientAccount;
 import com.iquestgroup.model.User;
 import com.iquestgroup.model.UserAccount;
@@ -11,21 +12,14 @@ import com.iquestgroup.webApp.annotations.Mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 /**
  * Controller mapped to respond to client account requests.
@@ -50,111 +44,101 @@ public class ClientAccountController extends AbstractController {
         request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
     }
 
-    @RequestMapping(path = "/list/{clientId}", method = RequestMethod.GET)
-    public ModelAndView listClientAccountsByClientId(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer clientId) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("store/clientAccounts/listClientAccounts");
-
+    @Mapping(path = "/clientAccounts/list/\\d+", method = HttpMethodType.GET)
+    public void listClientAccountsByClientId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            mav.addObject("clientAccounts", clientAccountService.getClientAccounts(clientId));
+            String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
+            request.setAttribute("clientAccounts", clientAccountService.getClientAccounts(Integer.parseInt(parts[parts.length - 1])));
         } catch (ServiceException e) {
             e.printStackTrace();
         }
 
-        return mav;
+        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
     }
 
-    @RequestMapping(path = "/insert", method = RequestMethod.GET)
-    public String displayInsertClientAccountForm(HttpServletRequest request, HttpServletResponse response, Model model) {
-        model.addAttribute("clientAccount", new UserAccount());
-        return "store/clientAccounts/insertClientAccount";
+    @Mapping(path = "/clientAccounts/insert", method = HttpMethodType.GET)
+    public void displayInsertClientAccountForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/insertClientAccount.jsp").include(request, response);
     }
 
-    @RequestMapping(path = "/insert/{clientId}", method = RequestMethod.GET)
-    public String displayInsertClientAccountForm(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer clientId, Model model) {
-        model.addAttribute("clientAccount", new UserAccount());
-        model.addAttribute("clientId", clientId);
-        return "store/clientAccounts/insertClientAccount";
+    @Mapping(path = "/clientAccounts/insert/\\d+", method = HttpMethodType.GET)
+    public void displayInsertClientAccountFormWithSpecifiedClientId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
+        request.setAttribute("clientAccount", new UserAccount());
+        request.setAttribute("clientId", parts[parts.length - 1]);
+        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/insertClientAccount.jsp").include(request, response);
     }
 
-    @RequestMapping(path = "/insert", method = RequestMethod.POST)
-    public ModelAndView insertClientAccount(HttpServletRequest request, HttpServletResponse response, @Valid @ModelAttribute UserAccount userAccount, BindingResult bindingResult, @RequestParam("clientId") Integer clientId) {
-        if (bindingResult.hasErrors()) {
-            return new ModelAndView("store/clientAccounts/insertClientAccount");
-        }
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("store/clientAccounts/listClientAccounts");
-
+    @Mapping(path = "/clientAccounts/insert", method = HttpMethodType.POST)
+    public void insertClientAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            User user = userService.getUserById(clientId);
-            userAccount.setUser(user);
-            String result = clientAccountService.insertClientAccount((ClientAccount) userAccount);
+            User user = userService.getUserById(Integer.parseInt(request.getParameter("clientId")));
+            ClientAccount clientAccount = new ClientAccount();
+            clientAccount.setUser(user);
+            clientAccount.setEmail(request.getParameter("email"));
+            clientAccount.setPassword(request.getParameter("password"));
+            clientAccount.setBalance(Integer.parseInt(request.getParameter("balance")));
+            clientAccount.setAccountType(AccountType.CLIENT);
+            String result = clientAccountService.insertClientAccount(clientAccount);
 
-            mav.addObject("message", result);
-            mav.addObject("clientAccounts", clientAccountService.getAllClientAccounts());
+            request.setAttribute("message", result);
+            request.setAttribute("clientAccounts", clientAccountService.getAllClientAccounts());
         } catch (ServiceException e) {
             e.printStackTrace();
         }
 
-        return mav;
+        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
     }
 
-    @RequestMapping(path = "delete", method = RequestMethod.GET)
-    public String displayDeleteForm(HttpServletRequest request, HttpServletResponse response) {
-        return "store/clientAccounts/deleteClientAccount";
+    @Mapping(path = "/clientAccounts/delete", method = HttpMethodType.GET)
+    public void displayDeleteForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/deleteClientAccount.jsp").include(request, response);
     }
 
-    @RequestMapping(path = "delete", method = RequestMethod.POST)
-    public ModelAndView deleteClientAccount(HttpServletRequest request, HttpServletResponse response, @RequestParam("clientAccountId") Integer clientAccountId) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("store/clientAccounts/listClientAccounts");
+    @Mapping(path = "/clientAccounts/delete", method = HttpMethodType.POST)
+    public void deleteClientAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        deleteClientAccount(Integer.parseInt(request.getParameter("clientAccountId")), request);
 
-        deleteClientAccount(clientAccountId, mav);
-
-        return mav;
+        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
     }
 
-    @RequestMapping(path = "delete/{clientAccountId}", method = RequestMethod.GET)
-    public ModelAndView deleteClientAccountByIdFromRequestUrl(HttpServletRequest request, HttpServletResponse response, @PathVariable("clientAccountId") Integer clientAccountId) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("store/clientAccounts/listClientAccounts");
+    @Mapping(path = "/clientAccounts/delete/\\d+", method = HttpMethodType.GET)
+    public void deleteClientAccountByIdFromRequestUrl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
+        deleteClientAccount(Integer.parseInt(parts[parts.length - 1]), request);
 
-        deleteClientAccount(clientAccountId, mav);
-
-        return mav;
+        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
     }
 
-    private void deleteClientAccount(Integer clientAccountId, ModelAndView mav) {
+    private void deleteClientAccount(Integer clientAccountId, HttpServletRequest request) {
         try {
             String result = clientAccountService.deleteClientAccount(clientAccountId);
 
-            mav.addObject("message", result);
-            mav.addObject("clientAccounts", clientAccountService.getAllClientAccounts());
+            request.setAttribute("message", result);
+            request.setAttribute("clientAccounts", clientAccountService.getAllClientAccounts());
         } catch (ServiceException e) {
             e.printStackTrace();
         }
     }
 
-    @RequestMapping(path = "addBalance/{clientAccountId}", method = RequestMethod.GET)
-    public String displayAddBalanceForm(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer clientAccountId, Model model) {
-        model.addAttribute("clientAccountId", clientAccountId);
-        return "store/clientAccounts/addBalance";
+    @Mapping(path = "/clientAccounts/addBalance/\\d+", method = HttpMethodType.GET)
+    public void displayAddBalanceForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
+        request.setAttribute("clientAccountId", parts[parts.length - 1]);
+        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/addBalance.jsp").include(request, response);
     }
 
-    @RequestMapping(path = "addBalance", method = RequestMethod.POST)
-    public ModelAndView addBalance(HttpServletRequest request, HttpServletResponse response, @RequestParam("clientAccountId") Integer clientAccountId, @RequestParam("balance") Integer balance) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("store/clientAccounts/listClientAccounts");
-
+    @Mapping(path = "/clientAccounts/addBalance", method = HttpMethodType.POST)
+    public void addBalance(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String result = clientAccountService.addBalance(clientAccountId, balance);
+            String result = clientAccountService.addBalance(Integer.parseInt(request.getParameter("clientAccountId")), Integer.parseInt(request.getParameter("balance")));
 
-            mav.addObject("message", result);
-            mav.addObject("clientAccounts", clientAccountService.getAllClientAccounts());
+            request.setAttribute("message", result);
+            request.setAttribute("clientAccounts", clientAccountService.getAllClientAccounts());
         } catch (ServiceException e) {
             e.printStackTrace();
         }
 
-        return mav;
+        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
     }
 }
