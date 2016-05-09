@@ -31,7 +31,7 @@
             <generator class="native"/>
         </id>
         <discriminator column="account_type" type="java.lang.String"/>
-        <property name="email" column="email" type="java.lang.String"/>
+        <property name="email" column="email" type="java.lang.String" unique="true"/>
         <property name="password" column="password" type="java.lang.String"/>
         <property name="creationDate" column="creation_date" type="java.util.Date"/>
         <property name="accountType" column="account_type" insert="false" update="false" index="true">

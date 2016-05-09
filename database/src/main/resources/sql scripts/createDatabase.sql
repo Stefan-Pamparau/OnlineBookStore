@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS user (
 
 CREATE TABLE IF NOT EXISTS user_account (
   id            INT         NOT NULL AUTO_INCREMENT,
-  email         VARCHAR(45) NOT NULL,
+  email         VARCHAR(45) NOT NULL UNIQUE,
   password      VARCHAR(45) NOT NULL,
   creation_date TIMESTAMP            DEFAULT CURRENT_TIMESTAMP,
   balance       INT         NOT NULL,

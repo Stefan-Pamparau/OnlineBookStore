@@ -64,4 +64,7 @@
 
     <alias name="defaultPurchaseDao" alias="purchaseDao"/>
     <bean id="defaultPurchaseDao" class="com.iquestgroup.database.impl.DefaultPurchaseDao"/>
+
+    <alias name="defaultUserAccountDao" alias="userAccountDao"/>
+    <bean id="defaultUserAccountDao" class="com.iquestgroup.database.impl.DefaultUserAccountDao"/>
 </beans>

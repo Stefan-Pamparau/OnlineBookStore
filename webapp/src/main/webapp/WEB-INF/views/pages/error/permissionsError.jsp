@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>Bad login credentials</title>
+    <title>Permissions error</title>
     <link rel="stylesheet" href="<c:url value="/static/css/loginError.css"/> ">
     <link rel="stylesheet"
           href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -13,10 +13,15 @@
 
 <body>
 <div class="alert alert-warning">
-    <p>Invalid login credential!</p>
+    <p>Invalid login credentials provided!</p>
 </div>
 
 <div class="alert alert-info">
+    <c:if test="${pageContext.request.userPrincipal.name != null}">
+        <p>Sorry. User with credentials: <b>${pageContext.request.userPrincipal.name}</b> does not
+            have access to the requested page.</p>
+    </c:if>
+
     <p>Please follow the following link to login with proper credentials: <a
             href="<c:url value="/login"/>">Login</a></p>
 </div>

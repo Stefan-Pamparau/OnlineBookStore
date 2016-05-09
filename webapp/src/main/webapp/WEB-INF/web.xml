@@ -22,6 +22,26 @@
         <filter-class>com.iquestgroup.webApp.filters.DispatcherFilter</filter-class>
     </filter>
 
+    <filter>
+        <filter-name>login-filter</filter-name>
+        <filter-class>com.iquestgroup.webApp.filters.LoginFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>permission-filter</filter-name>
+        <filter-class>com.iquestgroup.webApp.filters.PermissionFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>login-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>l
+
+    <filter-mapping>
+        <filter-name>permission-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <filter-mapping>
         <filter-name>dispatcher-filter</filter-name>
         <url-pattern>/*</url-pattern>

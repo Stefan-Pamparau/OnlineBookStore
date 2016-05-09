@@ -22,4 +22,10 @@
 
     <alias name="defaultPurchaseService" alias="purchaseService"/>
     <bean id="defaultPurchaseService" class="com.iquestgroup.service.impl.DefaultPurchaseService"/>
+
+    <alias name="defaultUserAccountService" alias="userAccountService"/>
+    <bean id="defaultUserAccountService" class="com.iquestgroup.service.impl.DefaultUserAccountService"/>
+
+    <alias name="defaultLoginService" alias="loginService"/>
+    <bean id="defaultLoginService" class="com.iquestgroup.service.impl.DefaultLoginService"/>
 </beans>

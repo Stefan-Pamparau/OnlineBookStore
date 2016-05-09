@@ -60,6 +60,7 @@ public class ControllerDispatcher implements ApplicationListener<ContextRefreshe
                     if (currentAnnotation.annotationType().equals(Mapping.class)) {
                         Mapping mapping = (Mapping) currentAnnotation;
                         String path = removeMatrixVariables(transformRequestURI(request.getRequestURI()));
+                        System.out.println(path);
                         if (path.matches(mapping.path()) && checkHttpMethodMapping(request, mapping)) {
                             try {
                                 method.invoke(getControllerInstance(controllerClass), request, response);
@@ -129,11 +130,11 @@ public class ControllerDispatcher implements ApplicationListener<ContextRefreshe
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         controllers = new ArrayList<>();
+        controllers.add(loginController);
         controllers.add(authorController);
         controllers.add(bookController);
         controllers.add(clientAccountController);
         controllers.add(clientController);
-        controllers.add(loginController);
         controllers.add(purchaseController);
     }
 }
