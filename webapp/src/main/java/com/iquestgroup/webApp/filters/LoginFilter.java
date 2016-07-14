@@ -1,10 +1,5 @@
 package com.iquestgroup.webApp.filters;
 
-import com.iquestgroup.service.LoginService;
-
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -22,12 +17,9 @@ import javax.servlet.http.HttpSession;
  * @author Stefan Pamparau
  */
 public class LoginFilter implements Filter {
-    private LoginService loginService;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
-        loginService = (LoginService) webApplicationContext.getBean("loginService");
     }
 
     @Override
