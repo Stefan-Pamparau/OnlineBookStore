@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class FrontController extends HttpServlet {
     private ControllerDispatcher controllerDispatcher;
-    private AuthorService authorService;
 
 
     @Override
@@ -29,7 +28,6 @@ public class FrontController extends HttpServlet {
         super.init(config);
         WebApplicationContext webApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
         controllerDispatcher = (ControllerDispatcher) webApplicationContext.getBean("ControllerDispatcher");
-        authorService = (AuthorService) webApplicationContext.getBean("authorService");
     }
 
     @Override
