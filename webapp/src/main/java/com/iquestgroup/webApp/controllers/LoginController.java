@@ -48,7 +48,7 @@ public class LoginController extends AbstractController {
                 request.getRequestDispatcher("/WEB-INF/views/pages/error/loginError.jsp").include(request, response);
             }
         } catch (ServiceException e) {
-            e.printStackTrace();
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
         }
     }
 

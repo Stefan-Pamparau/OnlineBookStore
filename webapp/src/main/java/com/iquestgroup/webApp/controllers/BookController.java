@@ -10,7 +10,6 @@ import com.iquestgroup.webApp.annotations.Mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 
 import java.io.IOException;
 
@@ -29,20 +28,20 @@ public class BookController extends AbstractController {
     public void listAllBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setAttribute("books", bookService.getAllBooks());
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
         }
 
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
     }
 
     @Mapping(path = "/books/insert", method = HttpMethodType.GET)
-    public void displayInsertBookForm(HttpServletRequest request, HttpServletResponse response, Model model) throws ServletException, IOException {
+    public void displayInsertBookForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/views/pages/store/books/insertBook.jsp").include(request, response);
     }
 
     @Mapping(path = "/books/insert/\\d+", method = HttpMethodType.GET)
-    public void displayInsertBookForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void displayInsertBookFormWithSpecifiedAuthorId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
         request.setAttribute("authorId", parts[parts.length - 1]);
         request.getRequestDispatcher("/WEB-INF/views/pages/store/books/insertBook.jsp").include(request, response);
@@ -62,11 +61,12 @@ public class BookController extends AbstractController {
 
             request.setAttribute("message", result);
             request.setAttribute("books", bookService.getAllBooks());
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
 
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
+
+        } catch (ServiceException e) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+        }
     }
 
     @Mapping(path = "/books/delete", method = HttpMethodType.GET)
@@ -76,26 +76,29 @@ public class BookController extends AbstractController {
 
     @Mapping(path = "/books/delete", method = HttpMethodType.POST)
     public void deleteBookByIdFromRequestParam(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        deleteBook(Integer.parseInt(request.getParameter("bookId")), request);
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
+        try {
+            deleteBook(Integer.parseInt(request.getParameter("bookId")), request);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
+        } catch (ServiceException e) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+        }
     }
 
     @Mapping(path = "/books/delete/\\d+", method = HttpMethodType.GET)
     public void deleteBookByURLID(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
-        deleteBook(Integer.parseInt(parts[parts.length - 1]), request);
-
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
+        try {
+            String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
+            deleteBook(Integer.parseInt(parts[parts.length - 1]), request);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
+        } catch (ServiceException e) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+        }
     }
 
-    private void deleteBook(Integer bookId, HttpServletRequest request) {
-        try {
-            String result = bookService.deleteBook(bookId);
+    private void deleteBook(Integer bookId, HttpServletRequest request) throws ServiceException {
+        String result = bookService.deleteBook(bookId);
 
-            request.setAttribute("message", result);
-            request.setAttribute("books", bookService.getAllBooks());
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
+        request.setAttribute("message", result);
+        request.setAttribute("books", bookService.getAllBooks());
     }
 }

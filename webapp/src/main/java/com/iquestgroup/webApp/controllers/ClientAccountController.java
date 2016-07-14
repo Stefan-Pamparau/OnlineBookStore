@@ -12,8 +12,6 @@ import com.iquestgroup.webApp.annotations.Mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
 
@@ -37,11 +35,10 @@ public class ClientAccountController extends AbstractController {
     public void listAllClientAccounts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setAttribute("clientAccounts", clientAccountService.getAllClientAccounts());
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
         }
-
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
     }
 
     @Mapping(path = "/clientAccounts/list/\\d+", method = HttpMethodType.GET)
@@ -49,11 +46,10 @@ public class ClientAccountController extends AbstractController {
         try {
             String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
             request.setAttribute("clientAccounts", clientAccountService.getClientAccounts(Integer.parseInt(parts[parts.length - 1])));
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
         }
-
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
     }
 
     @Mapping(path = "/clientAccounts/insert", method = HttpMethodType.GET)
@@ -83,11 +79,12 @@ public class ClientAccountController extends AbstractController {
 
             request.setAttribute("message", result);
             request.setAttribute("clientAccounts", clientAccountService.getAllClientAccounts());
+
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
         }
 
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
     }
 
     @Mapping(path = "/clientAccounts/delete", method = HttpMethodType.GET)
@@ -97,28 +94,30 @@ public class ClientAccountController extends AbstractController {
 
     @Mapping(path = "/clientAccounts/delete", method = HttpMethodType.POST)
     public void deleteClientAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        deleteClientAccount(Integer.parseInt(request.getParameter("clientAccountId")), request);
-
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
+        try {
+            deleteClientAccount(Integer.parseInt(request.getParameter("clientAccountId")), request);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
+        } catch (ServiceException e) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+        }
     }
 
     @Mapping(path = "/clientAccounts/delete/\\d+", method = HttpMethodType.GET)
     public void deleteClientAccountByIdFromRequestUrl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
-        deleteClientAccount(Integer.parseInt(parts[parts.length - 1]), request);
-
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
+        try {
+            String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
+            deleteClientAccount(Integer.parseInt(parts[parts.length - 1]), request);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
+        } catch (ServiceException e) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+        }
     }
 
-    private void deleteClientAccount(Integer clientAccountId, HttpServletRequest request) {
-        try {
-            String result = clientAccountService.deleteClientAccount(clientAccountId);
+    private void deleteClientAccount(Integer clientAccountId, HttpServletRequest request) throws ServiceException {
+        String result = clientAccountService.deleteClientAccount(clientAccountId);
 
-            request.setAttribute("message", result);
-            request.setAttribute("clientAccounts", clientAccountService.getAllClientAccounts());
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
+        request.setAttribute("message", result);
+        request.setAttribute("clientAccounts", clientAccountService.getAllClientAccounts());
     }
 
     @Mapping(path = "/clientAccounts/addBalance/\\d+", method = HttpMethodType.GET)
@@ -135,10 +134,9 @@ public class ClientAccountController extends AbstractController {
 
             request.setAttribute("message", result);
             request.setAttribute("clientAccounts", clientAccountService.getAllClientAccounts());
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
         }
-
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
     }
 }

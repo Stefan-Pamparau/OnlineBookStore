@@ -24,11 +24,10 @@ public class ClientController extends AbstractController {
     public void listAllClients(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setAttribute("clients", userService.getAllUsers());
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
         }
-
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
     }
 
     @Mapping(path = "/clients/insert", method = HttpMethodType.GET)
@@ -47,11 +46,11 @@ public class ClientController extends AbstractController {
 
             request.setAttribute("message", result);
             request.setAttribute("clients", userService.getAllUsers());
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
 
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
+        } catch (ServiceException e) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+        }
     }
 
     @Mapping(path = "/clients/delete", method = HttpMethodType.GET)
@@ -61,27 +60,30 @@ public class ClientController extends AbstractController {
 
     @Mapping(path = "/clients/delete", method = HttpMethodType.POST)
     public void deleteClientByIdFromRequestParam(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        deleteClient(Integer.parseInt(request.getParameter("clientId")), request);
+        try {
+            deleteClient(Integer.parseInt(request.getParameter("clientId")), request);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
+        } catch (ServiceException e) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+        }
 
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
     }
 
     @Mapping(path = "/clients/delete/\\d+", method = HttpMethodType.GET)
     public void deleteClientByUrlID(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
-        deleteClient(Integer.parseInt(parts[parts.length - 1]), request);
-
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
+        try {
+            String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
+            deleteClient(Integer.parseInt(parts[parts.length - 1]), request);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
+        } catch (ServiceException e) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+        }
     }
 
-    private void deleteClient(Integer clientId, HttpServletRequest request) {
-        try {
-            String result = userService.deleteUser(clientId);
+    private void deleteClient(Integer clientId, HttpServletRequest request) throws ServiceException {
+        String result = userService.deleteUser(clientId);
 
-            request.setAttribute("message", result);
-            request.setAttribute("clients", userService.getAllUsers());
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
+        request.setAttribute("message", result);
+        request.setAttribute("clients", userService.getAllUsers());
     }
 }

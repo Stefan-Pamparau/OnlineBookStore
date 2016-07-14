@@ -32,11 +32,10 @@ public class AuthorController extends AbstractController {
 
         try {
             request.setAttribute("authors", authorService.getAllAuthors());
+            requestDispatcher.include(request, response);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
         }
-
-        requestDispatcher.include(request, response);
     }
 
     @Mapping(path = "/authors/insert", method = HttpMethodType.GET)
@@ -50,14 +49,16 @@ public class AuthorController extends AbstractController {
             Author author = new Author();
             author.setName(request.getParameter("name"));
             author.setAge(Integer.parseInt(request.getParameter("age")));
+
             String result = authorService.insertAuthor(author);
+
             request.setAttribute("message", result);
             request.setAttribute("authors", authorService.getAllAuthors());
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
 
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").forward(request, response);
+        } catch (ServiceException e) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+        }
     }
 
     @Mapping(path = "/authors/delete", method = HttpMethodType.GET)
@@ -67,26 +68,29 @@ public class AuthorController extends AbstractController {
 
     @Mapping(path = "/authors/delete", method = HttpMethodType.POST)
     public void deleteAuthorByIdFromRequestParam(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        deleteAuthor(Integer.parseInt(request.getParameter("authorId")), request);
+        try {
+            deleteAuthor(Integer.parseInt(request.getParameter("authorId")), request);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").include(request, response);
+        } catch (ServiceException e) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+        }
 
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").include(request, response);
     }
 
     @Mapping(path = "/authors/delete/\\d+", method = HttpMethodType.GET)
     public void deleteAuthorByByUrlId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
-        deleteAuthor(Integer.parseInt(parts[parts.length - 1]), request);
-
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").include(request, response);
+        try {
+            String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
+            deleteAuthor(Integer.parseInt(parts[parts.length - 1]), request);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").include(request, response);
+        } catch (ServiceException e) {
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+        }
     }
 
-    private void deleteAuthor(Integer authorId, HttpServletRequest request) {
-        try {
-            String result = authorService.deleteAuthor(authorId);
-            request.setAttribute("message", result);
-            request.setAttribute("authors", authorService.getAllAuthors());
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
+    private void deleteAuthor(Integer authorId, HttpServletRequest request) throws ServiceException {
+        String result = authorService.deleteAuthor(authorId);
+        request.setAttribute("message", result);
+        request.setAttribute("authors", authorService.getAllAuthors());
     }
 }

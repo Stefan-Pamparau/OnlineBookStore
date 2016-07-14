@@ -7,7 +7,6 @@ import com.iquestgroup.webApp.annotations.Mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 
@@ -29,24 +28,22 @@ public class PurchaseController extends AbstractController {
     public void listAllPurchases(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setAttribute("purchases", purchaseService.getAllPurchases());
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/purchases/listPurchases.jsp").include(request, response);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
         }
 
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/purchases/listPurchases.jsp").include(request, response);
     }
 
     @Mapping(path = "/purchases/list/\\d+", method = HttpMethodType.GET)
     public void listAllPurchasesForClientAccountId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
-
         try {
+            String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
             request.setAttribute("purchases", purchaseService.getPurchasesByClientAccountId(Integer.parseInt(parts[parts.length - 1])));
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/purchases/listPurchases.jsp").include(request, response);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
         }
-
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/purchases/listPurchases.jsp").include(request, response);
     }
 
     @Mapping(path = "/purchases/purchase", method = HttpMethodType.GET)
@@ -69,10 +66,9 @@ public class PurchaseController extends AbstractController {
 
             request.setAttribute("message", result);
             request.setAttribute("purchases", purchaseService.getAllPurchases());
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/purchases/listPurchases.jsp").include(request, response);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
         }
-
-        request.getRequestDispatcher("/WEB-INF/views/pages/store/purchases/listPurchases.jsp").include(request, response);
     }
 }
