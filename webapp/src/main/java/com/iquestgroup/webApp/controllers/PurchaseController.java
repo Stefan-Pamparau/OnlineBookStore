@@ -30,9 +30,8 @@ public class PurchaseController extends AbstractController {
             request.setAttribute("purchases", purchaseService.getAllPurchases());
             request.getRequestDispatcher("/WEB-INF/views/pages/store/purchases/listPurchases.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
-
     }
 
     @Mapping(path = "/purchases/list/\\d+", method = HttpMethodType.GET)
@@ -42,7 +41,7 @@ public class PurchaseController extends AbstractController {
             request.setAttribute("purchases", purchaseService.getPurchasesByClientAccountId(Integer.parseInt(parts[parts.length - 1])));
             request.getRequestDispatcher("/WEB-INF/views/pages/store/purchases/listPurchases.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
@@ -68,7 +67,7 @@ public class PurchaseController extends AbstractController {
             request.setAttribute("purchases", purchaseService.getAllPurchases());
             request.getRequestDispatcher("/WEB-INF/views/pages/store/purchases/listPurchases.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 }

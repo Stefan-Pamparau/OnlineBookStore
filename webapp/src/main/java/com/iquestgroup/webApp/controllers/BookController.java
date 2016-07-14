@@ -30,9 +30,8 @@ public class BookController extends AbstractController {
             request.setAttribute("books", bookService.getAllBooks());
             request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
-
     }
 
     @Mapping(path = "/books/insert", method = HttpMethodType.GET)
@@ -65,7 +64,7 @@ public class BookController extends AbstractController {
             request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
 
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
@@ -80,7 +79,7 @@ public class BookController extends AbstractController {
             deleteBook(Integer.parseInt(request.getParameter("bookId")), request);
             request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
@@ -91,7 +90,7 @@ public class BookController extends AbstractController {
             deleteBook(Integer.parseInt(parts[parts.length - 1]), request);
             request.getRequestDispatcher("/WEB-INF/views/pages/store/books/listBooks.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 

@@ -37,7 +37,7 @@ public class ClientAccountController extends AbstractController {
             request.setAttribute("clientAccounts", clientAccountService.getAllClientAccounts());
             request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
@@ -48,7 +48,7 @@ public class ClientAccountController extends AbstractController {
             request.setAttribute("clientAccounts", clientAccountService.getClientAccounts(Integer.parseInt(parts[parts.length - 1])));
             request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
@@ -82,7 +82,7 @@ public class ClientAccountController extends AbstractController {
 
             request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
 
     }
@@ -98,7 +98,7 @@ public class ClientAccountController extends AbstractController {
             deleteClientAccount(Integer.parseInt(request.getParameter("clientAccountId")), request);
             request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
@@ -109,7 +109,7 @@ public class ClientAccountController extends AbstractController {
             deleteClientAccount(Integer.parseInt(parts[parts.length - 1]), request);
             request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
@@ -136,7 +136,7 @@ public class ClientAccountController extends AbstractController {
             request.setAttribute("clientAccounts", clientAccountService.getAllClientAccounts());
             request.getRequestDispatcher("/WEB-INF/views/pages/store/clientAccounts/listClientAccounts.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 }

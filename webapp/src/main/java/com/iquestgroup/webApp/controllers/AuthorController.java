@@ -34,7 +34,7 @@ public class AuthorController extends AbstractController {
             request.setAttribute("authors", authorService.getAllAuthors());
             requestDispatcher.include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
@@ -57,7 +57,7 @@ public class AuthorController extends AbstractController {
 
             request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").forward(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
@@ -72,7 +72,7 @@ public class AuthorController extends AbstractController {
             deleteAuthor(Integer.parseInt(request.getParameter("authorId")), request);
             request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
 
     }
@@ -84,7 +84,7 @@ public class AuthorController extends AbstractController {
             deleteAuthor(Integer.parseInt(parts[parts.length - 1]), request);
             request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 

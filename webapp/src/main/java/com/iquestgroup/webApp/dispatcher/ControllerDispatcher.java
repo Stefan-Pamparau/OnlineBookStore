@@ -2,7 +2,13 @@ package com.iquestgroup.webApp.dispatcher;
 
 import com.iquestgroup.webApp.annotations.HttpMethodType;
 import com.iquestgroup.webApp.annotations.Mapping;
-import com.iquestgroup.webApp.controllers.*;
+import com.iquestgroup.webApp.controllers.AbstractController;
+import com.iquestgroup.webApp.controllers.AuthorController;
+import com.iquestgroup.webApp.controllers.BookController;
+import com.iquestgroup.webApp.controllers.ClientAccountController;
+import com.iquestgroup.webApp.controllers.ClientController;
+import com.iquestgroup.webApp.controllers.LoginController;
+import com.iquestgroup.webApp.controllers.PurchaseController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -15,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -46,7 +53,7 @@ public class ControllerDispatcher implements ApplicationListener<ContextRefreshe
      * @param request  - Http request from client
      * @param response - Http response to client
      */
-    public void dispatch(HttpServletRequest request, HttpServletResponse response) {
+    public void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         String requestPath = request.getRequestURI();
 
         for (AbstractController controller : controllers) {
@@ -64,7 +71,7 @@ public class ControllerDispatcher implements ApplicationListener<ContextRefreshe
                             try {
                                 method.invoke(getControllerInstance(controllerClass), request, response);
                             } catch (IllegalAccessException | InvocationTargetException e) {
-                                e.printStackTrace();
+                                throw new ServletException("Cannot dispatch method:" + method.getName());
                             }
                         }
                     }
@@ -89,8 +96,7 @@ public class ControllerDispatcher implements ApplicationListener<ContextRefreshe
     /**
      * Removes the first part of the request uri.
      *
-     * Ex. input uri : /store/authors/list
-     * output uri: /authors/list
+     * Ex. input uri : /store/authors/list output uri: /authors/list
      *
      * @param requestURI - the request uri
      * @return - the transformed request uri
@@ -104,7 +110,8 @@ public class ControllerDispatcher implements ApplicationListener<ContextRefreshe
      *
      * @param request - incoming request
      * @param mapping - annotation which contains the controller method maping information
-     * @return - true if the controller method type is equal to the incoming request http method type
+     * @return - true if the controller method type is equal to the incoming request http method
+     * type
      */
     private boolean checkHttpMethodMapping(HttpServletRequest request, Mapping mapping) {
         return HttpMethodType.valueOf(request.getMethod().toUpperCase()) == mapping.method();

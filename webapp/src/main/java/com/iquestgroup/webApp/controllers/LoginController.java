@@ -7,12 +7,7 @@ import com.iquestgroup.webApp.annotations.HttpMethodType;
 import com.iquestgroup.webApp.annotations.Mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
 
@@ -41,14 +36,14 @@ public class LoginController extends AbstractController {
         try {
             userAccount = loginService.login(request.getParameter("email"), request.getParameter("password"));
 
-            if(userAccount != null) {
+            if (userAccount != null) {
                 request.getSession().setAttribute("loggedUser", userAccount);
                 request.getRequestDispatcher("/WEB-INF/views/pages/index.jsp").include(request, response);
             } else {
                 request.getRequestDispatcher("/WEB-INF/views/pages/error/loginError.jsp").include(request, response);
             }
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 

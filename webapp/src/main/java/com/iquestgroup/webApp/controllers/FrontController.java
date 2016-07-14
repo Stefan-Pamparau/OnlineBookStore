@@ -1,6 +1,5 @@
 package com.iquestgroup.webApp.controllers;
 
-import com.iquestgroup.service.AuthorService;
 import com.iquestgroup.webApp.dispatcher.ControllerDispatcher;
 
 import org.springframework.web.context.WebApplicationContext;
@@ -15,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Handles all incoming requests and forwards to a dispatcher which dispatches to appropriate controllers.
+ * Handles all incoming requests and forwards to a dispatcher which dispatches to appropriate
+ * controllers.
  *
  * @author Stefan Pamparau
  */

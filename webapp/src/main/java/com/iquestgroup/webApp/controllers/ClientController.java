@@ -26,7 +26,7 @@ public class ClientController extends AbstractController {
             request.setAttribute("clients", userService.getAllUsers());
             request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
@@ -49,7 +49,7 @@ public class ClientController extends AbstractController {
 
             request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
@@ -64,7 +64,7 @@ public class ClientController extends AbstractController {
             deleteClient(Integer.parseInt(request.getParameter("clientId")), request);
             request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
 
     }
@@ -76,7 +76,7 @@ public class ClientController extends AbstractController {
             deleteClient(Integer.parseInt(parts[parts.length - 1]), request);
             request.getRequestDispatcher("/WEB-INF/views/pages/store/clients/listClients.jsp").include(request, response);
         } catch (ServiceException e) {
-            request.getRequestDispatcher("/WEB-INF/views/pages/error/pageError.jsp").include(request, response);
+            throw new ServletException(e);
         }
     }
 
