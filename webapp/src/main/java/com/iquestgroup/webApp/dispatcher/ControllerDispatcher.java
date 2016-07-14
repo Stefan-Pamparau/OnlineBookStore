@@ -60,7 +60,6 @@ public class ControllerDispatcher implements ApplicationListener<ContextRefreshe
                     if (currentAnnotation.annotationType().equals(Mapping.class)) {
                         Mapping mapping = (Mapping) currentAnnotation;
                         String path = removeMatrixVariables(transformRequestURI(request.getRequestURI()));
-                        System.out.println(path);
                         if (path.matches(mapping.path()) && checkHttpMethodMapping(request, mapping)) {
                             try {
                                 method.invoke(getControllerInstance(controllerClass), request, response);
