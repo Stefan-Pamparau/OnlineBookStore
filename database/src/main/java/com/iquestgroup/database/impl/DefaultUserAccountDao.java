@@ -4,6 +4,7 @@ import com.iquestgroup.database.UserAccountDao;
 import com.iquestgroup.database.exceptionHandling.DaoException;
 import com.iquestgroup.model.UserAccount;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,7 +17,10 @@ import java.util.List;
  *
  * @author Stefan Pamparau
  */
-public class DefaultUserAccountDao implements UserAccountDao {
+public class DefaultUserAccountDao extends AbstractDao implements UserAccountDao {
+
+    private static Logger logger = Logger.getLogger(DefaultUserAccountDao.class);
+
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -24,12 +28,14 @@ public class DefaultUserAccountDao implements UserAccountDao {
     public UserAccount getUserAccountByEmailAndPassword(String email, String password) throws DaoException {
         UserAccount result = null;
         try (Session session = sessionFactory.openSession()) {
+            logger.debug(getLogPrefix() + "Querying the database for user account with email: " + email);
             List account = session.createQuery("FROM com.iquestgroup.model.UserAccount account WHERE account.email = :email AND account.password = :password")
                     .setParameter("email", email)
                     .setParameter("password", password)
                     .list();
 
             if (account != null && account.size() == 1) {
+                logger.debug(getLogPrefix() + "Found user account with email: " + email);
                 result = (UserAccount) account.get(0);
             }
 

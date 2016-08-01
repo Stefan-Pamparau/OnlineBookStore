@@ -4,6 +4,7 @@ import com.iquestgroup.database.UserDao;
 import com.iquestgroup.database.exceptionHandling.DaoException;
 import com.iquestgroup.model.User;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultUserDao implements UserDao {
+public class DefaultUserDao extends AbstractDao implements UserDao {
+
+    private static Logger logger = Logger.getLogger(DefaultUserDao.class);
+
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -23,18 +27,17 @@ public class DefaultUserDao implements UserDao {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
+            logger.debug(getLogPrefix() + "Querying the database for user instances");
             List clientList = session.createQuery("FROM com.iquestgroup.model.User").list();
-            for (Object client : clientList) {
-                User resultUser = (User) client;
-                result.add(resultUser);
-            }
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
 
+            if (clientList != null && !clientList.isEmpty()) {
+                logger.debug(getLogPrefix() + "Found user instances. Inserting them in result list");
+                for (Object client : clientList) {
+                    User resultUser = (User) client;
+                    result.add(resultUser);
+                }
+            }
+        } catch (HibernateException e) {
             throw new DaoException("An error occurred while retrieving all the clients from the database!", e);
         }
 
@@ -44,6 +47,7 @@ public class DefaultUserDao implements UserDao {
     @Override
     public User getUserById(Integer id) throws DaoException {
         try (Session session = sessionFactory.openSession()) {
+            logger.debug(getLogPrefix() + "Querying the database for user with id: " + id);
             return session.get(User.class, id);
         } catch (HibernateException e) {
             throw new DaoException("An error occurred while trying to retrieve user by id", e);
@@ -56,6 +60,8 @@ public class DefaultUserDao implements UserDao {
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
+
+            logger.debug(getLogPrefix() + "Inserting user: " + user + " in the database");
             session.save(user);
             transaction.commit();
         } catch (HibernateException e) {
@@ -70,16 +76,20 @@ public class DefaultUserDao implements UserDao {
     }
 
     @Override
-    public String deleteUser(Integer clientID) throws DaoException {
+    public String deleteUser(Integer userID) throws DaoException {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            User user = session.get(User.class, clientID);
+
+            logger.debug(getLogPrefix() + "Querying the database for user with id: " + userID);
+            User user = session.get(User.class, userID);
 
             if (user == null) {
-                return "User with id: " + clientID + " does not exists in the database!";
+                logger.debug(getLogPrefix() + "User with id: " + userID + " does not exists in the database!");
+                return "User with id: " + userID + " does not exists in the database!";
             } else {
+                logger.debug(getLogPrefix() + "User with id: " + userID + " found. Deleting him!");
                 session.delete(user);
                 transaction.commit();
             }
@@ -88,9 +98,9 @@ public class DefaultUserDao implements UserDao {
                 transaction.rollback();
             }
 
-            throw new DaoException("An error occurred while trying to delete user with id: " + clientID, e);
+            throw new DaoException("An error occurred while trying to delete user with id: " + userID, e);
         }
 
-        return "Successfully deleted user with id: " + clientID;
+        return "Successfully deleted user with id: " + userID;
     }
 }

@@ -40,9 +40,9 @@ public interface UserDao {
     /**
      * Deletes a user from the database.
      *
-     * @param clientID - id of user to be deleted
+     * @param userID - id of user to be deleted
      * @return - a message about the operation result
      * @throws DaoException - thrown when a Hibernate specific exception occurs
      */
-    String deleteUser(Integer clientID) throws DaoException;
+    String deleteUser(Integer userID) throws DaoException;
 }
