@@ -25,13 +25,17 @@ public class DefaultBookDao implements BookDao {
 
     @Override
     public List<Book> getAllBooks() throws DaoException {
-        List<Book> resultList = new ArrayList<>();
+        List<Book> resultList = null;
 
         try (Session session = sessionFactory.openSession()) {
             List books =
                     session.createQuery("FROM com.iquestgroup.model.Book book inner join fetch book.author").list();
-            for (Object book : books) {
-                resultList.add((Book) book);
+
+            if(books != null && !books.isEmpty()) {
+                resultList = new ArrayList<>();
+                for (Object book : books) {
+                    resultList.add((Book) book);
+                }
             }
         } catch (HibernateException e) {
             throw new DaoException("An error occurred while trying to retrieve all the books from the database!", e);
