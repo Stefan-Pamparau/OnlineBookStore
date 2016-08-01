@@ -32,23 +32,19 @@ public class Purchase implements Serializable {
         this.book = book;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         Purchase purchase = (Purchase) o;
 
-        if (purchaseDate != null ? !purchaseDate.equals(purchase.purchaseDate) : purchase.purchaseDate != null)
-            return false;
-        return book != null ? book.equals(purchase.book) : purchase.book == null;
+        return purchaseDate != null ? purchaseDate.equals(purchase.purchaseDate) : purchase.purchaseDate == null;
 
     }
 
-    @Override
-    public int hashCode() {
-        int result = purchaseDate != null ? purchaseDate.hashCode() : 0;
-        result = 31 * result + (book != null ? book.hashCode() : 0);
-        return result;
+    @Override public int hashCode() {
+        return purchaseDate != null ? purchaseDate.hashCode() : 0;
     }
 }

@@ -59,4 +59,27 @@ public class Author {
                 ", age=" + age +
                 '}';
     }
+
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Author author = (Author) o;
+
+        if (id != null ? !id.equals(author.id) : author.id != null)
+            return false;
+        if (name != null ? !name.equals(author.name) : author.name != null)
+            return false;
+        return age != null ? age.equals(author.age) : author.age == null;
+
+    }
+
+    @Override public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (age != null ? age.hashCode() : 0);
+        return result;
+    }
 }

@@ -69,30 +69,32 @@ public class Book {
         this.author = author;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         Book book = (Book) o;
 
-        if (id != null ? !id.equals(book.id) : book.id != null) return false;
-        if (title != null ? !title.equals(book.title) : book.title != null) return false;
-        if (genre != null ? !genre.equals(book.genre) : book.genre != null) return false;
-        if (inStock != null ? !inStock.equals(book.inStock) : book.inStock != null) return false;
-        if (price != null ? !price.equals(book.price) : book.price != null) return false;
-        return author != null ? author.equals(book.author) : book.author == null;
+        if (id != null ? !id.equals(book.id) : book.id != null)
+            return false;
+        if (title != null ? !title.equals(book.title) : book.title != null)
+            return false;
+        if (genre != null ? !genre.equals(book.genre) : book.genre != null)
+            return false;
+        if (inStock != null ? !inStock.equals(book.inStock) : book.inStock != null)
+            return false;
+        return price != null ? price.equals(book.price) : book.price == null;
 
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (genre != null ? genre.hashCode() : 0);
         result = 31 * result + (inStock != null ? inStock.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
-        result = 31 * result + (author != null ? author.hashCode() : 0);
         return result;
     }
 }
