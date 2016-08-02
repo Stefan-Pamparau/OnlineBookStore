@@ -177,7 +177,7 @@ public class DefaultClientAccountDao implements ClientAccountDao {
             transaction = session.beginTransaction();
 
             logger.debug("Querying the database for account with id: " + clientAccountId);
-            UserAccount persistentUserAccount = session.get(ClientAccount.class, clientAccountId);
+            ClientAccount persistentUserAccount = session.get(ClientAccount.class, clientAccountId);
 
             if (persistentUserAccount != null) {
                 logger.debug("Account with id: " + clientAccountId + " exist in the database." +
