@@ -118,7 +118,7 @@ public class DefaultClientAccountDao extends AbstractDao implements ClientAccoun
                     .list();
 
             if (clientAccounts == null || clientAccounts.isEmpty()) {
-                logger.debug("No accunts found. Inserting new account: " + account);
+                logger.debug("No accounts found. Inserting new account: " + account);
                 session.save(account);
             } else {
                 logger.debug(getLogPrefix() + "Client account with email: " + account.getEmail() + " already exists in the database.");
