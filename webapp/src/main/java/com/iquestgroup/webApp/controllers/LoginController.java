@@ -6,6 +6,7 @@ import com.iquestgroup.service.exceptionHandling.ServiceException;
 import com.iquestgroup.webApp.annotations.HttpMethodType;
 import com.iquestgroup.webApp.annotations.Mapping;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,11 +23,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component("LoginController")
 public class LoginController extends AbstractController {
+
+    private static final Logger logger = Logger.getLogger(LoginController.class);
+
     @Autowired
     private LoginService loginService;
 
     @Mapping(path = "/login", method = HttpMethodType.GET)
     public void showLoginForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.debug("Displaying login form");
         request.getRequestDispatcher("/WEB-INF/views/pages/login/login.jsp").include(request, response);
     }
 
@@ -34,12 +39,17 @@ public class LoginController extends AbstractController {
     public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserAccount userAccount = null;
         try {
-            userAccount = loginService.login(request.getParameter("email"), request.getParameter("password"));
+            String email = request.getParameter("email");
+
+            logger.info("Trying to authenticate user with email: " + email);
+            userAccount = loginService.login(email, request.getParameter("password"));
 
             if (userAccount != null) {
+                logger.debug("Login success");
                 request.getSession().setAttribute("loggedUser", userAccount);
                 request.getRequestDispatcher("/WEB-INF/views/pages/index.jsp").include(request, response);
             } else {
+                logger.debug("Login failed");
                 request.getRequestDispatcher("/WEB-INF/views/pages/error/loginError.jsp").include(request, response);
             }
         } catch (ServiceException e) {

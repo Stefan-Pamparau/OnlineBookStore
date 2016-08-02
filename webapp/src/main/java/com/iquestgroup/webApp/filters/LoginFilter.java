@@ -1,5 +1,7 @@
 package com.iquestgroup.webApp.filters;
 
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -18,6 +20,8 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginFilter implements Filter {
 
+    private static final Logger logger = Logger.getLogger(LoginFilter.class);
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -33,8 +37,10 @@ public class LoginFilter implements Filter {
 
 
         if (loggedIn || loginRequest) {
+            logger.info("Request is of login type or user already logged in");
             chain.doFilter(request, response);
         } else {
+            logger.info("Displaying login from");
             request.getRequestDispatcher("/WEB-INF/views/pages/login/login.jsp").include(request, response);
         }
     }

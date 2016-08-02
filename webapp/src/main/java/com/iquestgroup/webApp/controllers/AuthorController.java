@@ -6,6 +6,7 @@ import com.iquestgroup.service.exceptionHandling.ServiceException;
 import com.iquestgroup.webApp.annotations.HttpMethodType;
 import com.iquestgroup.webApp.annotations.Mapping;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component("AuthorController")
 public class AuthorController extends AbstractController {
+
+    private static final Logger logger = Logger.getLogger(AuthorController.class);
+
     @Autowired
     private AuthorService authorService;
 
@@ -31,6 +35,7 @@ public class AuthorController extends AbstractController {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp");
 
         try {
+            logger.debug("Querying the database for all authors");
             request.setAttribute("authors", authorService.getAllAuthors());
             requestDispatcher.include(request, response);
         } catch (ServiceException e) {
@@ -40,6 +45,7 @@ public class AuthorController extends AbstractController {
 
     @Mapping(path = "/authors/insert", method = HttpMethodType.GET)
     public void displayAuthorInsertForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.debug("Displaying author insert form");
         request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/insertAuthor.jsp").include(request, response);
     }
 
@@ -50,6 +56,7 @@ public class AuthorController extends AbstractController {
             author.setName(request.getParameter("name"));
             author.setAge(Integer.parseInt(request.getParameter("age")));
 
+            logger.info("Inserting author: " + author);
             String result = authorService.insertAuthor(author);
 
             request.setAttribute("message", result);
@@ -63,13 +70,17 @@ public class AuthorController extends AbstractController {
 
     @Mapping(path = "/authors/delete", method = HttpMethodType.GET)
     public void displayAuthorDeleteForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.debug("Displaying author delete form");
         request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/deleteAuthor.jsp").include(request, response);
     }
 
     @Mapping(path = "/authors/delete", method = HttpMethodType.POST)
     public void deleteAuthorByIdFromRequestParam(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            deleteAuthor(Integer.parseInt(request.getParameter("authorId")), request);
+            String authorId = request.getParameter("authorId");
+
+            logger.info("Deleting author with id: " + authorId);
+            deleteAuthor(Integer.parseInt(authorId), request);
             request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").include(request, response);
         } catch (ServiceException e) {
             throw new ServletException(e);
@@ -81,6 +92,8 @@ public class AuthorController extends AbstractController {
     public void deleteAuthorByByUrlId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String[] parts = request.getRequestURI().substring(request.getContextPath().length()).split("/");
+
+            logger.info("Deleting author with id: " + parts[parts.length - 1]);
             deleteAuthor(Integer.parseInt(parts[parts.length - 1]), request);
             request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").include(request, response);
         } catch (ServiceException e) {
