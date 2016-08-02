@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DefaultAuthorService implements AuthorService {
 
-    private static Logger logger = Logger.getLogger(DefaultAuthorService.class);
+    private static final Logger logger = Logger.getLogger(DefaultAuthorService.class);
 
     @Autowired
     private AuthorDao authorDAO;

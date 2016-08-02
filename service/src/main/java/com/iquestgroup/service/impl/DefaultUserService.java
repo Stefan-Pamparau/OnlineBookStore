@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DefaultUserService implements UserService {
 
-    private static Logger logger = Logger.getLogger(DefaultUserService.class);
+    private static final Logger logger = Logger.getLogger(DefaultUserService.class);
 
     @Autowired
     private UserDao clientDAO;

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DefaultBookService implements BookService {
 
-    private static Logger logger = Logger.getLogger(DefaultBookService.class);
+    private static final Logger logger = Logger.getLogger(DefaultBookService.class);
 
     @Autowired
     private BookDao bookDAO;

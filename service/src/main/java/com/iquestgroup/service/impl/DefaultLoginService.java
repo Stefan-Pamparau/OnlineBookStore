@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class DefaultLoginService implements LoginService {
 
-    private static Logger logger = Logger.getLogger(DefaultLoginService.class);
+    private static final Logger logger = Logger.getLogger(DefaultLoginService.class);
 
     @Autowired
     private UserAccountService userAccountService;

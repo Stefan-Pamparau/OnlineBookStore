@@ -20,7 +20,7 @@ import java.util.Set;
  */
 public class DefaultClientAccountService implements ClientAccountService {
 
-    private static Logger logger = Logger.getLogger(DefaultClientAccountService.class);
+    private static final Logger logger = Logger.getLogger(DefaultClientAccountService.class);
 
     @Autowired
     private ClientAccountDao clientAccountDao;

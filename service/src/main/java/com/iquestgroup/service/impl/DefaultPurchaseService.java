@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class DefaultPurchaseService implements PurchaseService {
 
-    private static Logger logger = Logger.getLogger(DefaultPurchaseService.class);
+    private static final Logger logger = Logger.getLogger(DefaultPurchaseService.class);
 
     @Autowired
     private PurchaseDao purchaseDao;
