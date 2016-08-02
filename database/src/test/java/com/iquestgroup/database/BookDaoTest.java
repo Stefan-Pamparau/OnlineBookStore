@@ -296,6 +296,55 @@ public class BookDaoTest {
     }
 
     @Test
+    public void testDeleteBook() throws DaoException {
+        Book book = bookBuilder.build(1, "title 1", "genre 1", 1, 100);
+
+        when(sessionFactory.openSession()).thenReturn(session);
+        when(session.beginTransaction()).thenReturn(transaction);
+        when(session.get(Book.class, 1)).thenReturn(book);
+        doNothing().when(transaction).commit();
+
+        when(sessionFactory.openSession()).thenReturn(session);
+        when(session.get(Book.class, 1)).thenReturn(null);
+
+        bookDao.deleteBook(1);
+        Book actual = bookDao.getBookById(1);
+
+        verify(sessionFactory, times(2)).openSession();
+        verify(session, times(2)).get(Book.class, 1);
+        Assert.assertEquals(null, actual);
+    }
+
+    @Test
+    public void testDeleteBookDoesNotExist() throws DaoException {
+        Book book = bookBuilder.build(1, "title 1", "genre 1", 1, 100);
+        String expected = "Book with id " + book.getId() + " does not exist in the database!";
+
+        when(sessionFactory.openSession()).thenReturn(session);
+        when(session.beginTransaction()).thenReturn(transaction);
+        when(session.get(Book.class, 1)).thenReturn(book);
+        doNothing().when(transaction).commit();
+
+        when(sessionFactory.openSession()).thenReturn(session);
+        when(session.get(Book.class, 1)).thenReturn(null);
+
+        String actual = bookDao.deleteBook(1);
+
+        verify(sessionFactory, times(1)).openSession();
+        verify(session, times(1)).get(Book.class, 1);
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test(expected = DaoException.class)
+    public void testDeleteBookThrowsDaoException() throws DaoException {
+        when(sessionFactory.openSession()).thenThrow(HibernateException.class);
+
+        String actual = bookDao.deleteBook(1);
+
+        verify(sessionFactory, times(1)).openSession();
+    }
+
+    @Test
     public void testGetBookAuthor() throws DaoException {
         Book book = bookBuilder.build(1, "title 1", "genre 1", 1, 100);
         Author expected = authorBuilder.build(1, "name 1", 25);
