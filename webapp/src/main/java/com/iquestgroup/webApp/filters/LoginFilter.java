@@ -40,8 +40,8 @@ public class LoginFilter implements Filter {
             logger.info("Request is of login type or user already logged in");
             chain.doFilter(request, response);
         } else {
-            logger.info("Displaying login from");
-            request.getRequestDispatcher("/WEB-INF/views/pages/login/login.jsp").include(request, response);
+            logger.info("Displaying login form");
+            request.getRequestDispatcher("/WEB-INF/views/pages/login/login.jsp").forward(request, response);
         }
     }
 
