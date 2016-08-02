@@ -225,6 +225,7 @@ public class AuthorDaoTests {
 
         verify(sessionFactory, times(3)).openSession();
         verify(session, times(3)).get(Author.class, 1);
+        verify(session, times(1)).update(expected);
         verify(transaction, times(1)).commit();
         Assert.assertEquals(expected, actual);
     }

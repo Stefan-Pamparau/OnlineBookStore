@@ -117,7 +117,7 @@ public class DefaultAuthorDao implements AuthorDao {
                 persistentAuthor.setName(author.getName());
                 persistentAuthor.setAge(author.getAge());
 
-                session.save(persistentAuthor);
+                session.update(persistentAuthor);
                 transaction.commit();
             } else {
                 logger.debug("Author with id: " + author.getId() + " does not exist in the database");
