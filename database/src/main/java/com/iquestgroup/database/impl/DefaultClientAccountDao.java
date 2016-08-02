@@ -23,7 +23,7 @@ import java.util.Set;
  *
  * @author Stefan Pamparau
  */
-public class DefaultClientAccountDao extends AbstractDao implements ClientAccountDao {
+public class DefaultClientAccountDao implements ClientAccountDao {
 
     private static Logger logger = Logger.getLogger(DefaultClientAccountDao.class);
 
@@ -35,11 +35,11 @@ public class DefaultClientAccountDao extends AbstractDao implements ClientAccoun
         List<ClientAccount> result = null;
 
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for ClientAccount instances");
+            logger.debug("Querying the database for ClientAccount instances");
             List clientAccounts = session.createQuery("FROM com.iquestgroup.model.ClientAccount account").list();
 
             if (clientAccounts != null && !clientAccounts.isEmpty()) {
-                logger.debug(getLogPrefix() + "Client accounts found in the database. Inserting them " +
+                logger.debug("Client accounts found in the database. Inserting them " +
                         "in the result list");
                 result = new ArrayList<>();
 
@@ -59,11 +59,11 @@ public class DefaultClientAccountDao extends AbstractDao implements ClientAccoun
         Set<UserAccount> result = null;
 
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for user with id: " + clientId);
+            logger.debug("Querying the database for user with id: " + clientId);
             User user = session.get(User.class, clientId);
 
             if (user != null) {
-                logger.debug(getLogPrefix() + "User with id:" + clientId + " exists in the database." +
+                logger.debug("User with id:" + clientId + " exists in the database." +
                         "Initializing his accounts");
                 Hibernate.initialize(user.getUserAccounts());
                 result = user.getUserAccounts();
@@ -78,7 +78,7 @@ public class DefaultClientAccountDao extends AbstractDao implements ClientAccoun
     @Override
     public ClientAccount getClientAccountById(Integer clientAccountId) throws DaoException {
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for accounts with: " + clientAccountId);
+            logger.debug("Querying the database for accounts with: " + clientAccountId);
             return session.get(ClientAccount.class, clientAccountId);
         } catch (HibernateException e) {
             throw new DaoException("Cannot retrieve client account by id", e);
@@ -88,11 +88,11 @@ public class DefaultClientAccountDao extends AbstractDao implements ClientAccoun
     @Override
     public ClientAccount getInitializedClientAccountById(Integer clientAccountId) throws DaoException {
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for accounts with: " + clientAccountId);
+            logger.debug("Querying the database for accounts with: " + clientAccountId);
             ClientAccount userAccount = session.get(ClientAccount.class, clientAccountId);
 
             if (userAccount != null) {
-                logger.debug(getLogPrefix() + "Account with id: " + clientAccountId + " exists in the database." +
+                logger.debug("Account with id: " + clientAccountId + " exists in the database." +
                         "Initializing it");
                 Hibernate.initialize(userAccount.getUser());
                 Hibernate.initialize(userAccount.getBooks());
@@ -111,7 +111,7 @@ public class DefaultClientAccountDao extends AbstractDao implements ClientAccoun
 
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            logger.debug(getLogPrefix() + "Querying the database for accounts with email:" + account.getEmail());
+            logger.debug("Querying the database for accounts with email:" + account.getEmail());
             List clientAccounts = session.createQuery("FROM com.iquestgroup.model.UserAccount clientAccount " +
                     "WHERE clientAccount.email = :email")
                     .setParameter("email", account.getEmail())
@@ -121,7 +121,7 @@ public class DefaultClientAccountDao extends AbstractDao implements ClientAccoun
                 logger.debug("No accounts found. Inserting new account: " + account);
                 session.save(account);
             } else {
-                logger.debug(getLogPrefix() + "Client account with email: " + account.getEmail() + " already exists in the database.");
+                logger.debug("Client account with email: " + account.getEmail() + " already exists in the database.");
                 return "Client account with email: " + account.getEmail() + " already exists in the database.";
             }
 
@@ -143,11 +143,11 @@ public class DefaultClientAccountDao extends AbstractDao implements ClientAccoun
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
-            logger.debug(getLogPrefix() + "Querying the database for account with id: " + account.getId());
+            logger.debug("Querying the database for account with id: " + account.getId());
             ClientAccount persistentUserAccount = session.get(ClientAccount.class, account.getId());
 
             if (persistentUserAccount != null) {
-                logger.debug(getLogPrefix() + "Account with id: " + account.getId() + " exists in the database." +
+                logger.debug("Account with id: " + account.getId() + " exists in the database." +
                         "Updating it");
                 persistentUserAccount.setEmail(account.getEmail());
                 persistentUserAccount.setPassword(account.getPassword());
@@ -155,7 +155,7 @@ public class DefaultClientAccountDao extends AbstractDao implements ClientAccoun
                 session.update(persistentUserAccount);
                 transaction.commit();
             } else {
-                logger.debug(getLogPrefix() + "Client account not existent in database.");
+                logger.debug("Client account not existent in database.");
                 return "Client account not existent in database.";
             }
 
@@ -176,16 +176,16 @@ public class DefaultClientAccountDao extends AbstractDao implements ClientAccoun
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
-            logger.debug(getLogPrefix() + "Querying the database for account with id: " + clientAccountId);
+            logger.debug("Querying the database for account with id: " + clientAccountId);
             UserAccount persistentUserAccount = session.get(ClientAccount.class, clientAccountId);
 
             if (persistentUserAccount != null) {
-                logger.debug(getLogPrefix() + "Account with id: " + clientAccountId + " exist in the database." +
+                logger.debug("Account with id: " + clientAccountId + " exist in the database." +
                         "Deleting it");
                 session.delete(persistentUserAccount);
                 transaction.commit();
             } else {
-                logger.debug(getLogPrefix() + "Client account does not exist in the database.");
+                logger.debug("Client account does not exist in the database.");
                 return "Client account does not exist in the database.";
             }
         } catch (HibernateException e) {

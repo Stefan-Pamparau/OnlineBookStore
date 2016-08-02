@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Stefan Pamparau
  */
-public class DefaultBookDao extends AbstractDao implements BookDao {
+public class DefaultBookDao implements BookDao {
 
     private static Logger logger = Logger.getLogger(DefaultBookDao.class);
 
@@ -32,12 +32,12 @@ public class DefaultBookDao extends AbstractDao implements BookDao {
         List<Book> resultList = null;
 
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for book instances");
+            logger.debug("Querying the database for book instances");
             List books =
                     session.createQuery("FROM com.iquestgroup.model.Book book inner join fetch book.author").list();
 
             if (books != null && !books.isEmpty()) {
-                logger.debug(getLogPrefix() + "Database contains book instances. Inserting them in result list");
+                logger.debug("Database contains book instances. Inserting them in result list");
                 resultList = new ArrayList<>();
                 for (Object book : books) {
                     resultList.add((Book) book);
@@ -55,12 +55,12 @@ public class DefaultBookDao extends AbstractDao implements BookDao {
         List<Book> result = null;
 
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for book instances whose title matches the pattern: " + pattern);
+            logger.debug("Querying the database for book instances whose title matches the pattern: " + pattern);
             List books = session.createQuery("FROM com.iquestgroup.model.Book book inner join fetch book.author WHERE book.title LIKE '%" + pattern + "'%")
                     .list();
 
             if (books != null && books.size() > 0) {
-                logger.debug(getLogPrefix() + "Database contains book instances whose name match the pattern: "
+                logger.debug("Database contains book instances whose name match the pattern: "
                         + pattern + ".Inserting them in result list");
                 result = new ArrayList<>();
                 for (Object book : books) {
@@ -78,7 +78,7 @@ public class DefaultBookDao extends AbstractDao implements BookDao {
     @Override
     public Book getBookById(Integer bookId) throws DaoException {
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for book with id: " + bookId);
+            logger.debug("Querying the database for book with id: " + bookId);
             return session.get(Book.class, bookId);
         } catch (HibernateException e) {
             throw new DaoException("Cannot retrieve book by id.", e);
@@ -90,11 +90,11 @@ public class DefaultBookDao extends AbstractDao implements BookDao {
         List<Book> result = null;
 
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for author with id: " + author.getId());
+            logger.debug("Querying the database for author with id: " + author.getId());
             Author persistentAuthor = session.get(Author.class, author.getId());
 
             if (persistentAuthor != null) {
-                logger.debug(getLogPrefix() + "Author with id: " + author.getId() + " exists in the database." +
+                logger.debug("Author with id: " + author.getId() + " exists in the database." +
                         "Retrieving his books");
                 result = new ArrayList<>(persistentAuthor.getBooks());
             }
@@ -110,7 +110,7 @@ public class DefaultBookDao extends AbstractDao implements BookDao {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Inserting book: " + book);
+            logger.debug("Inserting book: " + book);
             transaction = session.beginTransaction();
             session.save(book);
             transaction.commit();
@@ -131,14 +131,14 @@ public class DefaultBookDao extends AbstractDao implements BookDao {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
-            logger.debug(getLogPrefix() + "Querying the database for book with id: " + bookID);
+            logger.debug("Querying the database for book with id: " + bookID);
             Book book = session.get(Book.class, bookID);
 
             if (book == null) {
-                logger.debug(getLogPrefix() + "Book with id: " + bookID + " does not exists in the database");
+                logger.debug("Book with id: " + bookID + " does not exists in the database");
                 return "Book with id " + bookID + " does not exist in the database!";
             } else {
-                logger.debug(getLogPrefix() + "Book with id: " + bookID + ". Deleting it");
+                logger.debug("Book with id: " + bookID + ". Deleting it");
                 session.delete(book);
                 transaction.commit();
             }
@@ -159,11 +159,11 @@ public class DefaultBookDao extends AbstractDao implements BookDao {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
-            logger.debug(getLogPrefix() + "Querying the database for book with id: " + book.getId());
+            logger.debug("Querying the database for book with id: " + book.getId());
             Book persistentBook = session.get(Book.class, book.getId());
 
             if (persistentBook != null) {
-                logger.debug(getLogPrefix() + "Book with id: " + book.getId() + " exists in the database. Updating them");
+                logger.debug("Book with id: " + book.getId() + " exists in the database. Updating them");
                 persistentBook.setGenre(book.getGenre());
                 persistentBook.setTitle(book.getTitle());
                 persistentBook.setInStock(book.getInStock());
@@ -171,7 +171,7 @@ public class DefaultBookDao extends AbstractDao implements BookDao {
                 session.update(persistentBook);
                 transaction.commit();
             } else {
-                logger.debug(getLogPrefix() + "Book with id: " + book.getId() + " does not exist in the database");
+                logger.debug("Book with id: " + book.getId() + " does not exist in the database");
                 return "Book does not exist in the database.";
             }
         } catch (HibernateException e) {
@@ -189,11 +189,11 @@ public class DefaultBookDao extends AbstractDao implements BookDao {
         Author result = null;
 
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for book with id: " + bookID);
+            logger.debug("Querying the database for book with id: " + bookID);
             Book book = session.get(Book.class, bookID);
 
             if (book != null) {
-                logger.debug(getLogPrefix() + "Book with id:" + bookID + " exists in the database." +
+                logger.debug("Book with id:" + bookID + " exists in the database." +
                         "Retrieving it's author");
                 result = book.getAuthor();
             }

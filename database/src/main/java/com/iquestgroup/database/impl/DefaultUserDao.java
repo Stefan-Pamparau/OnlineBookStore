@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultUserDao extends AbstractDao implements UserDao {
+public class DefaultUserDao implements UserDao {
 
     private static Logger logger = Logger.getLogger(DefaultUserDao.class);
 
@@ -27,11 +27,11 @@ public class DefaultUserDao extends AbstractDao implements UserDao {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for user instances");
+            logger.debug("Querying the database for user instances");
             List clientList = session.createQuery("FROM com.iquestgroup.model.User").list();
 
             if (clientList != null && !clientList.isEmpty()) {
-                logger.debug(getLogPrefix() + "Found user instances. Inserting them in result list");
+                logger.debug("Found user instances. Inserting them in result list");
                 for (Object client : clientList) {
                     User resultUser = (User) client;
                     result.add(resultUser);
@@ -47,7 +47,7 @@ public class DefaultUserDao extends AbstractDao implements UserDao {
     @Override
     public User getUserById(Integer id) throws DaoException {
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for user with id: " + id);
+            logger.debug("Querying the database for user with id: " + id);
             return session.get(User.class, id);
         } catch (HibernateException e) {
             throw new DaoException("An error occurred while trying to retrieve user by id", e);
@@ -61,7 +61,7 @@ public class DefaultUserDao extends AbstractDao implements UserDao {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
-            logger.debug(getLogPrefix() + "Inserting user: " + user + " in the database");
+            logger.debug("Inserting user: " + user + " in the database");
             session.save(user);
             transaction.commit();
         } catch (HibernateException e) {
@@ -82,14 +82,14 @@ public class DefaultUserDao extends AbstractDao implements UserDao {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
-            logger.debug(getLogPrefix() + "Querying the database for user with id: " + userID);
+            logger.debug("Querying the database for user with id: " + userID);
             User user = session.get(User.class, userID);
 
             if (user == null) {
-                logger.debug(getLogPrefix() + "User with id: " + userID + " does not exists in the database!");
+                logger.debug("User with id: " + userID + " does not exists in the database!");
                 return "User with id: " + userID + " does not exists in the database!";
             } else {
-                logger.debug(getLogPrefix() + "User with id: " + userID + " found. Deleting him!");
+                logger.debug("User with id: " + userID + " found. Deleting him!");
                 session.delete(user);
                 transaction.commit();
             }

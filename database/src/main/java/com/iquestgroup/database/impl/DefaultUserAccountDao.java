@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author Stefan Pamparau
  */
-public class DefaultUserAccountDao extends AbstractDao implements UserAccountDao {
+public class DefaultUserAccountDao implements UserAccountDao {
 
     private static Logger logger = Logger.getLogger(DefaultUserAccountDao.class);
 
@@ -28,14 +28,14 @@ public class DefaultUserAccountDao extends AbstractDao implements UserAccountDao
     public UserAccount getUserAccountByEmailAndPassword(String email, String password) throws DaoException {
         UserAccount result = null;
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying the database for user account with email: " + email);
+            logger.debug("Querying the database for user account with email: " + email);
             List account = session.createQuery("FROM com.iquestgroup.model.UserAccount account WHERE account.email = :email AND account.password = :password")
                     .setParameter("email", email)
                     .setParameter("password", password)
                     .list();
 
             if (account != null && account.size() == 1) {
-                logger.debug(getLogPrefix() + "Found user account with email: " + email);
+                logger.debug("Found user account with email: " + email);
                 result = (UserAccount) account.get(0);
             }
 

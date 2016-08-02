@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Stefan Pamparau
  */
-public class DefaultAuthorDao extends AbstractDao implements AuthorDao {
+public class DefaultAuthorDao implements AuthorDao {
 
     private static final Logger logger = Logger.getLogger(DefaultAuthorDao.class);
 
@@ -31,11 +31,11 @@ public class DefaultAuthorDao extends AbstractDao implements AuthorDao {
         List<Author> resultList = null;
 
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying database for authors");
+            logger.debug("Querying database for authors");
             List authorList = session.createQuery("FROM com.iquestgroup.model.Author").list();
 
             if (authorList != null && !authorList.isEmpty()) {
-                logger.debug(getLogPrefix() + "Database contains authors. Inserting them in result list");
+                logger.debug("Database contains authors. Inserting them in result list");
 
                 resultList = new ArrayList<>();
                 for (Object author : authorList) {
@@ -52,7 +52,7 @@ public class DefaultAuthorDao extends AbstractDao implements AuthorDao {
     @Override
     public Author getAuthorByID(Integer authorID) throws DaoException {
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Trying to query the database for the author with id: " + authorID);
+            logger.debug("Trying to query the database for the author with id: " + authorID);
             return session.get(Author.class, authorID);
         } catch (HibernateException e) {
             throw new DaoException("An error occurred while trying to retrieve the author with the id "
@@ -65,12 +65,12 @@ public class DefaultAuthorDao extends AbstractDao implements AuthorDao {
         List<Author> result = null;
 
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Querying database for authors whose names match the pattern: " + pattern);
+            logger.debug("Querying database for authors whose names match the pattern: " + pattern);
             List authorList = session.createQuery("FROM com.iquestgroup.model.Author author where author.name like '%" + pattern + "%'")
                     .list();
 
             if (authorList != null && authorList.size() > 0) {
-                logger.debug(getLogPrefix() + "Found authors whose names match the pattern: " + pattern);
+                logger.debug("Found authors whose names match the pattern: " + pattern);
                 result = new ArrayList<>();
                 for (Object object : authorList) {
                     result.add((Author) object);
@@ -88,7 +88,7 @@ public class DefaultAuthorDao extends AbstractDao implements AuthorDao {
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
-            logger.debug(getLogPrefix() + "Inserting author: " + author);
+            logger.debug("Inserting author: " + author);
             transaction = session.beginTransaction();
             session.save(author);
             transaction.commit();
@@ -109,18 +109,18 @@ public class DefaultAuthorDao extends AbstractDao implements AuthorDao {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
-            logger.debug(getLogPrefix() + "Querying the database for the author with id: " + author.getId());
+            logger.debug("Querying the database for the author with id: " + author.getId());
             Author persistentAuthor = session.get(Author.class, author.getId());
 
             if (persistentAuthor != null) {
-                logger.debug(getLogPrefix() + "Author with id: " + author.getId() + " exists in the database. Updating him");
+                logger.debug("Author with id: " + author.getId() + " exists in the database. Updating him");
                 persistentAuthor.setName(author.getName());
                 persistentAuthor.setAge(author.getAge());
 
                 session.save(persistentAuthor);
                 transaction.commit();
             } else {
-                logger.debug(getLogPrefix() + "Author with id: " + author.getId() + " does not exist in the database");
+                logger.debug("Author with id: " + author.getId() + " does not exist in the database");
                 return "Cannot updated author. Author does not exist in the database.";
             }
 
@@ -141,14 +141,14 @@ public class DefaultAuthorDao extends AbstractDao implements AuthorDao {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
-            logger.debug(getLogPrefix() + "Querying the database for the author with id: " + authorID);
+            logger.debug("Querying the database for the author with id: " + authorID);
             Author author = session.get(Author.class, authorID);
 
             if (author == null) {
-                logger.debug(getLogPrefix() + "Author with id: " + authorID + " does not exist in the database");
+                logger.debug("Author with id: " + authorID + " does not exist in the database");
                 return "Author with id: " + authorID + " does not exist in the database!";
             } else {
-                logger.debug(getLogPrefix() + "Author with id: " + author.getId() + " exists in the database. Deleting him");
+                logger.debug("Author with id: " + author.getId() + " exists in the database. Deleting him");
                 session.delete(author);
                 transaction.commit();
             }
