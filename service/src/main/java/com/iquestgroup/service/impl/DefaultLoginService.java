@@ -5,6 +5,7 @@ import com.iquestgroup.service.LoginService;
 import com.iquestgroup.service.UserAccountService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -13,12 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Stefan Pamparau
  */
 public class DefaultLoginService implements LoginService {
+
+    private static Logger logger = Logger.getLogger(DefaultLoginService.class);
+
     @Autowired
     private UserAccountService userAccountService;
 
     @Override
     public UserAccount login(String email, String password) throws ServiceException {
         try {
+            logger.debug("Delegating to user account service");
             return userAccountService.getUserAccountByEmailAndPassword(email, password);
         } catch (ServiceException e) {
             throw new ServiceException(e.getMessage(), e);

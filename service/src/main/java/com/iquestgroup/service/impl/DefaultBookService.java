@@ -7,17 +7,22 @@ import com.iquestgroup.model.Book;
 import com.iquestgroup.service.BookService;
 import com.iquestgroup.service.exceptionHandling.ServiceException;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class DefaultBookService implements BookService {
+
+    private static Logger logger = Logger.getLogger(DefaultBookService.class);
+
     @Autowired
     private BookDao bookDAO;
 
     @Override
     public List<Book> getAllBooks() throws ServiceException {
         try {
+            logger.debug("Deleting to book dao");
             return bookDAO.getAllBooks();
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -27,6 +32,7 @@ public class DefaultBookService implements BookService {
     @Override
     public List<Book> getAllBooksByTitlePattern(String pattern) throws ServiceException {
         try {
+            logger.debug("Deleting to book dao");
             return bookDAO.getAllBooksByTitlePattern(pattern);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -36,6 +42,7 @@ public class DefaultBookService implements BookService {
     @Override
     public Book getBookById(Integer bookId) throws ServiceException {
         try {
+            logger.debug("Deleting to book dao");
             return bookDAO.getBookById(bookId);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -45,6 +52,7 @@ public class DefaultBookService implements BookService {
     @Override
     public List<Book> getBooksOfAuthor(Author author) throws ServiceException {
         try {
+            logger.debug("Deleting to book dao");
             return bookDAO.getBooksOfAuthor(author);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -54,6 +62,7 @@ public class DefaultBookService implements BookService {
     @Override
     public String insertBook(Book book) throws ServiceException {
         try {
+            logger.debug("Deleting to book dao");
             return bookDAO.insertBook(book);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -63,6 +72,7 @@ public class DefaultBookService implements BookService {
     @Override
     public String deleteBook(Integer bookID) throws ServiceException {
         try {
+            logger.debug("Deleting to book dao");
             return bookDAO.deleteBook(bookID);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -72,6 +82,7 @@ public class DefaultBookService implements BookService {
     @Override
     public String updateBook(Book book) throws ServiceException {
         try {
+            logger.debug("Deleting to book dao");
             return bookDAO.updateBook(book);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -81,6 +92,7 @@ public class DefaultBookService implements BookService {
     @Override
     public Author getBookAuthor(Integer bookID) throws ServiceException {
         try {
+            logger.debug("Deleting to book dao");
             return bookDAO.getBookAuthor(bookID);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
