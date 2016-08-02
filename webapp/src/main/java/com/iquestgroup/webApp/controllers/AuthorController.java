@@ -62,7 +62,7 @@ public class AuthorController extends AbstractController {
             request.setAttribute("message", result);
             request.setAttribute("authors", authorService.getAllAuthors());
 
-            request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/pages/store/authors/listAuthors.jsp").include(request, response);
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
