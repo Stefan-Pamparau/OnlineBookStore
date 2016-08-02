@@ -96,7 +96,9 @@ public class DefaultBookDao implements BookDao {
             if (persistentAuthor != null) {
                 logger.debug("Author with id: " + author.getId() + " exists in the database." +
                         "Retrieving his books");
-                result = new ArrayList<>(persistentAuthor.getBooks());
+                if (persistentAuthor.getBooks() != null) {
+                    result = new ArrayList<>(persistentAuthor.getBooks());
+                }
             }
         } catch (HibernateException e) {
             throw new DaoException("Cannot get books of author", e);
