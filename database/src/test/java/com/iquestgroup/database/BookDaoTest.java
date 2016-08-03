@@ -304,14 +304,17 @@ public class BookDaoTest {
         when(session.get(Book.class, 1)).thenReturn(book);
         doNothing().when(transaction).commit();
 
+        bookDao.deleteBook(1);
+
         when(sessionFactory.openSession()).thenReturn(session);
         when(session.get(Book.class, 1)).thenReturn(null);
 
-        bookDao.deleteBook(1);
         Book actual = bookDao.getBookById(1);
 
         verify(sessionFactory, times(2)).openSession();
         verify(session, times(2)).get(Book.class, 1);
+        verify(session, times(1)).delete(book);
+        verify(transaction, times(1)).commit();
         Assert.assertEquals(null, actual);
     }
 

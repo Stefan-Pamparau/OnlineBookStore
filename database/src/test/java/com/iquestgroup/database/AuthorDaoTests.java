@@ -208,9 +208,6 @@ public class AuthorDaoTests {
         Author expected = authorBuilder.build(1, "updated name", 24);
 
         when(sessionFactory.openSession()).thenReturn(session);
-        when(session.get(Author.class, 1)).thenReturn(persistedAuthor);
-
-        when(sessionFactory.openSession()).thenReturn(session);
         when(session.beginTransaction()).thenReturn(transaction);
         when(session.get(Author.class, 1)).thenReturn(persistedAuthor);
         doNothing().when(transaction).commit();
@@ -218,13 +215,12 @@ public class AuthorDaoTests {
         when(sessionFactory.openSession()).thenReturn(session);
         when(session.get(Author.class, 1)).thenReturn(expected);
 
-        Author author = authorDao.getAuthorByID(1);
-        author.setName("updated name");
-        authorDao.updateAuthor(author);
+        persistedAuthor.setName("updated name");
+        authorDao.updateAuthor(persistedAuthor);
         Author actual = authorDao.getAuthorByID(1);
 
-        verify(sessionFactory, times(3)).openSession();
-        verify(session, times(3)).get(Author.class, 1);
+        verify(sessionFactory, times(2)).openSession();
+        verify(session, times(2)).get(Author.class, 1);
         verify(session, times(1)).update(expected);
         verify(transaction, times(1)).commit();
         Assert.assertEquals(expected, actual);
@@ -274,14 +270,17 @@ public class AuthorDaoTests {
         doNothing().when(session).delete(persistedAuthor);
         doNothing().when(transaction).commit();
 
+        authorDao.deleteAuthor(1);
+
         when(sessionFactory.openSession()).thenReturn(session);
         when(session.get(Author.class, 1)).thenReturn(expected);
 
-        authorDao.deleteAuthor(1);
         Author actual = authorDao.getAuthorByID(1);
 
         verify(sessionFactory, times(2)).openSession();
         verify(session, times(2)).get(Author.class, 1);
+        verify(session, times(1)).delete(persistedAuthor);
+        verify(transaction, times(1)).commit();
         Assert.assertEquals(expected, actual);
     }
 

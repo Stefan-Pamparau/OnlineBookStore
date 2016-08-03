@@ -343,14 +343,17 @@ public class ClientAccountDaoTests {
         when(session.get(ClientAccount.class, 1)).thenReturn(clientAccount);
         doNothing().when(transaction).commit();
 
+        clientAccountDao.deleteClientAccount(1);
+
         when(sessionFactory.openSession()).thenReturn(session);
         when(session.get(ClientAccount.class, 1)).thenReturn(null);
 
-        clientAccountDao.deleteClientAccount(1);
         ClientAccount actual = clientAccountDao.getClientAccountById(1);
 
         verify(sessionFactory, times(2)).openSession();
         verify(session, times(2)).get(ClientAccount.class, 1);
+        verify(session, times(1)).delete(clientAccount);
+        verify(transaction, times(1)).commit();
         Assert.assertEquals(expected, actual);
     }
 
