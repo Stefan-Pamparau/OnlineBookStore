@@ -23,7 +23,7 @@ public class DefaultUserDao implements UserDao {
 
     @Override
     public List<User> getAllUsers() throws DaoException {
-        List<User> result = new ArrayList<>();
+        List<User> result = null;
         Transaction transaction = null;
 
         try (Session session = sessionFactory.openSession()) {
@@ -32,10 +32,7 @@ public class DefaultUserDao implements UserDao {
 
             if (clientList != null && !clientList.isEmpty()) {
                 logger.debug("Found user instances. Inserting them in result list");
-                for (Object client : clientList) {
-                    User resultUser = (User) client;
-                    result.add(resultUser);
-                }
+                result = new ArrayList<>(clientList);
             }
         } catch (HibernateException e) {
             throw new DaoException("An error occurred while retrieving all the clients from the database!", e);

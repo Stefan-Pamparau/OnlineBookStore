@@ -36,11 +36,7 @@ public class DefaultAuthorDao implements AuthorDao {
 
             if (authorList != null && !authorList.isEmpty()) {
                 logger.debug("Database contains authors. Inserting them in result list");
-
-                resultList = new ArrayList<>();
-                for (Object author : authorList) {
-                    resultList.add((Author) author);
-                }
+                resultList = new ArrayList<>(authorList);
             }
         } catch (HibernateException e) {
             throw new DaoException("An error occurred while trying to retrieve all authors from the database", e);
@@ -71,10 +67,7 @@ public class DefaultAuthorDao implements AuthorDao {
 
             if (authorList != null && authorList.size() > 0) {
                 logger.debug("Found authors whose names match the pattern: " + pattern);
-                result = new ArrayList<>();
-                for (Object object : authorList) {
-                    result.add((Author) object);
-                }
+                result = new ArrayList<>(authorList);
             }
         } catch (HibernateException e) {
             throw new DaoException("An error occurred while trying to retrieve author by pattern.", e);

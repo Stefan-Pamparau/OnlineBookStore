@@ -41,11 +41,7 @@ public class DefaultClientAccountDao implements ClientAccountDao {
             if (clientAccounts != null && !clientAccounts.isEmpty()) {
                 logger.debug("Client accounts found in the database. Inserting them " +
                         "in the result list");
-                result = new ArrayList<>();
-
-                for (Object clientAccount : clientAccounts) {
-                    result.add((ClientAccount) clientAccount);
-                }
+                result = new ArrayList<>(clientAccounts);
             }
         } catch (HibernateException e) {
             throw new DaoException("Cannot retrieve all client accounts", e);

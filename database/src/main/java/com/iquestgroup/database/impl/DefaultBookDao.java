@@ -38,10 +38,7 @@ public class DefaultBookDao implements BookDao {
 
             if (books != null && !books.isEmpty()) {
                 logger.debug("Database contains book instances. Inserting them in result list");
-                resultList = new ArrayList<>();
-                for (Object book : books) {
-                    resultList.add((Book) book);
-                }
+                resultList = new ArrayList<>(books);
             }
         } catch (HibernateException e) {
             throw new DaoException("An error occurred while trying to retrieve all the books from the database!", e);
@@ -59,13 +56,10 @@ public class DefaultBookDao implements BookDao {
             List books = session.createQuery("FROM com.iquestgroup.model.Book book inner join fetch book.author WHERE book.title LIKE '%" + pattern + "'%")
                     .list();
 
-            if (books != null && books.size() > 0) {
+            if (books != null && !books.isEmpty()) {
                 logger.debug("Database contains book instances whose name match the pattern: "
                         + pattern + ".Inserting them in result list");
-                result = new ArrayList<>();
-                for (Object book : books) {
-                    result.add((Book) book);
-                }
+                result = new ArrayList<>(books);
             }
 
         } catch (HibernateException e) {
